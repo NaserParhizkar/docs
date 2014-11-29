@@ -4,16 +4,18 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>OAuth.io API Reference</title>
 
     <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/railscasts.min.css">
       <script src="javascripts/all.js" type="text/javascript"></script>
 
       <script>
         $(function() {
-          setupLanguages(["shell","ruby","python"]);
+          setupLanguages([{"javascript":"Javascript"},{"objectivec":"iOS"},{"java":"Android"},{"php":"PHP"},{"javascript":"Node"},{"go":"Go"}]);
         });
       </script>
   </head>
@@ -26,11 +28,13 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="javascript">Javascript</a>
+              <a href="#" data-language-name="objectivec">iOS</a>
+              <a href="#" data-language-name="java">Android</a>
+              <a href="#" data-language-name="php">PHP</a>
+              <a href="#" data-language-name="javascript">Node</a>
+              <a href="#" data-language-name="go">Go</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -39,7 +43,8 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://oauth.io'>Back to OAuth.io</a></li>
+            <li><a href='https://oauth.io/signup'>Sign Up for a Developer Key</a></li>
             <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -47,209 +52,686 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<div class="code-block"><pre><code class="highlight plaintext"> _____  _____         _    _                
+(  _  )(  _  )       ( )_ ( )       _       
+| ( ) || (_) | _   _ | ,_)| |__    (_)   _  
+| | | ||  _  |( ) ( )| |  |  _ `\  | | /'_`\
+| (_) || | | || (_) || |_ | | | |  | |( (_) )
+(_____)(_) (_)`\___/'`\__)(_) (_)()(_)`\___/
+</code></pre></div>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>OAuth.io helps you to emboard your users with a suite of services easy to use.</p>
 
-<p>This example API documentation page was created with <a href="http://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'kittn'</span>
+<ul>
+<li><p><strong>Token API</strong>: Authorize your user on one of our 120+ OAuth provider.</p></li>
+<li><p><strong>Request API</strong>: Make authorized API calls to those OAuth providers in a simple way.</p></li>
+<li><p><strong>User Data API</strong>: Get the unified user&rsquo;s information of your users.</p></li>
+<li><p><strong>User Management API</strong>: Signup/signin your user without any backend using multiple social identity.</p></li>
+</ul>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</pre>
-<pre class="highlight python"><span class="kn">import</span> <span class="s">'kittn'</span>
+<p><aside class="success">To use these APIs, you need to have an account on <a href="https://oauth.io">OAuth.io</a>.</aside></p>
+<h1 id='installation'>Installation</h1><h2 id='download-the-sdk'>Download the SDK</h2>
+<div class="code-block Javascript"><pre><code class="highlight bash">#For Web app
+bower install oauth.io
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">Kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</pre>
-<pre class="highlight shell"><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</pre>
+#Or for mobile app (using Phonegap)
+phonegap plugin install https://github.com/oauth-io/oauth-phonegap</code></pre></div>
 
-<blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>To ease your integration, SDKs are available in lots of language:</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<ul>
+<li>Javascript</li>
+<li>Phonegap</li>
+<li>iOS</li>
+<li>Android</li>
+<li>PHP</li>
+<li>Node.js</li>
+<li>Go</li>
+</ul>
+<h2 id='install-the-sdk'>Install the SDK</h2>
+<div class="code-block Javascript Phonegap"><pre><code class="highlight html">&lt;script src="path/to/oauth.js"&gt;&lt;/script&gt;</code></pre></div>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>To install the SDK, you just need to load it in your source code.</p>
 
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">// Initialize the SDK
+OAuth.initialize('Your-public-key')</code></pre></div>
 
-<p><aside class="notice">
-You must replace <code class="prettyprint">meowmeowmeow</code> with your personal API key.
-</aside></p>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h1><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>When you create an OAuth.io application in your dashboard, it generates a pair of public key, private key. Initialize the SDK using them.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</pre>
-<pre class="highlight python"><span class="kn">import</span> <span class="s">'kittn'</span>
+<p><aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside></p>
+<h1 id='token-api'>Token API</h1>
+<p>The Token API let you authorize your user with one of our 120+ providers. The most known example is to add a Facebook connect to your website to ease the emboarding of your user.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">Kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</pre>
-<pre class="highlight shell">curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</pre>
+<p>You can get this authorization client-side or server-side depending your needs.</p>
+<h2 id='client-side-authorization'>Client side authorization</h2>
+<div class="code-block PHP Node Go"><pre>The client side authorization section is not available for the selected SDK.
+</pre></div>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Isis"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></pre>
+<p><aside class="notice">The client side authorization can be made only by one of these client-side SDKs: Javascript, Phonegap, iOS, Android</aside></p>
+<h3 id='configuration'>Configuration</h3>
+<p>To authorize your users using OAuth.io, you just need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API Keys. Once added, you can try if the provider works by clicking on the <code class="prettyprint">Try auth</code> button.</p>
 
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h1>
-<p><code class="prettyprint">GET http://example.com/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h1>
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Facebook
+OAuth.popup('facebook').done(function(facebook) {
+  //make API calls with `facebook`
+}).fail(function(err) {
+  //todo when the OAuth flow failed
+});</code></pre>
+<pre><code class="highlight javascript">//Example with Twitter with the cache option enabled
+OAuth.popup('twitter', {cache: true}).done(function(twitter) {
+  //make API calls with `twitter`
+}).fail(function(err) {
+  //todo when the OAuth flow failed
+})</code></pre></div>
+<h3 id='using-popup-javascript-sdk-only'>Using popup (Javascript SDK only)</h3>
+<p>This mode ask the user&rsquo;s authorization in a simple popup. You can send multiple option to customize it.</p>
+
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th>Options</th>
 <th>Description</th>
+<th>Type</th>
+<th>Default value</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
+<td>cache</td>
+<td>If set to true, when the popup is called, it will directly return the cached credentials (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage.</td>
+<td>boolean</td>
 <td>false</td>
-<td>If set to true, the result will also include cats.</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>authorize</td>
+<td>Some OAuth provider let developers send parameters to customer the authorization popup</td>
+<td>Object</td>
+<td>null</td>
 </tr>
 </tbody></table>
 
-<p><aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside></p>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h1><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p><br style="clear:both;">
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Google
+OAuth.redirect(&#39;google&#39;, &#39;http://localhost/callback&#39;);</code></pre>
+<pre><code class="highlight javascript">//in your callback page (can be the same page)
+OAuth.callback(&#39;google&#39;).done(function(google) {
+  //make API calls with <code class="prettyprint">google</code>
+}).fail(function(err) {
+  //todo when the OAuth flow failed
+})</code></pre></div></p>
+<h3 id='using-redirection'>Using redirection</h3>
+<p>Redirects to the provider&rsquo;s login page, where the user can accept your app&rsquo;s permissions. Once the user accepts the permissions, they are redirected to the callback URL.</p>
+<h2 id='server-side-authorization'>Server side authorization</h2>
+<p>The server side authorization is mostly use to get a refresh token and make action on behalf of your user when they are not online on your website (for instance, crawl your user&rsquo;s feed and update them everyday even if the user is not connected).</p>
+<h3 id='configuration'>Configuration</h3>
+<p>As for the client side authorization, you need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API keys. But this time, you have to select a backend in your oauth.io app, like that, only server side authorization will be allowed.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</pre>
-<pre class="highlight python"><span class="kn">import</span> <span class="s">'kittn'</span>
+<p>You can also set the both mode to get a copy of the access_token client side too (and use all of the results method).</p>
+<h3 id='redirect'>Redirect</h3>
+<p>This method is the simplest if you are using the server side authorization only (without using the access_token client side).</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">Kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</pre>
-<pre class="highlight shell">curl <span class="s2">"http://example.com/api/kittens/3"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</pre>
+<p>You just need to define 2 endpoints, the first is used for the login, the second for the callback after the authorization.</p>
+<h3 id='popup'>Popup</h3>
+<p>This method is a bit longer than the redirect one. This can be done in 3 steps:</p>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Isis"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></pre>
+<ul>
+<li><p>Generate a state token in your backend</p></li>
+<li><p>Authorize your user with a client side SDK using the state token (you will receive a code instead of an access_token)</p></li>
+<li><p>Exchange the code against the access_token and refresh_token server side</p></li>
+</ul>
+<h2 id='oauth-result'>OAuth result</h2>
+<div class="code-block Javascript Phonegap iOS Android"><pre><code class="highlight json">with Facebook (OAuth 2)
+{
+  "access_token": "CAAHv0hYN...RmO4zcd",
+  "expires_in": 5183561,
+  "provider": "facebook"
+}</code></pre>
+<pre><code class="highlight json">with Twitter (OAuth 1.0a)
+{
+  "oauth_token": "9568514...0AQMedh",
+  "oauth_token_secret": "Ktakg008...60KSNG4",
+  "provider": "twitter"
+}</code></pre>
+<pre><code class="highlight json">with Google using the server side flow
+{
+  "code": "XsrpW...leE3",
+  "provider": "twitter"
+}</code></pre></div>
 
-<p>This endpoint retrieves a specific kitten.</p>
+<p>The results object after an authorization will contains these fields:</p>
 
-<p><aside class="warning">If you&rsquo;re not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside></p>
-<h3 id='http-request'>HTTP Request</h1>
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h1>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Field</th>
 <th>Description</th>
+<th>Type</th>
+<th>Example value</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the cat to retrieve</td>
+<td>access_token</td>
+<td><strong>OAuth 2</strong> &ndash; The authorization key to access the OAuth2 API</td>
+<td>string</td>
+<td>CAAHv&hellip;aAWy</td>
+</tr>
+<tr>
+<td>oauth_token</td>
+<td><strong>OAuth 1</strong> &ndash; The authorization key to access the OAuth1 API</td>
+<td>string</td>
+<td>XVQpX&hellip;WR0K</td>
+</tr>
+<tr>
+<td>oauth_token_secret</td>
+<td><strong>OAuth 1</strong> &ndash; The second authorization key to access OAuth1 API</td>
+<td>string</td>
+<td>PHQD2&hellip;V7xw</td>
+</tr>
+<tr>
+<td>expires_in</td>
+<td><em>Optional depending the provider</em> &ndash; The expiration of the <code class="prettyprint">access_token</code></td>
+<td>integer</td>
+<td>5184000</td>
+</tr>
+<tr>
+<td>code</td>
+<td><strong>Server side authorization</strong> &ndash; The code to be exchanged against the access token server side</td>
+<td>string</td>
+<td>XsrpW&hellip;leE3</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>The provider your user is connected with</td>
+<td>string</td>
+<td>facebook</td>
 </tr>
 </tbody></table>
 
-          <h1 id='errors'>Errors</h1>
-<p><aside class="notice">This error section is stored in a separate file in <code class="prettyprint">includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the <code class="prettyprint">includes</code> folder and add them to the top of your <code class="prettyprint">index.md</code>&rsquo;s frontmatter. Files are included in the order listed.</aside></p>
+<p>The access token can be sent to your backend to make API calls but, you can&rsquo;t be sure that the access token is a real one (as the user could fake a request with a wrong access token) so you need to make a test API call and see if it returns 200 (OK) or 401 (UNAUTHORIZED).</p>
 
-<p>The Kittn API uses the following error codes:</p>
+<p>As you can see, using the client side authorization, you won&rsquo;t have a <code class="prettyprint">refresh_token</code>. For this, take a look at the <code class="prettyprint">Server side authorization</code> section</p>
+
+<p><aside class="notice">The result contains also some methods to access others OAuth.io APIs:</p>
+
+<ul>
+<li><p><code class="prettyprint">get()</code> <code class="prettyprint">post()</code> <code class="prettyprint">put()</code> <code class="prettyprint">del()</code> <code class="prettyprint">patch()</code> - Request API</p></li>
+<li><p><code class="prettyprint">me()</code> - User Data API</p></li>
+<li><p><code class="prettyprint">login()</code> - User Management API
+</aside></p></li>
+</ul>
+<h2 id='use-the-cache-option'>Use the cache option</h2>
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Twitter with the cache option enabled
+OAuth.popup('twitter', {cache: true}).done(function(twitter) {
+  //make API calls with `twitter`
+}).fail(function(err) {
+  //todo when the OAuth flow failed
+})</code></pre></div>
+<h3 id='save-your-user39s-authorization-in-the-cache'>Save your user&rsquo;s authorization in the cache</h3>
+<p>If the cache option is enabled, when the popup is called, it will directly return the cached credentials (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage for Client side SDK (Javascript, Phonegap, iOS, Android) and in the session for Server side SDK (PHP, Node.js, Go).</p>
+
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">var twitter = OAuth.create('twitter');
+//`twitter` is an OAuth result.
+//`twitter` can be `null` if the OAuth result has not been created yet.
+</code></pre></div>
+<h3 id='create-an-oauth-result-from-cache'>Create an OAuth result from Cache</h3>
+<p>Once an OAuth result has been cached, you can re-create the OAuth result from it (later or in another page for instance). </p>
+
+<p>Note that you can also create an OAuth result from existing credentials if needed.</p>
+
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//clear the cache for Facebook
+OAuth.clearCache('facebook');
+//remove all the cache
+OAuth.clearCache();
+</code></pre></div>
+<h3 id='clear-the-cache'>Clear the cache</h3>
+<p>You can of course remove partially or totally the cache generated by OAuth.io. Note that it can be used when you want to logout your user to be sure it will open the popup the next time the user try to login.</p>
+<h2 id='refresh-the-access-token'>Refresh the access token</h2>
+<p>For most provider, the server side authorization without any configuration send back a refresh token. The refresh token is added to the result on a server side authorization only.</p>
+
+<p>This refresh token can be used when an access token expires to regenerate one without having to open a popup and ask your user for permissions (as the user has already accepted them).</p>
+
+<p>In all our server side SDK, a method is available to refresh the access token easily. It gives back a new OAuth object containing a fresh access token.</p>
+<h1 id='request-api'>Request API</h1>
+<p>The Request API allow you to make easily API calls to the OAuth provider your user is authorized to. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH</p>
+<h2 id='get'>GET</h2>
+<p>Allows you to perform <code class="prettyprint">GET</code> request to an API endpoint</p>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Argument</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slown down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+<td>url</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>string</td>
+<td>/api/endpoint</td>
 </tr>
 </tbody></table>
+<h2 id='post'>POST</h2>
+<p>Allows you to perform <code class="prettyprint">POST</code> request to an API endpoint</p>
+
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>string</td>
+<td>/api/endpoint</td>
+</tr>
+<tr>
+<td>params</td>
+<td>A jQuery type object for an ajax request, which can contain the data, to send POST params.</td>
+<td>Object</td>
+<td>{data:{field:&lsquo;value&rsquo;}}</td>
+</tr>
+</tbody></table>
+<h2 id='put'>PUT</h2>
+<p>Allows you to perform <code class="prettyprint">PUT</code> request to an API endpoint</p>
+
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>string</td>
+<td>/api/endpoint</td>
+</tr>
+<tr>
+<td>params</td>
+<td>A jQuery type object for an ajax request, which can contain the data, to send POST params.</td>
+<td>Object</td>
+<td>{data:{field:&lsquo;value&rsquo;}}</td>
+</tr>
+</tbody></table>
+<h2 id='delete'>DELETE</h2>
+<p>Allows you to perform <code class="prettyprint">DELETE</code> request to an API endpoint</p>
+
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>string</td>
+<td>/api/endpoint</td>
+</tr>
+</tbody></table>
+<h2 id='patch'>PATCH</h2>
+<p>Allows you to perform <code class="prettyprint">PATCH</code> request to an API endpoint</p>
+
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>string</td>
+<td>/api/endpoint</td>
+</tr>
+<tr>
+<td>params</td>
+<td>A jQuery type object for an ajax request, which can contain the data, to send POST params.</td>
+<td>Object</td>
+<td>{data:{field:&lsquo;value&rsquo;}}</td>
+</tr>
+</tbody></table>
+<h1 id='user-data-api'>User Data API</h1><h2 id='usage'>Usage</h2>
+<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">res = OAuth.create('facebook');
+res.me().done(function(me) {
+  alert('Hello ' + me.name);
+}).fail(function(err) {
+  //todo when the OAuth flow failed
+});</code></pre></div>
+
+<p>This API allow you to retrieve your user&rsquo;s data in a unified way. That mean you don&rsquo;t have to make a bridge between APIs to retrieve user&rsquo;s info, all field sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
+
+<p>The endpoint is accessible using REST</p>
+
+<p><code class="prettyprint">GET https://oauth.io/auth/:provider/me</code></p>
+<h2 id='fields'>Fields</h2>
+<div class="code-block Javascript Phonegap"><pre><code class="highlight json">{
+  "id": "1234",
+  "name": "John Doe",
+  "firstname": "John",
+  "lastname": "Doe",
+  "alias": "john87",
+  "email": "john@doe.com",
+  "birthdate": {
+    "day": 27,
+    "month": 11,
+    "year": 1987
+  },
+  "raw": {
+    [RAW RESULT]
+  }
+}
+</code></pre></div>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>The user id &ndash; This id is unique for a provider</td>
+<td>string</td>
+<td>&ldquo;1234&rdquo;</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The user&rsquo;s name</td>
+<td>string</td>
+<td>John Doe</td>
+</tr>
+<tr>
+<td>firstname</td>
+<td>The user&rsquo;s firstname</td>
+<td>string</td>
+<td>John</td>
+</tr>
+<tr>
+<td>lastname</td>
+<td>The user&rsquo;s lastname</td>
+<td>string</td>
+<td>Doe</td>
+</tr>
+<tr>
+<td>alias</td>
+<td>The user&rsquo;s alias (or login)</td>
+<td>string</td>
+<td>john87</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The user&rsquo;s email address</td>
+<td>string</td>
+<td>john@doe.com</td>
+</tr>
+<tr>
+<td>birthdate</td>
+<td>The user&rsquo;s birthday</td>
+<td>Object</td>
+<td>{day: 27, month: 11, year: 1987}</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>The user&rsquo;s gender. 0: male; 1: female</td>
+<td>integer</td>
+<td>0</td>
+</tr>
+<tr>
+<td>location</td>
+<td>The user&rsquo;s last location</td>
+<td>string</td>
+<td>San Francisco</td>
+</tr>
+<tr>
+<td>local</td>
+<td>The user&rsquo;s local</td>
+<td>string</td>
+<td>FR</td>
+</tr>
+<tr>
+<td>company</td>
+<td>The user&rsquo;s company</td>
+<td>string</td>
+<td>Webshell</td>
+</tr>
+<tr>
+<td>occupation</td>
+<td>The user&rsquo;s job occupation</td>
+<td>string</td>
+<td>developer</td>
+</tr>
+<tr>
+<td>raw</td>
+<td>The unmodified provider&rsquo;s response with non unified field</td>
+<td>Object</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
+<p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Key from stormpath and copy paste them in OAuth.io.</p>
+
+<p><aside class="notice">This feature is in BETA, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside></p>
+<h2 id='signup-your-user'>Signup your user</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.signup(data).done(function(user) {
+    //todo with `user`
+});
+
+User.signup({
+   email: 'john.doe@gmail.com',
+   password: 'St0ngP4ssw0rd!',
+   firstname: 'John',
+   lastname: 'Doe',
+   company: 'X Corp',
+   age: 47
+}).done(function(user) {
+   //here, your user is logged in
+   console.log(user.data.firstname);
+}).fail(function(err) {
+   //todo with `err`
+});
+</code></pre></div>
+<h3 id='with-emailpassword'>With email/password</h3>
+<p>You can sign up you users using their email/password, this user will be store in Stormpath.</p>
+
+<p><code class="prettyprint">data</code> is an object that must contains:</p>
+
+<ul>
+<li>email</li>
+<li>password</li>
+<li>firstname</li>
+<li>lastname</li>
+</ul>
+
+<p>You can add other data if you wish (free structure).</p>
+
+<p><br style="clear:both;">
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
+    return User.signup(res)
+}).done(function(user) {
+   //here, your user is logged in
+   console.log(user.data.firstname);
+}).fail(function(err) {
+   //todo with <code class="prettyprint">err</code>
+});
+</code></pre></div></p>
+<h3 id='with-social-logins'>With social logins</h3>
+<p>You can also use the Token API to sign up your users with their social identity. <code class="prettyprint">provider</code> is the name of a provider on OAuth.io as <code class="prettyprint">facebook</code>, <code class="prettyprint">twitter</code>, <code class="prettyprint">google</code> and 100+ others.</p>
+
+<p>The provider need to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).</p>
+
+<p><br style="clear:both;">
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(&#39;twitter&#39;).then(function(twitter) {
+    twitter.email = &quot;john.doe@gmail.com&quot;;
+    return User.signup(twitter);
+}).done(function(user) {
+    //todo with <code class="prettyprint">user</code>
+});
+</code></pre></div></p>
+<h3 id='handling-errors'>Handling errors</h3>
+<p>Some provider don&rsquo;t give their user&rsquo;s email in their API (it&rsquo;s the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.</p>
+<h2 id='signin-your-users'>Signin your users</h2>
+<p>Once your user has signed up, you can login them with their email password or with one of the social identity the user attached to his account.</p>
+
+<p>OAuth.io manage your user&rsquo;s session for you and give a simple API to let you know if the user is still logged in or not.</p>
+
+<p>During the beta, the session expires after 6h of inactivity but we are working to make this expiration configurable.</p>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.signin(email, password).done(function(user) {
+    console.log(user.data.firstname);
+}).fail(function(err) {
+    // email/password incorrect.
+});</code></pre></div>
+<h3 id='with-emailpassword'>With email/password</h3>
+<p><br style="clear:both"></p>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
+    return User.signin(res);
+}).done(function(user) {
+    console.log(user.data.firstname);
+}).fail(function(err) {
+    //todo with err
+});
+</code></pre></div>
+<h3 id='with-social-logins'>With social logins</h3>
+<p>Note: For social login, the signin and signup are exactly the same functionality. If the user doesn&rsquo;t exist, it will automatically signup the user before to signin him.</p>
+<h2 id='get-the-connected-user'>Get the connected user</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+</code></pre></div>
+<h3 id='from-cache'>From cache</h3>
+<p><br style="clear:both">
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.refreshIdentity().done(function(user) {
+    //todo with <code class="prettyprint">user</code>
+})</code></pre></div></p>
+<h3 id='from-the-api'>From the API</h3><h2 id='know-if-the-user-is-authenticated'>Know if the user is authenticated</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">if (User.isLogged()) {
+    //todo with authenticated user
+}
+else {
+    //todo with unauthenticated user
+}</code></pre></div>
+<h2 id='update-your-user-data'>Update your user data</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity()
+user.data.firstname = 'Thomas';
+user.data.someData = {
+    a: 42,
+    b: "some string"
+}
+user.save().done(function() {
+    //todo when saved
+}).fail(function(err) {
+    //handle `err``
+});</code></pre></div>
+
+<p>You can update all your user data and then, once you are done, just use the <code class="prettyprint">save()</code> method to save your changes in Stormpath. Fields has free structure so you can name them as you wish (just few fields name are protected for our use: <code class="prettyprint">_provider_*</code>).</p>
+<h2 id='reset-password-or-lost-password'>Reset password (or lost password)</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.resetPassword(email).done(function() {
+    //email sent to the user containing a key
+});
+
+//then...
+User.confirmResetPassword(newPassword, key);
+</code></pre></div>
+<h2 id='change-password'>Change password</h2>
+<blockquote>
+<p>Coming soon</p>
+</blockquote>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.changePassword(oldPassword, newPassword);
+</code></pre></div>
+<h2 id='attach-social-identity-to-an-account'>Attach social identity to an account</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+OAuth.popup('google').then(function(google) {
+   return user.addProvider(google);
+}).done(function() {
+   //provider attached
+   //Your user are now able to signin with Google
+});</code></pre></div>
+<h2 id='remove-social-identity-to-an-account'>Remove social identity to an account</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.removeProvider('google').done(function() {
+   //provider detached
+   //Your user are now able to signin with Google
+});</code></pre></div>
+<h2 id='the-list-of-providers-attached-to-an-account'>The list of providers attached to an account</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+console.log(user.providers)
+</code></pre></div>
+<h3 id='from-cache'>From cache</h3>
+<p>When a user logged in, we store a local version of the providers list attached to this user so you can access it directly in the <code class="prettyprint">user</code> object.</p>
+
+<p><br style="clear:both;">
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.getProviders().done(function(providers) {
+   console.log(providers);
+});</code></pre></div></p>
+<h3 id='from-the-api'>From the API</h3>
+<p>You can also get the list from the API to be sure it&rsquo;s synchronized with the backend.</p>
+<h2 id='logout'>Logout</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.logout().done(function() {
+   //todo when logout
+});</code></pre></div>
+
+<p>You can logout your user from your application user the <code class="prettyprint">logout()</code> method. It will clear the session and all the cache associated with this user.</p>
+<h1 id='contribute'>Contribute</h1>
+<p>You can contribute by cloning our OAuthd repository on GitHub and making a pull request.</p>
+<h2 id='issues'>Issues</h2>
+<p>If you have any issue using OAuth.io, you can:</p>
+
+<ul>
+<li><p>Open a QA on <a href="http://stackoverflow.com/">StackOverflow</a> (with the mention of OAuth.io in the title).</p></li>
+<li><p>Open a <a href="https://github.com/oauth-io">GitHub issue</a> on the appropriate repository.</p></li>
+<li><p>If the content is private, feel free to send us an email on <a href="mailto:support@oauth.io">support@oauth.io</a></p></li>
+<li><p>You can ping us on Twitter with the mention <a href="https://twitter.com/oauth_io">@oauth_io</a></p></li>
+</ul>
+
+<p>We try to be reactive on every channel!</p>
+<h2 id='adding-providers-to-oauth-io'>Adding Providers to OAuth.io</h2>
+<p>It&rsquo;s easy to add new OAuth providers in OAuth.io using our configuration file format.</p>
+
+<p>The format is <a href="https://github.com/oauth-io/oauthd/wiki/Specs:-Provider's-configuration">explained here</a> and you can find all existing OAuth providers on our <a href="https://github.com/oauth-io/oauthd/tree/master/providers">GitHub repository</a>.</p>
+
+<p>Once you&rsquo;ve implemented your provider, you can test it using <a href="https://github.com/oauth-io/oauthd">oauthd</a>, the opensource version of OAuth.io and then, just pull request it and we&rsquo;ll merge it into OAuth.io as soon as we can.</p>
+
+<p>A provider contains 4 simple files:</p>
+
+<ul>
+<li><strong>your_provider.json</strong> The OAuth provider&rsquo;s JSON file (e.g. facebook.json)</li>
+<li><strong>settings.json</strong> - Some settings for users who want to add the OAuth provider in OAuth.io (e.g. the link and screenshot where developers can create an application with your provider)</li>
+<li><strong>logo.png</strong> - The logo of the OAuth provider</li>
+<li><strong>me.js</strong> (optional) - A file used to retrieve the user information in a unified way.</li>
+</ul>
+<h2 id='pull-request-bug-fixes--providers--typos'>Pull request (bug fixes / providers / typos)</h2>
+<p>You&rsquo;re welcome to fork our repositories on GitHub to make pull requests. We&rsquo;ll review each of them, and integrate them in a future release, if they are relevant.</p>
+
+<p>In every repository, we have included notes in the README file to show you how to test your feature.</p>
+<h3 id='oauthd'>OAuthd</h3>
+<p>Fork <a href="https://github.com/oauth-io/oauthd">the repository</a> to implement your feature / bug fixes.</p>
+
+<p>Then you can run the local server using <code class="prettyprint">grunt server</code> to try it. From there, you can start the test suite using <code class="prettyprint">grunt test</code>.</p>
+<h3 id='sdks'>SDKs</h3>
+<p>You can fork all the SDKs from GitHub in your favorite language. Every SDK (except iOS for the moment) has a test suite than can be launched in a standard way to try your feature / bug fixes.</p>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-id="Javascript" data-language-name="javascript">Javascript</a>
+                <a href="#" data-language-id="iOS" data-language-name="objectivec">iOS</a>
+                <a href="#" data-language-id="Android" data-language-name="java">Android</a>
+                <a href="#" data-language-id="PHP" data-language-name="php">PHP</a>
+                <a href="#" data-language-id="Node" data-language-name="javascript">Node</a>
+                <a href="#" data-language-id="Go" data-language-name="go">Go</a>
           </div>
       </div>
     </div>
