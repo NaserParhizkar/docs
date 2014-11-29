@@ -15,6 +15,7 @@ under the License.
 */
 (function (global) {
   var languages = [];
+  var languagesHash = {}
 
   global.setupLanguages = setupLanguages;
   global.activateLanguage = activateLanguage;
@@ -23,12 +24,13 @@ under the License.
     if (!language) return;
     if (language === "") return;
 
+    console.log(languages, language);
     $(".lang-selector a").removeClass('active');
-    $(".lang-selector a[data-language-name='" + language + "']").addClass('active');
+    $(".lang-selector a[data-language-id='" + language + "']").addClass('active');
     for (var i=0; i < languages.length; i++) {
-      $(".highlight." + languages[i]).parent().hide();
+      $(".code-block." + languages[i]).hide();
     }
-    $(".highlight." + language).parent().show();
+    $(".code-block." + language).show();
 
     // scroll to the new location of the position
     $(window.location.hash).get(0).scrollIntoView(true);
@@ -48,31 +50,44 @@ under the License.
   }
 
   function setupLanguages(l) {
-    var currentLanguage = l[0];
+    console.log(l);
+    for (var i in l) {
+      languagesHash[Object.keys(l[i])[0]] = l[i][Object.keys(l[i])[0]];
+      languages.push(l[i][Object.keys(l[i])[0]]);
+    }
+
+    var currentLanguage = languages[0];
     var defaultLanguage = localStorage.getItem("language");
 
-    languages = l;
+    console.log(languages, languagesHash, currentLanguage, defaultLanguage);
 
     if ((location.search.substr(1) !== "") && (jQuery.inArray(location.search.substr(1), languages)) != -1) {
       // the language is in the URL, so use that language!
+      console.log('in the list');
       activateLanguage(location.search.substr(1));
 
       localStorage.setItem("language", location.search.substr(1));
     } else if ((defaultLanguage !== null) && (jQuery.inArray(defaultLanguage, languages) != -1)) {
       // the language was the last selected one saved in localstorage, so use that language!
+      console.log("in localstorage");
       activateLanguage(defaultLanguage);
     } else {
       // no language selected, so use the default
+      console.log("no localstorage, using default");
       activateLanguage(languages[0]);
     }
   }
 
   // if we click on a language tab, activate that language
   $(function() {
+    $('.code-block pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
     $(".lang-selector a").on("click", function() {
       var language = $(this).data("language-name");
-      pushURL(language);
-      activateLanguage(language);
+      var languageId = $(this).data("language-id");
+      pushURL(languageId);
+      activateLanguage(languageId);
       return false;
     });
     window.onpopstate = function(event) {
