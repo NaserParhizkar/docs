@@ -1,47 +1,220 @@
 
 # Request API
 
-The Request API allow you to make easily API calls to the OAuth provider your user is authorized to. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH
+<div class="code-block Node">
+  <pre><code class="highlight javascript">OAuth.auth(provider, req.session).then(function(oauthResult) {
+  return oauthResult.get('/me')
+}).then(function(data) {
+  //data is the result of the request to /me
+}).fail(function(err) {
+  //handle an error
+});</code></pre>
+</div>
+
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">OAuth.popup(provider).then(function(oauthResult) {
+  return oauthResult.get('/me');
+}).then(function(data) {
+  //data is the result of the request to /me
+}).fail(function(err) {
+  //handle an error
+});</code></pre>
+</div>
+
+
+The Request API allow you to make easily authorized API calls to the OAuth provider your user is connected. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc...). All parameters in the request will be sent to the provider as a proxy.
 
 ## GET
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.get(url).then(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});</code></pre>
+</div>
+
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.get(url).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});</code></pre>
+</div>
 
 Allows you to perform `GET` request to an API endpoint
 
 Argument|Description|Type|Example value
 --------|-----------|----|-------------
-url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.|string|/api/endpoint
+url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known|string|/api/endpoint?param=value
 
 ## POST
+
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.post(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+// params has the same syntaxe as jQuery.ajax (http://api.jquery.com/jquery.ajax/)
+//e.g Post a tweet on Twitter
+oauthResult.post('/1.1/statuses/update.json', {
+  data: {
+    status: "hello world!"
+  }
+})</code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.post(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Post a tweet on Twitter
+oauthResult.post('/1.1/statuses/update.json', {
+  status: "hello world!"
+});</code></pre>
+</div>
 
 Allows you to perform `POST` request to an API endpoint
 
 Argument|Description|Type|Example value
 --------|-----------|----|-------------
-url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.|string|/api/endpoint
-params|A jQuery type object for an ajax request, which can contain the data, to send POST params.|Object|{data:{field:'value'}}
+url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known|string|/api/endpoint
+params|The parameters of the HTTP request|Object|
 
 ## PUT
+
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.put(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Merge a pull request on Github
+oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge')</code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.put(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Merge a pull request on Github
+oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge');</code></pre>
+</div>
+
 
 Allows you to perform `PUT` request to an API endpoint
 
 Argument|Description|Type|Example value
 --------|-----------|----|-------------
-url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.|string|/api/endpoint
-params|A jQuery type object for an ajax request, which can contain the data, to send POST params.|Object|{data:{field:'value'}}
+url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known|string|/api/endpoint
+params|The parameters of the HTTP request|Object|
 
 ## DELETE
+
+<div class="code-block Javascript Node">
+  <pre><code class="highlight javascript">oauthResult.del(url).then(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Delete a status on Facebook
+oauthResult.del('/v2.2/:status_id')</code></pre>
+</div>
 
 Allows you to perform `DELETE` request to an API endpoint
 
 Argument|Description|Type|Example value
 --------|-----------|----|-------------
-url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.|string|/api/endpoint
+url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known|string|/api/endpoint
 
 ## PATCH
+
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.patch(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+// params has the same syntaxe as jQuery.ajax (http://api.jquery.com/jquery.ajax/)
+//e.g Edit a Gist on Github
+oauthResult.patch('/gists/1', {
+  data: {
+    "description": "the description for this gist",
+    "files": {
+      "file1.txt": {
+        "content": "updated file contents"
+      },
+      "new_file.txt": {
+        "content": "a new file"
+      }
+    }
+  }
+})</code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.put(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Merge a pull request on Github
+oauthResult.patch('/gists/1', {
+  "description": "the description for this gist",
+  "files": {
+    "file1.txt": {
+      "content": "updated file contents"
+    },
+    "new_file.txt": {
+      "content": "a new file"
+    }
+  }
+});</code></pre>
+</div>
 
 Allows you to perform `PATCH` request to an API endpoint
 
 Argument|Description|Type|Example value
 --------|-----------|----|-------------
-url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.|string|/api/endpoint
-params|A jQuery type object for an ajax request, which can contain the data, to send POST params.|Object|{data:{field:'value'}}
+url|The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known|string|/api/endpoint
+params|The parameters of the HTTP request|Object|
+
+## USING REST
+
+<div class="code-block">
+   <pre>#Example with twitter on /1.1/account/verify_credentials.json
+
+GET /request/twitter/%2F1.1%2Faccount%2Fverify_credentials.json HTTP/1.1
+Host: oauth.io
+oauthio: k=OAUTHIO_PUBLIC_KEY&oauthv=1&oauth_token=TWITTER_PUBLIC_TOKEN&oauth_token_secret=TWITTER_SECRET_TOKEN
+Referer: https://whitelisted_domain_in_oauthio/</pre>
+</div>
+
+`GET|POST|PUT|DELETE|PATCH https://oauth.io/request/:provider/:url`
+
+Field|Description
+-----|-----------
+provider|The provider's name (e.g. "facebook")
+url|The api request's url, can be relative to the main api domain (e.g `api.facebook.com`) or absolute. This url must be urlencoded.
+
+You must include the `oauthio` HTTP header inside your request, which is a application/x-www-form-urlencoded hash containing:
+
+Field|Description
+-----|-----------
+k|The public OAuth.io key of your app. If the http header Origin or Referer is set, this will be checked against your app's whitelist. If none are present, you must accept the "localhost" domain in your OAuthio's app.
+oauth_token|OAuth1 public token.
+oauth_secret_token|OAuth1 secret token.
+access_token|OAuth2 token.
+oauthv *(optional)*|when a provider supports both OAuth1 and OAuth2, this can be set to "1" or "2" to desambiguate the version of OAuth to use.

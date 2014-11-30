@@ -2,6 +2,8 @@
 
 ## Download the SDK
 
+<div class="code-block Node"><pre><code class="highlight bash">npm install oauthio</code></pre></div>
+
 <div class="code-block Javascript"><pre><code class="highlight bash">#For Web app
 bower install oauth.io
 
@@ -10,15 +12,18 @@ phonegap plugin install https://github.com/oauth-io/oauth-phonegap</code></pre><
 
 To ease your integration, SDKs are available in lots of language:
 
-- Javascript
-- Phonegap
-- iOS
-- Android
-- PHP
-- Node.js
-- Go
+- [Javascript](https://github.com/oauth-io/oauth-js)
+- [Phonegap/Cordova](https://github.com/oauth-io/oauth-phonegap)
+- [iOS](https://github.com/oauth-io/oauth-ios)
+- [Android](https://github.com/oauth-io/oauth-android)
+- [PHP](https://github.com/oauth-io/sdk-php)
+- [Node.js](https://github.com/oauth-io/sdk-node)
+- [Go](https://github.com/oauth-io/sdk-go)
 
 ## Install the SDK
+
+<div class="code-block Node"><pre><code class="highlight javascript">var OAuth = require('oauthio');
+OAuth.initialize('Your-public-key', 'Your-secret-key');</code></pre></div>
 
 <div class="code-block Javascript Phonegap"><pre><code class="highlight html">&lt;script src="path/to/oauth.js"&gt;&lt;/script&gt;</code></pre></div>
 

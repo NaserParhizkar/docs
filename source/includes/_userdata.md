@@ -3,12 +3,14 @@
 
 ## Usage
 
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">res = OAuth.create('facebook');
+<div class="code-block Javascript Phonegap">
+  <pre><code class="highlight javascript">res = OAuth.create('facebook');
 res.me().done(function(me) {
   alert('Hello ' + me.name);
 }).fail(function(err) {
   //todo when the OAuth flow failed
-});</code></pre></div>
+});</code></pre>
+</div>
 
 This API allow you to retrieve your user's data in a unified way. That mean you don't have to make a bridge between APIs to retrieve user's info, all field sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.
 
