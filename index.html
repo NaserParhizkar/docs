@@ -70,7 +70,10 @@
 </ul>
 
 <p><aside class="success">To use these APIs, you need to have an account on <a href="https://oauth.io">OAuth.io</a>.</aside></p>
-<h1 id='installation'>Installation</h1><h2 id='download-the-sdk'>Download the SDK</h2>
+
+          <h1 id='installation'>Installation</h1><h2 id='download-the-sdk'>Download the SDK</h2>
+<div class="code-block Node"><pre><code class="highlight bash">npm install oauthio</code></pre></div>
+
 <div class="code-block Javascript"><pre><code class="highlight bash">#For Web app
 bower install oauth.io
 
@@ -80,15 +83,18 @@ phonegap plugin install https://github.com/oauth-io/oauth-phonegap</code></pre><
 <p>To ease your integration, SDKs are available in lots of language:</p>
 
 <ul>
-<li>Javascript</li>
-<li>Phonegap</li>
-<li>iOS</li>
-<li>Android</li>
-<li>PHP</li>
-<li>Node.js</li>
-<li>Go</li>
+<li><a href="https://github.com/oauth-io/oauth-js">Javascript</a></li>
+<li><a href="https://github.com/oauth-io/oauth-phonegap">Phonegap/Cordova</a></li>
+<li><a href="https://github.com/oauth-io/oauth-ios">iOS</a></li>
+<li><a href="https://github.com/oauth-io/oauth-android">Android</a></li>
+<li><a href="https://github.com/oauth-io/sdk-php">PHP</a></li>
+<li><a href="https://github.com/oauth-io/sdk-node">Node.js</a></li>
+<li><a href="https://github.com/oauth-io/sdk-go">Go</a></li>
 </ul>
 <h2 id='install-the-sdk'>Install the SDK</h2>
+<div class="code-block Node"><pre><code class="highlight javascript">var OAuth = require('oauthio');
+OAuth.initialize('Your-public-key', 'Your-secret-key');</code></pre></div>
+
 <div class="code-block Javascript Phonegap"><pre><code class="highlight html">&lt;script src="path/to/oauth.js"&gt;&lt;/script&gt;</code></pre></div>
 
 <p>To install the SDK, you just need to load it in your source code.</p>
@@ -99,18 +105,18 @@ OAuth.initialize('Your-public-key')</code></pre></div>
 <p>When you create an OAuth.io application in your dashboard, it generates a pair of public key, private key. Initialize the SDK using them.</p>
 
 <p><aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside></p>
-<h1 id='token-api'>Token API</h1>
+
+          <h1 id='token-api---client-side'>Token API - Client side</h1>
 <p>The Token API let you authorize your user with one of our 120+ providers. The most known example is to add a Facebook connect to your website to ease the emboarding of your user.</p>
 
 <p>You can get this authorization client-side or server-side depending your needs.</p>
-<h2 id='client-side-authorization'>Client side authorization</h2>
-<div class="code-block PHP Node Go"><pre>The client side authorization section is not available for the selected SDK.
-</pre></div>
+
+<div class="code-block Node"><pre>The Client side section is not available for this SDK</pre></div>
 
 <p><aside class="notice">The client side authorization can be made only by one of these client-side SDKs: Javascript, Phonegap, iOS, Android</aside></p>
-<h3 id='configuration'>Configuration</h3>
+<h2 id='configuration'>Configuration</h2>
 <p>To authorize your users using OAuth.io, you just need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API Keys. Once added, you can try if the provider works by clicking on the <code class="prettyprint">Try auth</code> button.</p>
-
+<h2 id='authorize-with-popup'>Authorize with popup</h2>
 <div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Facebook
 OAuth.popup('facebook').done(function(facebook) {
   //make API calls with `facebook`
@@ -122,8 +128,9 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
   //make API calls with `twitter`
 }).fail(function(err) {
   //todo when the OAuth flow failed
-})</code></pre></div>
-<h3 id='using-popup-javascript-sdk-only'>Using popup (Javascript SDK only)</h3>
+})</code></pre>
+</div>
+
 <p>This mode ask the user&rsquo;s authorization in a simple popup. You can send multiple option to customize it.</p>
 
 <table><thead>
@@ -147,38 +154,198 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
 <td>null</td>
 </tr>
 </tbody></table>
-
-<p><br style="clear:both;">
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Google
-OAuth.redirect(&#39;google&#39;, &#39;http://localhost/callback&#39;);</code></pre>
-<pre><code class="highlight javascript">//in your callback page (can be the same page)
-OAuth.callback(&#39;google&#39;).done(function(google) {
-  //make API calls with <code class="prettyprint">google</code>
+<h2 id='authorize-with-redirection'>Authorize with redirection</h2>
+<div class="code-block Javascript Phonegap">
+  <pre><code class="highlight javascript">//Example with Google
+OAuth.redirect('google', 'http://localhost/callback');</code></pre>
+  <pre><code class="highlight javascript">//in your callback page (can be the same page)
+OAuth.callback('google').done(function(google) {
+  //make API calls with `google`
 }).fail(function(err) {
   //todo when the OAuth flow failed
-})</code></pre></div></p>
-<h3 id='using-redirection'>Using redirection</h3>
+})</code></pre>
+</div>
+
 <p>Redirects to the provider&rsquo;s login page, where the user can accept your app&rsquo;s permissions. Once the user accepts the permissions, they are redirected to the callback URL.</p>
-<h2 id='server-side-authorization'>Server side authorization</h2>
+
+<p><br style="clear:both"></p>
+<h2 id='cache-the-result'>Cache the result</h2>
+<p>Client-side SDKs allow to cache the result to not have to show the popup everytime you need the access token.</p>
+
+<div class="code-block Javascript Phonegap">
+  <pre><code class="highlight javascript">//Example with Twitter with the cache option enabled
+OAuth.popup('twitter', {cache: true}).done(function(twitter) {
+  //make API calls with `twitter`
+}).fail(function(err) {
+  //todo when the OAuth flow failed
+})</code></pre>
+</div>
+<h3 id='save-your-user39s-authorization-in-the-cache'>Save your user&rsquo;s authorization in the cache</h3>
+<p>If the cache option is enabled, when the popup is called, it will directly return the cached OAuth result (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage for Javascript/Phonegap SDK and in the mobile with iOS and Android.</p>
+
+<div class="code-block Javascript Phonegap">
+  <pre><code class="highlight javascript">var twitter = OAuth.create('twitter');
+//`twitter` is an OAuth result.
+//`twitter` can be `null` if the OAuth result has not been created yet.</code></pre>
+</div>
+<h3 id='create-an-oauth-result-from-cache'>Create an OAuth result from Cache</h3>
+<p>Once an OAuth result has been cached, you can re-create the OAuth result from it (later or in another page for instance).</p>
+
+<p>Note that you can also create an OAuth result from existing credentials if needed.</p>
+
+<div class="code-block Javascript Phonegap">
+  <pre><code class="highlight javascript">//clear the cache for Facebook
+OAuth.clearCache('facebook');
+//remove all the cache
+OAuth.clearCache();</code></pre>
+</div>
+<h3 id='clear-the-cache'>Clear the cache</h3>
+<p>You can of course remove partially or totally the cache generated by OAuth.io. Note that it can be used when you want to logout your user to be sure it will open the popup the next time the user try to login.</p>
+<h1 id='token-api---server-side'>Token API - Server side</h1>
 <p>The server side authorization is mostly use to get a refresh token and make action on behalf of your user when they are not online on your website (for instance, crawl your user&rsquo;s feed and update them everyday even if the user is not connected).</p>
-<h3 id='configuration'>Configuration</h3>
+<h2 id='configuration'>Configuration</h2>
 <p>As for the client side authorization, you need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API keys. But this time, you have to select a backend in your oauth.io app, like that, only server side authorization will be allowed.</p>
 
 <p>You can also set the both mode to get a copy of the access_token client side too (and use all of the results method).</p>
-<h3 id='redirect'>Redirect</h3>
-<p>This method is the simplest if you are using the server side authorization only (without using the access_token client side).</p>
+<h2 id='redirect'>Redirect</h2>
+<div class="code-block Node">
+  <pre><code class="highlight javascript">//syntaxe
+app.get(authorizeEndpoint, OAuth.auth(provider, urlToRedirect));
+app.get(redirectEndpoint, OAuth.redirect(function(result, req, res) {
+    //todo with result
+}));
 
-<p>You just need to define 2 endpoints, the first is used for the login, the second for the callback after the authorization.</p>
-<h3 id='popup'>Popup</h3>
-<p>This method is a bit longer than the redirect one. This can be done in 3 steps:</p>
+//exemple with Linkedin
+app.get('/signin', OAuth.auth('linkedin', 'http://localhost:8080/oauth/redirect'));
+
+app.get('/oauth/redirect', OAuth.redirect(function(result, req, res) {
+    if (result instanceof Error) {
+        res.send(500, "error: " + result.message);
+    }
+    result.me().done(function(me) {
+        console.log(me);
+        res.send(200, JSON.stringify(me));
+    });
+}));</code></pre>
+</div>
+
+<div class="code-block Javascript iOS Android">
+  <pre>This feature is not supported by this SDK</pre>
+</div>
+
+<p>This method is the simplest way to achieve a server side authorization.</p>
+
+<p>You need to define 2 endpoints:</p>
 
 <ul>
-<li><p>Generate a state token in your backend</p></li>
-<li><p>Authorize your user with a client side SDK using the state token (you will receive a code instead of an access_token)</p></li>
-<li><p>Exchange the code against the access_token and refresh_token server side</p></li>
+<li><p>the first endpoint (<code class="prettyprint">authorizeEndpoint</code>) is where you will redirect your users to authorize them to one of our 120+ OAuth <code class="prettyprint">provider</code></p></li>
+<li><p>then they will be redirected to the second endpoint (<code class="prettyprint">redirectEndpoint</code>) with the <code class="prettyprint">result</code> of the authorization in the callback.</p></li>
 </ul>
-<h2 id='oauth-result'>OAuth result</h2>
-<div class="code-block Javascript Phonegap iOS Android"><pre><code class="highlight json">with Facebook (OAuth 2)
+
+<p>In the HTML of your webapp, you just have to create a link to the first endpoint to start the authorization flow <code class="prettyprint">&lt;a href=&quot;/signin&quot;&gt;Signin with &lt;/a&gt;</code></p>
+
+<p>If an error occured, the error is placed in the <code class="prettyprint">result</code>.</p>
+
+<p><br style="clear:both;"></p>
+<h2 id='authorize-the-user-from-a-frontend-sdk'>Authorize the user from a frontend SDK</h2>
+<p><aside class="info">This authorization can be done by any backend (Ruby, Python, C# etc&hellip;) using REST.</aside></p>
+
+<p>This method is a bit longer than the redirect one but can be used by every backend. This can be done in 3 steps:</p>
+
+<div class="code-block Node"><pre><code class="highlight javascript">//Node.js
+var token = OAuth.generateStateToken(req);
+res.send(200, {token:token});</code></pre>
+</div>
+
+<ul>
+<li>Generate a state token in your backend. Basically, it generate a unique id, store it in session and send it to the front.</li>
+</ul>
+
+<p><br style="clear:both;">
+<div class="code-block Node PHP Go Javascript"><pre><code class="highlight javascript">//Javascript (client-side)
+OAuth.popup(provider, {
+  state: params.token
+}).done(function(result) {
+  $.post(&#39;/auth&#39;, {code: result.code})
+})
+</code></pre></div></p>
+
+<ul>
+<li>Authorize your user with a client side SDK using the state token (you will receive a code instead of an access_token). After receiving the access token, if you don&rsquo;t use a backend SDK, you need to check manually that the state token have not changed from the session.</li>
+</ul>
+
+<p><br style="clear:both;">
+<div class="code-block Node">
+  <pre><code class="highlight javascript">//Node.js
+app.get(&#39;/auth&#39;, function(req, res) {
+  OAuth.auth(provider, req.session, {
+    code: JSON.parse(req.body).code
+  }).then(function(oauthResult) {
+    //todo with oauthResult
+    //oauthResult.access_token oauthResult.refresh_token
+  })
+});</code></pre>
+</div></p>
+
+<div class="code-block Javascript iOS Android">
+  <pre>POST https://oauth.io/auth/facebook
+Body:
+  code=ePLi3...EQfdq
+  key=public_key
+  secret=secret_key</pre>
+</div>
+
+<ul>
+<li>From the backend, send the code to OAuth.io to get back the access_token and refresh_token. OAuth.io will also send back the state token that you have to manually check if it is the same state token than the one stored in session in the 1st step &ndash; <strong>This is automatically done using a server-side SDK</strong>.</li>
+</ul>
+<h2 id='oauth-result-from-session'>OAuth result from session</h2>
+<div class="code-block Javascript iOS Android">
+  <pre>This feature is not supported by this SDK</pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">OAuth.auth('facebook', req.session)
+  .then(function (facebook) {
+    //todo with `facebook`
+  });
+});</code></pre>
+</div>
+
+<p>Once a user has been authorized by a provider, he is stored in session by the SDK that mean you can recreate the OAuth result from the session. If the OAuth Result has an <code class="prettyprint">expires_in</code> field and the access token has expired, he will automatically refresh the <code class="prettyprint">access_token</code>.</p>
+<h2 id='refresh-the-access-token'>Refresh the access token</h2>
+<div class="code-block Javascript iOS Android">
+  <pre># Using a backend
+https://oauth.io/auth/refresh_token/:provider
+Body:
+  token: REFRESH_TOKEN
+  key: PUBLIC_OAUTHIO_KEY
+  secret: SECRET_OAUTHIO_KEY</pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">OAuth.refreshCredentials(oauthResult, req.session)
+    .then(function(newOAuthResult) {
+      //todo with newOAuthResult
+    })
+    .fail(function(e) {
+      //handle an error
+    });
+});</code></pre>
+  <pre><code class="highlight javascript">//or from session
+OAuth.auth('facebook', req.session, {
+  force_refresh: true
+})</code></pre>
+</div>
+
+<p>For most providers, the server side authorization without any configuration send back a refresh token. The refresh token is added to the result on a server side authorization only.</p>
+
+<p>This refresh token can be used when an access token expires to regenerate one without having to open a popup and ask your user for permissions (as the user has already accepted them).</p>
+
+<p>In all our server side SDK, a method is available to refresh the access token easily. It gives back a new OAuth object containing a fresh access token.</p>
+
+<p>For Google, to get a refresh token, follow this Stackoverflow link: <a href="http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io">http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io</a></p>
+<h1 id='oauth-result'>OAuth result</h1>
+<div class="code-block"><pre><code class="highlight json">with Facebook (OAuth 2)
 {
   "access_token": "CAAHv0hYN...RmO4zcd",
   "expires_in": 5183561,
@@ -190,13 +357,21 @@ OAuth.callback(&#39;google&#39;).done(function(google) {
   "oauth_token_secret": "Ktakg008...60KSNG4",
   "provider": "twitter"
 }</code></pre>
-<pre><code class="highlight json">with Google using the server side flow
+<pre><code class="highlight json">with Google using the server side flow with a frontend SDK
 {
   "code": "XsrpW...leE3",
-  "provider": "twitter"
-}</code></pre></div>
+  "provider": "google"
+}</code></pre>
+<pre><code class="highlight json">with Github using the server side flow in a backend SDK
+{
+  "provider": "github",
+  "access_token": "akpWg0...QEof",
+  "refresh_token": "HvOiruf...Zriv",
+  "expires_in": 5183561
+}</code></pre>
+</div>
 
-<p>The results object after an authorization will contains these fields:</p>
+<p>We call OAuth Result the result object after an authorization. It lets you access the tokens, expires date etc. but also give you simple method to access others OAuth.io API (Make authorized API call to the provider, retrieve unified user data, and more). The OAuth Result will contains these fields:</p>
 
 <table><thead>
 <tr>
@@ -232,9 +407,15 @@ OAuth.callback(&#39;google&#39;).done(function(google) {
 </tr>
 <tr>
 <td>code</td>
-<td><strong>Server side authorization</strong> &ndash; The code to be exchanged against the access token server side</td>
+<td><strong>Client side only</strong> &ndash; The code to be exchanged against the access token <strong>server side authorization</strong></td>
 <td>string</td>
 <td>XsrpW&hellip;leE3</td>
+</tr>
+<tr>
+<td>refresh_token</td>
+<td><strong>Server side only</strong> &ndash; The refresh token is used to refresh the access_token to extend the expiration.</td>
+<td>string</td>
+<td>Tgfgso</td>
 </tr>
 <tr>
 <td>provider</td>
@@ -248,49 +429,55 @@ OAuth.callback(&#39;google&#39;).done(function(google) {
 
 <p>As you can see, using the client side authorization, you won&rsquo;t have a <code class="prettyprint">refresh_token</code>. For this, take a look at the <code class="prettyprint">Server side authorization</code> section</p>
 
-<p><aside class="notice">The result contains also some methods to access others OAuth.io APIs:</p>
+<p><aside class="notice">OAuth.io SDKs will extend the result with some usefull methods to access others OAuth.io APIs:</p>
 
 <ul>
 <li><p><code class="prettyprint">get()</code> <code class="prettyprint">post()</code> <code class="prettyprint">put()</code> <code class="prettyprint">del()</code> <code class="prettyprint">patch()</code> - Request API</p></li>
 <li><p><code class="prettyprint">me()</code> - User Data API</p></li>
-<li><p><code class="prettyprint">login()</code> - User Management API
-</aside></p></li>
+<li><p>more soon</p></li>
 </ul>
-<h2 id='use-the-cache-option'>Use the cache option</h2>
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Twitter with the cache option enabled
-OAuth.popup('twitter', {cache: true}).done(function(twitter) {
-  //make API calls with `twitter`
+
+<p></aside></p>
+
+          <h1 id='request-api'>Request API</h1>
+<div class="code-block Node">
+  <pre><code class="highlight javascript">OAuth.auth(provider, req.session).then(function(oauthResult) {
+  return oauthResult.get('/me')
+}).then(function(data) {
+  //data is the result of the request to /me
 }).fail(function(err) {
-  //todo when the OAuth flow failed
-})</code></pre></div>
-<h3 id='save-your-user39s-authorization-in-the-cache'>Save your user&rsquo;s authorization in the cache</h3>
-<p>If the cache option is enabled, when the popup is called, it will directly return the cached credentials (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage for Client side SDK (Javascript, Phonegap, iOS, Android) and in the session for Server side SDK (PHP, Node.js, Go).</p>
+  //handle an error
+});</code></pre>
+</div>
 
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">var twitter = OAuth.create('twitter');
-//`twitter` is an OAuth result.
-//`twitter` can be `null` if the OAuth result has not been created yet.
-</code></pre></div>
-<h3 id='create-an-oauth-result-from-cache'>Create an OAuth result from Cache</h3>
-<p>Once an OAuth result has been cached, you can re-create the OAuth result from it (later or in another page for instance). </p>
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">OAuth.popup(provider).then(function(oauthResult) {
+  return oauthResult.get('/me');
+}).then(function(data) {
+  //data is the result of the request to /me
+}).fail(function(err) {
+  //handle an error
+});</code></pre>
+</div>
 
-<p>Note that you can also create an OAuth result from existing credentials if needed.</p>
-
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//clear the cache for Facebook
-OAuth.clearCache('facebook');
-//remove all the cache
-OAuth.clearCache();
-</code></pre></div>
-<h3 id='clear-the-cache'>Clear the cache</h3>
-<p>You can of course remove partially or totally the cache generated by OAuth.io. Note that it can be used when you want to logout your user to be sure it will open the popup the next time the user try to login.</p>
-<h2 id='refresh-the-access-token'>Refresh the access token</h2>
-<p>For most provider, the server side authorization without any configuration send back a refresh token. The refresh token is added to the result on a server side authorization only.</p>
-
-<p>This refresh token can be used when an access token expires to regenerate one without having to open a popup and ask your user for permissions (as the user has already accepted them).</p>
-
-<p>In all our server side SDK, a method is available to refresh the access token easily. It gives back a new OAuth object containing a fresh access token.</p>
-<h1 id='request-api'>Request API</h1>
-<p>The Request API allow you to make easily API calls to the OAuth provider your user is authorized to. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH</p>
+<p>The Request API allow you to make easily authorized API calls to the OAuth provider your user is connected. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc&hellip;). All parameters in the request will be sent to the provider as a proxy.</p>
 <h2 id='get'>GET</h2>
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.get(url).then(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});</code></pre>
+</div>
+
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.get(url).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});</code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">GET</code> request to an API endpoint</p>
 
 <table><thead>
@@ -303,12 +490,41 @@ OAuth.clearCache();
 </thead><tbody>
 <tr>
 <td>url</td>
-<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known</td>
 <td>string</td>
-<td>/api/endpoint</td>
+<td>/api/endpoint?param=value</td>
 </tr>
 </tbody></table>
 <h2 id='post'>POST</h2>
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.post(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+// params has the same syntaxe as jQuery.ajax (http://api.jquery.com/jquery.ajax/)
+//e.g Post a tweet on Twitter
+oauthResult.post('/1.1/statuses/update.json', {
+  data: {
+    status: "hello world!"
+  }
+})</code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.post(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Post a tweet on Twitter
+oauthResult.post('/1.1/statuses/update.json', {
+  status: "hello world!"
+});</code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">POST</code> request to an API endpoint</p>
 
 <table><thead>
@@ -321,18 +537,40 @@ OAuth.clearCache();
 </thead><tbody>
 <tr>
 <td>url</td>
-<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known</td>
 <td>string</td>
 <td>/api/endpoint</td>
 </tr>
 <tr>
 <td>params</td>
-<td>A jQuery type object for an ajax request, which can contain the data, to send POST params.</td>
+<td>The parameters of the HTTP request</td>
 <td>Object</td>
-<td>{data:{field:&lsquo;value&rsquo;}}</td>
+<td></td>
 </tr>
 </tbody></table>
 <h2 id='put'>PUT</h2>
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.put(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Merge a pull request on Github
+oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge')</code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.put(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Merge a pull request on Github
+oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge');</code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">PUT</code> request to an API endpoint</p>
 
 <table><thead>
@@ -345,18 +583,29 @@ OAuth.clearCache();
 </thead><tbody>
 <tr>
 <td>url</td>
-<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known</td>
 <td>string</td>
 <td>/api/endpoint</td>
 </tr>
 <tr>
 <td>params</td>
-<td>A jQuery type object for an ajax request, which can contain the data, to send POST params.</td>
+<td>The parameters of the HTTP request</td>
 <td>Object</td>
-<td>{data:{field:&lsquo;value&rsquo;}}</td>
+<td></td>
 </tr>
 </tbody></table>
 <h2 id='delete'>DELETE</h2>
+<div class="code-block Javascript Node">
+  <pre><code class="highlight javascript">oauthResult.del(url).then(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Delete a status on Facebook
+oauthResult.del('/v2.2/:status_id')</code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">DELETE</code> request to an API endpoint</p>
 
 <table><thead>
@@ -369,12 +618,57 @@ OAuth.clearCache();
 </thead><tbody>
 <tr>
 <td>url</td>
-<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known</td>
 <td>string</td>
 <td>/api/endpoint</td>
 </tr>
 </tbody></table>
 <h2 id='patch'>PATCH</h2>
+<div class="code-block Javascript">
+  <pre><code class="highlight javascript">oauthResult.patch(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+// params has the same syntaxe as jQuery.ajax (http://api.jquery.com/jquery.ajax/)
+//e.g Edit a Gist on Github
+oauthResult.patch('/gists/1', {
+  data: {
+    "description": "the description for this gist",
+    "files": {
+      "file1.txt": {
+        "content": "updated file contents"
+      },
+      "new_file.txt": {
+        "content": "a new file"
+      }
+    }
+  }
+})</code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight javascript">oauthResult.put(url, params).done(function(data) {
+  //todo with data
+}).fail(function(err) {
+  //todo with err
+});
+
+//e.g Merge a pull request on Github
+oauthResult.patch('/gists/1', {
+  "description": "the description for this gist",
+  "files": {
+    "file1.txt": {
+      "content": "updated file contents"
+    },
+    "new_file.txt": {
+      "content": "a new file"
+    }
+  }
+});</code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">PATCH</code> request to an API endpoint</p>
 
 <table><thead>
@@ -387,24 +681,84 @@ OAuth.clearCache();
 </thead><tbody>
 <tr>
 <td>url</td>
-<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, we already know the domain.</td>
+<td>The URL of the endpoint, it can be an absolute URL or just the endpoint (after the domain) as for most provider, the domain is already known</td>
 <td>string</td>
 <td>/api/endpoint</td>
 </tr>
 <tr>
 <td>params</td>
-<td>A jQuery type object for an ajax request, which can contain the data, to send POST params.</td>
+<td>The parameters of the HTTP request</td>
 <td>Object</td>
-<td>{data:{field:&lsquo;value&rsquo;}}</td>
+<td></td>
 </tr>
 </tbody></table>
-<h1 id='user-data-api'>User Data API</h1><h2 id='usage'>Usage</h2>
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">res = OAuth.create('facebook');
+<h2 id='using-rest'>USING REST</h2>
+<div class="code-block">
+   <pre>#Example with twitter on /1.1/account/verify_credentials.json
+
+GET /request/twitter/%2F1.1%2Faccount%2Fverify_credentials.json HTTP/1.1
+Host: oauth.io
+oauthio: k=OAUTHIO_PUBLIC_KEY&oauthv=1&oauth_token=TWITTER_PUBLIC_TOKEN&oauth_token_secret=TWITTER_SECRET_TOKEN
+Referer: https://whitelisted_domain_in_oauthio/</pre>
+</div>
+
+<p><code class="prettyprint">GET|POST|PUT|DELETE|PATCH https://oauth.io/request/:provider/:url</code></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>provider</td>
+<td>The provider&rsquo;s name (e.g. &ldquo;facebook&rdquo;)</td>
+</tr>
+<tr>
+<td>url</td>
+<td>The api request&rsquo;s url, can be relative to the main api domain (e.g <code class="prettyprint">api.facebook.com</code>) or absolute. This url must be urlencoded.</td>
+</tr>
+</tbody></table>
+
+<p>You must include the <code class="prettyprint">oauthio</code> HTTP header inside your request, which is a application/x-www-form-urlencoded hash containing:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>k</td>
+<td>The public OAuth.io key of your app. If the http header Origin or Referer is set, this will be checked against your app&rsquo;s whitelist. If none are present, you must accept the &ldquo;localhost&rdquo; domain in your OAuthio&rsquo;s app.</td>
+</tr>
+<tr>
+<td>oauth_token</td>
+<td>OAuth1 public token.</td>
+</tr>
+<tr>
+<td>oauth_secret_token</td>
+<td>OAuth1 secret token.</td>
+</tr>
+<tr>
+<td>access_token</td>
+<td>OAuth2 token.</td>
+</tr>
+<tr>
+<td>oauthv <em>(optional)</em></td>
+<td>when a provider supports both OAuth1 and OAuth2, this can be set to &ldquo;1&rdquo; or &ldquo;2&rdquo; to desambiguate the version of OAuth to use.</td>
+</tr>
+</tbody></table>
+
+          <h1 id='user-data-api'>User Data API</h1><h2 id='usage'>Usage</h2>
+<div class="code-block Javascript Phonegap">
+  <pre><code class="highlight javascript">res = OAuth.create('facebook');
 res.me().done(function(me) {
   alert('Hello ' + me.name);
 }).fail(function(err) {
   //todo when the OAuth flow failed
-});</code></pre></div>
+});</code></pre>
+</div>
 
 <p>This API allow you to retrieve your user&rsquo;s data in a unified way. That mean you don&rsquo;t have to make a bridge between APIs to retrieve user&rsquo;s info, all field sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
 
@@ -517,7 +871,8 @@ res.me().done(function(me) {
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
+
+          <h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
 <p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Key from stormpath and copy paste them in OAuth.io.</p>
 
 <p><aside class="notice">This feature is in BETA, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside></p>
@@ -684,7 +1039,8 @@ user.logout().done(function() {
 });</code></pre></div>
 
 <p>You can logout your user from your application user the <code class="prettyprint">logout()</code> method. It will clear the session and all the cache associated with this user.</p>
-<h1 id='contribute'>Contribute</h1>
+
+          <h1 id='contribute'>Contribute</h1>
 <p>You can contribute by cloning our OAuthd repository on GitHub and making a pull request.</p>
 <h2 id='issues'>Issues</h2>
 <p>If you have any issue using OAuth.io, you can:</p>
@@ -722,6 +1078,8 @@ user.logout().done(function() {
 <p>Then you can run the local server using <code class="prettyprint">grunt server</code> to try it. From there, you can start the test suite using <code class="prettyprint">grunt test</code>.</p>
 <h3 id='sdks'>SDKs</h3>
 <p>You can fork all the SDKs from GitHub in your favorite language. Every SDK (except iOS for the moment) has a test suite than can be launched in a standard way to try your feature / bug fixes.</p>
+<h3 id='documentation'>Documentation</h3>
+<p>You can fork all the <a href="https://github.com/oauth-io/docs">documentation from GitHub</a>. The content is in the <code class="prettyprint">source</code> folder. The main file is <code class="prettyprint">index.md</code></p>
 
       </div>
       <div class="dark-box">
