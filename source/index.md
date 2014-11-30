@@ -36,7 +36,7 @@ search: true
 
 OAuth.io helps you to emboard your users with a suite of services easy to use.
 
-- **Token API**: Authorize your user on one of our 120+ OAuth provider.
+- **Token API**: Authorize your user on one of our [120+ OAuth provider](https://oauth.io/providers).
 
 - **Request API**: Make authorized API calls to those OAuth providers in a simple way.
 
