@@ -11,6 +11,12 @@
 });</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+    $me = $request_object->get('/me');
+  </code></pre>
+</div>
+
 <div class="code-block Javascript">
   <pre><code class="highlight javascript">OAuth.popup(provider).then(function(oauthResult) {
   return oauthResult.get('/me');
@@ -21,8 +27,26 @@
 });</code></pre>
 </div>
 
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+// In a <OAuthIODelegate>
+- (void)didReceiveOAuthIOResponse:(OAuthIORequest *)request
+{
+    // The request object
+    _request_object = request;
+    
+    // Making a request
+    [_request_object get:@"/me" success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+    {
+        // logs the the user's information
+        NSLog(@"%@", body); 
+    }];
+}
+  </code></pre>
+</div>
 
-The Request API allow you to make easily authorized API calls to the OAuth provider your user is connected. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc...). All parameters in the request will be sent to the provider as a proxy.
+
+The Request API allow you to easily make authorized API calls to the OAuth provider your user is connected. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc...). All parameters in the request will be sent to the provider as a proxy.
 
 ## GET
 
@@ -40,6 +64,23 @@ The Request API allow you to make easily authorized API calls to the OAuth provi
 }).fail(function(err) {
   //todo with err
 });</code></pre>
+</div>
+
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$me = $request_object->get('/me');
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+// Making a request
+[_request_object get:@"/me" success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    // logs the the user's information
+    NSLog(@"%@", body); 
+}];
+  </code></pre>
 </div>
 
 Allows you to perform `GET` request to an API endpoint
@@ -79,6 +120,25 @@ oauthResult.post('/1.1/statuses/update.json', {
 });</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->post('/me/feed', array(
+  'message' => 'Hello world'
+));
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+[data setValue:@"Hello world" forKey:@"message"];
+[_request post:@"/me/feed" withParams:data success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
+</div>
+
 Allows you to perform `POST` request to an API endpoint
 
 Argument|Description|Type|Example value
@@ -110,6 +170,25 @@ oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge')</code></pre>
 oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge');</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->put('/some/endpoint', array(
+  'name' => 'My updated name'
+));
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+[data setValue:@"My updated name" forKey:@"message"];
+[_request put:@"/some/endpoint" withParams:data success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
+</div>
+
 
 Allows you to perform `PUT` request to an API endpoint
 
@@ -130,6 +209,22 @@ params|The parameters of the HTTP request|Object|
 //e.g Delete a status on Facebook
 oauthResult.del('/v2.2/:status_id')</code></pre>
 </div>
+
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->del('/some/endpoint/someid');
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+[_request del:@"/some/endpoint/someid" success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
+</div>
+
 
 Allows you to perform `DELETE` request to an API endpoint
 
@@ -183,6 +278,26 @@ oauthResult.patch('/gists/1', {
   }
 });</code></pre>
 </div>
+
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->patch('/some/endpoint', array(
+  'name' => 'My updated name'
+));
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+[data setValue:@"My updated name" forKey:@"message"];
+[_request patch:@"/some/endpoint" withParams:data success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
+</div>
+
 
 Allows you to perform `PATCH` request to an API endpoint
 
