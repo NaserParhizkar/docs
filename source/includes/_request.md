@@ -46,7 +46,7 @@
 </div>
 
 
-The Request API allow you to easily make authorized API calls to the OAuth provider your user is connected. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc...). All parameters in the request will be sent to the provider as a proxy.
+The Request API allows you to easily perform authorized API calls to the OAuth provider from which you got a request object or credentials with the Token API. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will automatically fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc...). All the parameters in the request will be sent to the provider thanks to a proxy.
 
 ## GET
 
