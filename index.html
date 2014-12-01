@@ -60,25 +60,70 @@
 (_____)(_) (_)`\___/'`\__)(_) (_)()(_)`\___/
 </code></pre></div>
 
-<p>OAuth.io helps you to emboard your users with a suite of services easy to use.</p>
+<p>OAuth.io helps you to onboard your users with a suite of services easy to use.</p>
 
 <ul>
-<li><p><strong>Token API</strong>: Authorize your user on one of our <a href="https://oauth.io/providers">120+ OAuth provider</a>.</p></li>
+<li><p><strong>Token API</strong>: Authorize your client apps on one of our <a href="https://oauth.io/providers">120+ OAuth provider</a>.</p></li>
 <li><p><strong>Request API</strong>: Make authorized API calls to those OAuth providers in a simple way.</p></li>
-<li><p><strong>User Data API</strong>: Get the unified user&rsquo;s information of your users.</p></li>
+<li><p><strong>User Data API</strong>: Get the authenticated user&rsquo;s unified information.</p></li>
 <li><p><strong>User Management API</strong>: Signup/signin your user without any backend using multiple social identity.</p></li>
 </ul>
 
 <p><aside class="success">To use these APIs, you need to have an account on <a href="https://oauth.io">OAuth.io</a>.</aside></p>
 
           <h1 id='installation'>Installation</h1><h2 id='download-the-sdk'>Download the SDK</h2>
-<div class="code-block Node"><pre><code class="highlight bash">npm install oauthio</code></pre></div>
+<div class="code-block Node">
+    <pre><code class="highlight bash">npm install oauthio</code></pre>
+</div>
 
-<div class="code-block Javascript"><pre><code class="highlight bash">#For Web app
+<div class="code-block iOS">
+    <pre>
+You can use CocoaPods to install OAuth.io in your iOS project
+</pre>
+</div>
+
+<div class="code-block iOS">
+    <pre><code class="highlight bash">
+# add this line to your Podfile:
+pod 'OAuth.io'
+</code></pre>
+<pre><code class="highlight bash">
+# run this command in your project directory
+$ pod install
+ </code></pre>
+<pre>
+You can also install the framework manually. To do so, please follow the following steps: 
+
+The framework is available in [https://github.com/oauth-io/oauth-ios](https://github.com/oauth-io/oauth-ios) as the Dist/OAuthiOS.framework file. To add it as a dependency in your projet in XCode, follow this procedure:
+
+- click on the project name in the Documents explorer
+go to Build phases
+- open the Link Binary with Libraries section
+- click on the + button
+- click on Add other...
+- Select the OAuthiOS.framework
+- Click on Add
+</pre>
+</div>
+
+<div class="code-block PHP">
+    <pre>You can use Composer to install the SDK in your PHP project.
+    </pre>
+    <pre><code class="highlight bash">
+# Add this line to require object of your composer.json file:
+"oauth-io/oauth": "0.3.0"
+# Run this command in your folder directory
+$ composer update
+    </code></pre>
+</div>
+
+<div class="code-block Javascript">
+    <pre><code class="highlight bash">#For Web app
 bower install oauth.io
 
 #Or for mobile app (using Phonegap)
-phonegap plugin install https://github.com/oauth-io/oauth-phonegap</code></pre></div>
+phonegap plugin install https://github.com/oauth-io/oauth-phonegap</code></pre>
+</div>
 
 <p>To ease your integration, SDKs are available in lots of language:</p>
 
@@ -92,31 +137,62 @@ phonegap plugin install https://github.com/oauth-io/oauth-phonegap</code></pre><
 <li><a href="https://github.com/oauth-io/sdk-go">Go</a></li>
 </ul>
 <h2 id='install-the-sdk'>Install the SDK</h2>
-<div class="code-block Node"><pre><code class="highlight javascript">var OAuth = require('oauthio');
-OAuth.initialize('Your-public-key', 'Your-secret-key');</code></pre></div>
+<div class="code-block Node">
+    <pre><code class="highlight javascript">var OAuth = require('oauthio');
+// Initialize the SDK
+OAuth.initialize('Your-public-key', 'Your-secret-key');</code></pre>
+</div>
 
-<div class="code-block Javascript Phonegap"><pre><code class="highlight html">&lt;script src="path/to/oauth.js"&gt;&lt;/script&gt;</code></pre></div>
+<div class="code-block Javascript Phonegap">
+    <pre><code class="highlight html">&lt;script src="path/to/oauth.js"&gt;&lt;/script&gt;</code></pre>
+</div>
 
 <p>To install the SDK, you just need to load it in your source code.</p>
 
-<div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">// Initialize the SDK
-OAuth.initialize('Your-public-key')</code></pre></div>
+<div class="code-block Javascript Phonegap">
+    <pre><code class="highlight javascript">// Initialize the SDK
+OAuth.initialize('Your-public-key')</code></pre>
+</div>
 
-<p>When you create an OAuth.io application in your dashboard, it generates a pair of public key, private key. Initialize the SDK using them.</p>
+<div class="code-block iOS objectivec">
+    <pre>You need to create a class implementing the OAuthIODelegate. This delegate needs you to add the following methods:
+
+- "didReceiveOAuthIOResponse": called when a popup call is successful
+- "didFailWithOAuthIOError": called when a popup call is not successful
+- "didAuthenticateServerSide": when using the server-side mode, called on a successful authentication
+- "didFailAuthenticationServerSide": when using the server-side mode, called on an unsuccessful authentication
+</pre>
+    <pre><code class="highlight objectivec">
+// Then in the class implementing OAuthIODelegate, you can initialize the SDK
+// Initialize the SDK
+_oauthioModal = [[OAuthIOModal alloc] initWithKey:@"Your-public-key" delegate:self];</code></pre>
+</div>
+
+<div class="code-block php PHP">
+    <pre><code class="highlight php">
+use OAuth_io\OAuth;
+
+$oauth = new OAuth();
+// Initialize the SDK
+$oauth->initialize('Your-public-key', 'Your-secret-key');
+</code></pre>
+</div>
+
+<p>When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pari to initialize the SDK later on.</p>
 
 <p><aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside></p>
 
           <h1 id='token-api---client-side'>Token API - Client side</h1>
-<p>The Token API let you authorize your user with one of our 120+ providers. The most known example is to add a Facebook connect to your website to ease the emboarding of your user.</p>
+<p>The Token API lets you authorize your app on behalf of your users on one of our 120+ API providers. The best known example is to add a Facebook connect to your website to ease the user&rsquo;s onboarding.</p>
 
-<p>You can get this authorization client-side or server-side depending your needs.</p>
+<p>You can perform this authorization either client-side or server-side, depending your needs.</p>
 
 <div class="code-block Node"><pre>The Client side section is not available for this SDK</pre></div>
 
 <p><aside class="notice">The client side authorization can be made only by one of these client-side SDKs: Javascript, Phonegap, iOS, Android</aside></p>
 <h2 id='configuration'>Configuration</h2>
-<p>To authorize your users using OAuth.io, you just need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API Keys. Once added, you can try if the provider works by clicking on the <code class="prettyprint">Try auth</code> button.</p>
-<h2 id='authorize-with-popup'>Authorize with popup</h2>
+<p>To authorize your app using OAuth.io, you just need to add a provider to your OAuth.io app, copy/paste your provider&rsquo;s API Keys (usually client_id and client_secret), and specify a permission scope. Then, you can directly try a connection to the provider, by clicking on the <code class="prettyprint">Try auth</code> button.</p>
+<h2 id='authorize-with-a-popup'>Authorize with a popup</h2>
 <div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Facebook
 OAuth.popup('facebook').done(function(facebook) {
   //make API calls with `facebook`
@@ -131,7 +207,27 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
 })</code></pre>
 </div>
 
-<p>This mode ask the user&rsquo;s authorization in a simple popup. You can send multiple option to customize it.</p>
+<div class="code-block iOS">
+  <pre>In the OAuthIODelegate class, you can call the showWithProvider method, which shows a popup.
+</pre>
+  <pre><code class="highlight iOS objectivec">
+//Example with Twitter with no cache options
+[_oauthioModal showWithProvider:@"twitter"];</code></pre>
+<pre><code class="highlight iOS objectivec">
+//On success, the didReceiveOAuthIOResponde delegate method is called:
+- (void)didReceiveOAuthIOResponse:(OAuthIORequest *)request
+{
+    // Here you can use the request object to make requests directly
+    // or store it for later use (e.g. when a button is pressed)
+    _request_object = request;
+}
+  </code></pre>
+</div>
+
+<p>This mode asks the user&rsquo;s authorization in a simple popup.
+This gives you a request object, which allows you to perform API calls, or to retrieve the credentials (i.e. access or oauth tokens).</p>
+
+<p>You can send multiple options to customize it.</p>
 
 <table><thead>
 <tr>
@@ -143,13 +239,13 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
 </thead><tbody>
 <tr>
 <td>cache</td>
-<td>If set to true, when the popup is called, it will directly return the cached credentials (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage.</td>
+<td>If set to true, when the popup is called, the SDK will directly return the cached credentials (if available) through a &ldquo;request object&rdquo; instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup on his browser, his credentials are kept in the local storage.</td>
 <td>boolean</td>
 <td>false</td>
 </tr>
 <tr>
 <td>authorize</td>
-<td>Some OAuth provider let developers send parameters to customer the authorization popup</td>
+<td>Some OAuth providers let developers send parameters to customize the authorization popup</td>
 <td>Object</td>
 <td>null</td>
 </tr>
@@ -166,11 +262,11 @@ OAuth.callback('google').done(function(google) {
 })</code></pre>
 </div>
 
-<p>Redirects to the provider&rsquo;s login page, where the user can accept your app&rsquo;s permissions. Once the user accepts the permissions, they are redirected to the callback URL.</p>
+<p>Redirects to the provider&rsquo;s login page, where the user can accept your app&rsquo;s permissions. Once he/she accepts them, he/she is redirected to the callback URL.</p>
 
 <p><br style="clear:both"></p>
-<h2 id='cache-the-result'>Cache the result</h2>
-<p>Client-side SDKs allow to cache the result to not have to show the popup everytime you need the access token.</p>
+<h2 id='caching-the-request-object'>Caching the request object</h2>
+<p>Client-side SDKs allow you to cache the credentials (i.e. access tokens) to not have to show the popup everytime you need the access token.</p>
 
 <div class="code-block Javascript Phonegap">
   <pre><code class="highlight javascript">//Example with Twitter with the cache option enabled
@@ -180,42 +276,63 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
   //todo when the OAuth flow failed
 })</code></pre>
 </div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">//Example with Twitter with the cache option enabled
+NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+[options setObject:@"true" forKey:@"cache"];
+[options setObject:@"true" forKey:@"clear-popup-cache"]; // prevents the webview from keeping cookies
+[_oauthioModal showWithProvider:@"twitter" options:options];</code></pre>
+</div>
 <h3 id='save-your-user39s-authorization-in-the-cache'>Save your user&rsquo;s authorization in the cache</h3>
-<p>If the cache option is enabled, when the popup is called, it will directly return the cached OAuth result (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage for Javascript/Phonegap SDK and in the mobile with iOS and Android.</p>
+<p>If the cache option is enabled, when the popup is called, it will directly create a request object from the cached credentials (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage for Javascript/Phonegap SDK and in the mobile with iOS and Android.</p>
 
 <div class="code-block Javascript Phonegap">
   <pre><code class="highlight javascript">var twitter = OAuth.create('twitter');
-//`twitter` is an OAuth result.
-//`twitter` can be `null` if the OAuth result has not been created yet.</code></pre>
+//`twitter` is a request object.
+//`twitter` can be `null` if the request object has not been created yet.</code></pre>
 </div>
-<h3 id='create-an-oauth-result-from-cache'>Create an OAuth result from Cache</h3>
-<p>Once an OAuth result has been cached, you can re-create the OAuth result from it (later or in another page for instance).</p>
 
-<p>Note that you can also create an OAuth result from existing credentials if needed.</p>
+<div class="code-block Node">
+  <pre><code class="highlight javascript">var twitter = OAuth.create('twitter');
+//`twitter` is a request object.
+//`twitter` can be `null` if the request object has not been created yet.</code></pre>
+</div>
+<h3 id='creating-a-request-object-from-cache'>Creating a request object from Cache</h3>
+<p>Once credentials have been cached, you can re-create the request object from them (later or in another page for instance).</p>
+
+<p>Note that you can also create a request object from existing credentials if needed.</p>
+<h3 id='clearing-the-cache'>Clearing the cache</h3>
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">//clear the cache for all providers
+[oauthioModal clearCache];
+//clear the cache for facebook
+[oauthioModal clearCacheForProvider:@"facebook"];</code></pre>
+</div>
 
 <div class="code-block Javascript Phonegap">
-  <pre><code class="highlight javascript">//clear the cache for Facebook
+  <pre><code class="highlight javascript">//clears the cache for Facebook
 OAuth.clearCache('facebook');
-//remove all the cache
+//removes cache for all providers
 OAuth.clearCache();</code></pre>
 </div>
-<h3 id='clear-the-cache'>Clear the cache</h3>
-<p>You can of course remove partially or totally the cache generated by OAuth.io. Note that it can be used when you want to logout your user to be sure it will open the popup the next time the user try to login.</p>
+
+<p>You can of course partially or totally remove the cache generated by OAuth.io. Note that it can be used when you want to logout your users to be sure it will open the popup the next time they try to login.</p>
 <h1 id='token-api---server-side'>Token API - Server side</h1>
-<p>The server side authorization is mostly use to get a refresh token and make action on behalf of your user when they are not online on your website (for instance, crawl your user&rsquo;s feed and update them everyday even if the user is not connected).</p>
+<p>The server side authorization is mostly used to get a refresh token and perform actions on behalf of your user when they are not online and connected on your website / app (for instance, crawl your user&rsquo;s feed and update it everyday even if the user is not connected).</p>
 <h2 id='configuration'>Configuration</h2>
-<p>As for the client side authorization, you need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API keys. But this time, you have to select a backend in your oauth.io app, like that, only server side authorization will be allowed.</p>
+<p>In the same way as for the client-side authorization, you need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API keys. But this time, you have to select a backend in your oauth.io app. This way, only server side authorization will be allowed.</p>
 
 <p>You can also set the both mode to get a copy of the access_token client side too (and use all of the results method).</p>
-<h2 id='redirect'>Redirect</h2>
+<h2 id='redirection-from-the-backend'>Redirection from the backend</h2>
 <div class="code-block Node">
-  <pre><code class="highlight javascript">//syntaxe
+  <pre><code class="highlight javascript">// Syntax
 app.get(authorizeEndpoint, OAuth.auth(provider, urlToRedirect));
 app.get(redirectEndpoint, OAuth.redirect(function(result, req, res) {
     //todo with result
 }));
 
-//exemple with Linkedin
+// Example with Linkedin
 app.get('/signin', OAuth.auth('linkedin', 'http://localhost:8080/oauth/redirect'));
 
 app.get('/oauth/redirect', OAuth.redirect(function(result, req, res) {
@@ -229,11 +346,40 @@ app.get('/oauth/redirect', OAuth.redirect(function(result, req, res) {
 }));</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+// Example with Zend - /signin action
+public function signinAction() {
+    try {
+        $stuff = $this->oauth->redirect('google', '/oauth/redirect');
+        echo $stuff;
+        return 'lolol';
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+// Example with Zend - /oauth/redirect action
+public function redirectAction() {
+    try {
+        $request_object = $this->oauth->auth('google', array(
+            'redirect' => true
+        ));    
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+        die();
+    }
+    return new ViewModel(array());
+}
+
+  </code></pre>
+</div>
+
 <div class="code-block Javascript iOS Android">
   <pre>This feature is not supported by this SDK</pre>
 </div>
 
-<p>This method is the simplest way to achieve a server side authorization.</p>
+<p>This method is the simplest way to achieve a server-side authorization.</p>
 
 <p>You need to define 2 endpoints:</p>
 
@@ -247,22 +393,41 @@ app.get('/oauth/redirect', OAuth.redirect(function(result, req, res) {
 <p>If an error occured, the error is placed in the <code class="prettyprint">result</code>.</p>
 
 <p><br style="clear:both;"></p>
-<h2 id='authorize-the-user-from-a-frontend-sdk'>Authorize the user from a frontend SDK</h2>
+<h2 id='authorizing-the-user-with-both-front-end-and-back-end-sdks'>Authorizing the user with both front-end and back-end SDKs</h2>
 <p><aside class="info">This authorization can be done by any backend (Ruby, Python, C# etc&hellip;) using REST.</aside></p>
 
-<p>This method is a bit longer than the redirect one but can be used by every backend. This can be done in 3 steps:</p>
+<p>This method is a bit longer than the redirect one but can be used by any backend. This can be done in 3 steps:</p>
 
-<div class="code-block Node"><pre><code class="highlight javascript">//Node.js
+<div class="code-block Node">
+  <pre><code class="highlight javascript">//Node.js
 var token = OAuth.generateStateToken(req);
 res.send(200, {token:token});</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+// Example with Zend - /state action, called from the frontend
+// to get a code
+public function tokenAction() {
+    
+    // This generates a token and stores it in the session
+    $token = $this->oauth->generateStateToken();
+    
+    $array = array(
+        'token' => $token
+    );
+    $json = new JsonModel($array);
+    return $json;
+}</code></pre>
+</div>
+
 <ul>
-<li>Generate a state token in your backend. Basically, it generate a unique id, store it in session and send it to the front.</li>
+<li>Generating a state token in your backend. Basically, it generates a unique id, stores it in session and sends it to the front.</li>
 </ul>
 
 <p><br style="clear:both;">
-<div class="code-block Node PHP Go Javascript"><pre><code class="highlight javascript">//Javascript (client-side)
+<div class="code-block Node PHP Go Javascript">
+  <pre><code class="highlight javascript">//Javascript (client-side)
 OAuth.popup(provider, {
   state: params.token
 }).done(function(result) {
@@ -271,7 +436,7 @@ OAuth.popup(provider, {
 </code></pre></div></p>
 
 <ul>
-<li>Authorize your user with a client side SDK using the state token (you will receive a code instead of an access_token). After receiving the access token, if you don&rsquo;t use a backend SDK, you need to check manually that the state token have not changed from the session.</li>
+<li>Authorizing your user with a client side SDK using the state token (you will receive a code instead of an access_token).</li>
 </ul>
 
 <p><br style="clear:both;">
@@ -287,6 +452,27 @@ app.get(&#39;/auth&#39;, function(req, res) {
 });</code></pre>
 </div></p>
 
+<div class="code-block PHP">
+  <pre><code class="highlight javascript">
+// PHP with Zend - endpoint on /auth
+public function authAction() {
+    try {
+        $code = $this->getRequest()->getPost('code');
+        $request_object = $this->oauth->auth('facebook', array(
+            'code' => $code
+        ));
+        $credentials = $request_object->getCredentials();
+        $json = new JsonModel(array('status' => 'success'));
+        if (!isset($credentials['access_token']) && !isset($credentials['oauth_token'])) {
+            $this->getResponse()->setStatusCode(400);
+        }
+        return $json;
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}</code></pre>
+</div>
+
 <div class="code-block Javascript iOS Android">
   <pre>POST https://oauth.io/auth/facebook
 Body:
@@ -296,23 +482,66 @@ Body:
 </div>
 
 <ul>
-<li>From the backend, send the code to OAuth.io to get back the access_token and refresh_token. OAuth.io will also send back the state token that you have to manually check if it is the same state token than the one stored in session in the 1st step &ndash; <strong>This is automatically done using a server-side SDK</strong>.</li>
+<li>Finally, from your backend, send the code to OAuth.io to get the access_token and refresh_token. OAuth.io will also send back the state token that you have to manually check. It must be the same state token as the one stored in session in the 1st step &ndash; <strong>This is automatically done using a server-side SDK</strong>.</li>
 </ul>
-<h2 id='oauth-result-from-session'>OAuth result from session</h2>
+<h2 id='request-object-from-session'>Request object from session</h2>
 <div class="code-block Javascript iOS Android">
   <pre>This feature is not supported by this SDK</pre>
 </div>
 
 <div class="code-block Node">
   <pre><code class="highlight javascript">OAuth.auth('facebook', req.session)
-  .then(function (facebook) {
-    //todo with `facebook`
+  .then(function (request_object) {
+    // call endpoints with request_object here, or save it for later use
   });
 });</code></pre>
 </div>
 
-<p>Once a user has been authorized by a provider, he is stored in session by the SDK that mean you can recreate the OAuth result from the session. If the OAuth Result has an <code class="prettyprint">expires_in</code> field and the access token has expired, he will automatically refresh the <code class="prettyprint">access_token</code>.</p>
-<h2 id='refresh-the-access-token'>Refresh the access token</h2>
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+// Uses the $_SESSION array by default
+$request_object = $this->oauth->auth('facebook');
+
+
+// Note that you can specify another session array at initialization, for example:
+$_SESSION['some_array'] = array();
+$oauth->setSession($_SESSION['some_array']);
+// Beware, the array is passed by reference, so you need to have a real grasp on the stored array
+</code></pre>
+</div>
+
+<p>Once a user has been authorized by a provider, he is stored in session by the SDK. This means you can recreate the request object from the session. If the request object has an <code class="prettyprint">expires_in</code> field and the access token has expired, the SDK will automatically refresh the <code class="prettyprint">access_token</code>.</p>
+<h2 id='building-a-request-object-from-saved-credentials'>Building a request object from saved credentials</h2>
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+// Retrieve the credentials and save them
+$credentials = $old_request_object->getCredentials();
+
+// Later use these credentials to rebuild the request_object object
+$new_request_object = $oauth->auth('twitter', array(
+  'credentials' => $credentials
+));
+  </code></pre>
+</div>
+
+<div class="code-block Node">
+  <pre><code class="highlight node">
+// Retrieve the credentials and save them
+var credentials = request_object.getCredentials();
+
+// Later use these credentials to rebuild the request_object object
+request_object = oauth.auth('twitter', {
+  credentials: credentials
+});
+  </code></pre>
+</div>
+
+<div class="code-block Phonegap Javascript iOS">
+  <pre>Not available for this SDK</pre>
+</div>
+
+<p>For back end SDKs you can to rebuild the request object after having saved the credentials (set of access token, refresh tokens, etc.) manually.</p>
+<h2 id='refreshing-the-tokens'>Refreshing the tokens</h2>
 <div class="code-block Javascript iOS Android">
   <pre># Using a backend
 https://oauth.io/auth/refresh_token/:provider
@@ -337,14 +566,23 @@ OAuth.auth('facebook', req.session, {
 })</code></pre>
 </div>
 
-<p>For most providers, the server side authorization without any configuration send back a refresh token. The refresh token is added to the result on a server side authorization only.</p>
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+    // The auth method automatically refreshes the tokens if needed
+    $request_object = $oauth->auth('facebook', array(
+      'credentials' => $credentials
+    ));
+  </code></pre>
+</div>
+
+<p>For most providers, the server side authorization sends back a refresh token without any specific configuration. The refresh token is added to the result on a server-side authorization only.</p>
 
 <p>This refresh token can be used when an access token expires to regenerate one without having to open a popup and ask your user for permissions (as the user has already accepted them).</p>
 
-<p>In all our server side SDK, a method is available to refresh the access token easily. It gives back a new OAuth object containing a fresh access token.</p>
+<p>In all our server-side SDK, a method is available to manually refresh the access token. It gives back a new request object containing a fresh access token.</p>
 
-<p>For Google, to get a refresh token, follow this Stackoverflow link: <a href="http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io">http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io</a></p>
-<h1 id='oauth-result'>OAuth result</h1>
+<p>For the Google provider, it&rsquo;s a bit more complex. To get a refresh token, please follow this Stackoverflow link: <a href="http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io">http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io</a></p>
+<h1 id='request-objects'>Request objects</h1>
 <div class="code-block"><pre><code class="highlight json">with Facebook (OAuth 2)
 {
   "access_token": "CAAHv0hYN...RmO4zcd",
@@ -371,7 +609,7 @@ OAuth.auth('facebook', req.session, {
 }</code></pre>
 </div>
 
-<p>We call OAuth Result the result object after an authorization. It lets you access the tokens, expires date etc. but also give you simple method to access others OAuth.io API (Make authorized API call to the provider, retrieve unified user data, and more). The OAuth Result will contains these fields:</p>
+<p>We call <strong>request object</strong> the result object you get after an authorization. It lets you access the tokens, expiry date etc. but also gives you simple methods to access others OAuth.io API (Make authorized API call to the provider, retrieve unified user data, and more). The request object will contains these fields:</p>
 
 <table><thead>
 <tr>
@@ -427,7 +665,7 @@ OAuth.auth('facebook', req.session, {
 
 <p>The access token can be sent to your backend to make API calls but, you can&rsquo;t be sure that the access token is a real one (as the user could fake a request with a wrong access token) so you need to make a test API call and see if it returns 200 (OK) or 401 (UNAUTHORIZED).</p>
 
-<p>As you can see, using the client side authorization, you won&rsquo;t have a <code class="prettyprint">refresh_token</code>. For this, take a look at the <code class="prettyprint">Server side authorization</code> section</p>
+<p>As you can see, using the client side authorization, you won&rsquo;t have a <code class="prettyprint">refresh_token</code>. For this, please take a look at the <code class="prettyprint">Server side authorization</code> section.</p>
 
 <p><aside class="notice">OAuth.io SDKs will extend the result with some usefull methods to access others OAuth.io APIs:</p>
 
@@ -450,6 +688,12 @@ OAuth.auth('facebook', req.session, {
 });</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+    $me = $request_object->get('/me');
+  </code></pre>
+</div>
+
 <div class="code-block Javascript">
   <pre><code class="highlight javascript">OAuth.popup(provider).then(function(oauthResult) {
   return oauthResult.get('/me');
@@ -460,7 +704,25 @@ OAuth.auth('facebook', req.session, {
 });</code></pre>
 </div>
 
-<p>The Request API allow you to make easily authorized API calls to the OAuth provider your user is connected. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc&hellip;). All parameters in the request will be sent to the provider as a proxy.</p>
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+// In a <OAuthIODelegate>
+- (void)didReceiveOAuthIOResponse:(OAuthIORequest *)request
+{
+    // The request object
+    _request_object = request;
+    
+    // Making a request
+    [_request_object get:@"/me" success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+    {
+        // logs the the user's information
+        NSLog(@"%@", body); 
+    }];
+}
+  </code></pre>
+</div>
+
+<p>The Request API allows you to easily perform authorized API calls to the OAuth provider from which you got a request object or credentials with the Token API. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will automatically fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc&hellip;). All the parameters in the request will be sent to the provider thanks to a proxy.</p>
 <h2 id='get'>GET</h2>
 <div class="code-block Node">
   <pre><code class="highlight javascript">oauthResult.get(url).then(function(data) {
@@ -476,6 +738,23 @@ OAuth.auth('facebook', req.session, {
 }).fail(function(err) {
   //todo with err
 });</code></pre>
+</div>
+
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$me = $request_object->get('/me');
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+// Making a request
+[_request_object get:@"/me" success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    // logs the the user's information
+    NSLog(@"%@", body); 
+}];
+  </code></pre>
 </div>
 
 <p>Allows you to perform <code class="prettyprint">GET</code> request to an API endpoint</p>
@@ -525,6 +804,25 @@ oauthResult.post('/1.1/statuses/update.json', {
 });</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->post('/me/feed', array(
+  'message' => 'Hello world'
+));
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+[data setValue:@"Hello world" forKey:@"message"];
+[_request post:@"/me/feed" withParams:data success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">POST</code> request to an API endpoint</p>
 
 <table><thead>
@@ -571,6 +869,25 @@ oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge')</code></pre>
 oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge');</code></pre>
 </div>
 
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->put('/some/endpoint', array(
+  'name' => 'My updated name'
+));
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+[data setValue:@"My updated name" forKey:@"message"];
+[_request put:@"/some/endpoint" withParams:data success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
+</div>
+
 <p>Allows you to perform <code class="prettyprint">PUT</code> request to an API endpoint</p>
 
 <table><thead>
@@ -604,6 +921,21 @@ oauthResult.put('/repos/oauth-io/oauthd/pulls/5/merge');</code></pre>
 
 //e.g Delete a status on Facebook
 oauthResult.del('/v2.2/:status_id')</code></pre>
+</div>
+
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->del('/some/endpoint/someid');
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+[_request del:@"/some/endpoint/someid" success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
 </div>
 
 <p>Allows you to perform <code class="prettyprint">DELETE</code> request to an API endpoint</p>
@@ -667,6 +999,25 @@ oauthResult.patch('/gists/1', {
     }
   }
 });</code></pre>
+</div>
+
+<div class="code-block PHP">
+  <pre><code class="highlight php">
+$request_object->patch('/some/endpoint', array(
+  'name' => 'My updated name'
+));
+  </code></pre>
+</div>
+
+<div class="code-block iOS">
+  <pre><code class="highlight objectivec">
+NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+[data setValue:@"My updated name" forKey:@"message"];
+[_request patch:@"/some/endpoint" withParams:data success:^(NSDictionary *output, NSString *body, NSHTTPURLResponse *httpResponse)
+{
+    NSLog(@"%@", body);
+}];
+  </code></pre>
 </div>
 
 <p>Allows you to perform <code class="prettyprint">PATCH</code> request to an API endpoint</p>
@@ -760,7 +1111,7 @@ res.me().done(function(me) {
 });</code></pre>
 </div>
 
-<p>This API allow you to retrieve your user&rsquo;s data in a unified way. That mean you don&rsquo;t have to make a bridge between APIs to retrieve user&rsquo;s info, all field sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
+<p>This API allows you to retrieve your user&rsquo;s data in a unified way. This means you don&rsquo;t have to make a bridge between APIs to retrieve user&rsquo;s info, all fields sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
 
 <p>The endpoint is accessible using REST</p>
 
@@ -873,9 +1224,9 @@ res.me().done(function(me) {
 </tbody></table>
 
           <h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
-<p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Key from stormpath and copy paste them in OAuth.io.</p>
+<p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.</p>
 
-<p><aside class="notice">This feature is in BETA, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside></p>
+<p><aside class="notice">This feature is in BETA state, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside></p>
 <h2 id='signup-your-user'>Signup your user</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signup(data).done(function(user) {
     //todo with `user`
@@ -896,7 +1247,7 @@ User.signup({
 });
 </code></pre></div>
 <h3 id='with-emailpassword'>With email/password</h3>
-<p>You can sign up you users using their email/password, this user will be store in Stormpath.</p>
+<p>You can sign up you users using their email/password. Users will be store in Stormpath.</p>
 
 <p><code class="prettyprint">data</code> is an object that must contains:</p>
 
@@ -907,7 +1258,7 @@ User.signup({
 <li>lastname</li>
 </ul>
 
-<p>You can add other data if you wish (free structure).</p>
+<p>You can add other pieces of data if you wish (the structure is free).</p>
 
 <p><br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
@@ -922,7 +1273,7 @@ User.signup({
 <h3 id='with-social-logins'>With social logins</h3>
 <p>You can also use the Token API to sign up your users with their social identity. <code class="prettyprint">provider</code> is the name of a provider on OAuth.io as <code class="prettyprint">facebook</code>, <code class="prettyprint">twitter</code>, <code class="prettyprint">google</code> and 100+ others.</p>
 
-<p>The provider need to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).</p>
+<p>The provider needs to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).</p>
 
 <p><br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(&#39;twitter&#39;).then(function(twitter) {
@@ -933,13 +1284,13 @@ User.signup({
 });
 </code></pre></div></p>
 <h3 id='handling-errors'>Handling errors</h3>
-<p>Some provider don&rsquo;t give their user&rsquo;s email in their API (it&rsquo;s the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.</p>
+<p>Some providers don&rsquo;t give their user&rsquo;s email in their API (it&rsquo;s the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.</p>
 <h2 id='signin-your-users'>Signin your users</h2>
-<p>Once your user has signed up, you can login them with their email password or with one of the social identity the user attached to his account.</p>
+<p>Once your user has signed up, you can log him/her in with his/her email password or with one of the social identity the user attached to his account.</p>
 
-<p>OAuth.io manage your user&rsquo;s session for you and give a simple API to let you know if the user is still logged in or not.</p>
+<p>OAuth.io manages your user&rsquo;s session for you and gives a simple API to let you know if the user is still logged in or not.</p>
 
-<p>During the beta, the session expires after 6h of inactivity but we are working to make this expiration configurable.</p>
+<p>During the beta, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.</p>
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signin(email, password).done(function(user) {
     console.log(user.data.firstname);
@@ -958,7 +1309,7 @@ User.signup({
 });
 </code></pre></div>
 <h3 id='with-social-logins'>With social logins</h3>
-<p>Note: For social login, the signin and signup are exactly the same functionality. If the user doesn&rsquo;t exist, it will automatically signup the user before to signin him.</p>
+<p>Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn&rsquo;t exist, it will automatically sign him/her up before to signing him/her in.</p>
 <h2 id='get-the-connected-user'>Get the connected user</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 </code></pre></div>
@@ -987,7 +1338,7 @@ user.save().done(function() {
     //handle `err``
 });</code></pre></div>
 
-<p>You can update all your user data and then, once you are done, just use the <code class="prettyprint">save()</code> method to save your changes in Stormpath. Fields has free structure so you can name them as you wish (just few fields name are protected for our use: <code class="prettyprint">_provider_*</code>).</p>
+<p>You can update all your user&rsquo;s data. Once you are done, just use the <code class="prettyprint">save()</code> method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: <code class="prettyprint">_provider_*</code>).</p>
 <h2 id='reset-password-or-lost-password'>Reset password (or lost password)</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.resetPassword(email).done(function() {
     //email sent to the user containing a key
@@ -1023,7 +1374,7 @@ user.removeProvider('google').done(function() {
 console.log(user.providers)
 </code></pre></div>
 <h3 id='from-cache'>From cache</h3>
-<p>When a user logged in, we store a local version of the providers list attached to this user so you can access it directly in the <code class="prettyprint">user</code> object.</p>
+<p>When a user logs in, we store a local version of the providers list attached to his/her account so you can access it directly in the <code class="prettyprint">user</code> object.</p>
 
 <p><br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
@@ -1031,17 +1382,17 @@ user.getProviders().done(function(providers) {
    console.log(providers);
 });</code></pre></div></p>
 <h3 id='from-the-api'>From the API</h3>
-<p>You can also get the list from the API to be sure it&rsquo;s synchronized with the backend.</p>
+<p>You can also get this list from the API to be sure it&rsquo;s synchronized with the backend.</p>
 <h2 id='logout'>Logout</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.logout().done(function() {
    //todo when logout
 });</code></pre></div>
 
-<p>You can logout your user from your application user the <code class="prettyprint">logout()</code> method. It will clear the session and all the cache associated with this user.</p>
+<p>You can log your user out from your application using the <code class="prettyprint">logout()</code> method. It will clear the session and all the associated cache.</p>
 
           <h1 id='contribute'>Contribute</h1>
-<p>You can contribute by cloning our OAuthd repository on GitHub and making a pull request.</p>
+<p>You can contribute by cloning our <a href="https://github.com/oauth-io/oauthd">oauthd repository</a>, or any of our SDK&rsquo;s repositories  on GitHub (please check <a href="https://github.com/oauth-io">this repository list</a>) and making a pull request.</p>
 <h2 id='issues'>Issues</h2>
 <p>If you have any issue using OAuth.io, you can:</p>
 
@@ -1052,30 +1403,32 @@ user.logout().done(function() {
 <li><p>You can ping us on Twitter with the mention <a href="https://twitter.com/oauth_io">@oauth_io</a></p></li>
 </ul>
 
-<p>We try to be reactive on every channel!</p>
+<p>We try to be as reactive as possible on every channel, according to the support questions load, and to the chosen plan (paying customers have the priority on support).</p>
 <h2 id='adding-providers-to-oauth-io'>Adding Providers to OAuth.io</h2>
-<p>It&rsquo;s easy to add new OAuth providers in OAuth.io using our configuration file format.</p>
+<p>You can easily add new OAuth providers in OAuth.io by using our configuration file format.</p>
 
-<p>The format is <a href="https://github.com/oauth-io/oauthd/wiki/Specs:-Provider's-configuration">explained here</a> and you can find all existing OAuth providers on our <a href="https://github.com/oauth-io/oauthd/tree/master/providers">GitHub repository</a>.</p>
+<p>The format is <a href="https://github.com/oauth-io/oauthd/wiki/Specs:-Provider's-configuration">explained here</a> and you can find all the existing OAuth providers on our <a href="https://github.com/oauth-io/oauthd/tree/master/providers">GitHub repository</a>.</p>
 
-<p>Once you&rsquo;ve implemented your provider, you can test it using <a href="https://github.com/oauth-io/oauthd">oauthd</a>, the opensource version of OAuth.io and then, just pull request it and we&rsquo;ll merge it into OAuth.io as soon as we can.</p>
+<p>Once you&rsquo;ve implemented your provider, you can test it using <a href="https://github.com/oauth-io/oauthd">oauthd</a>, the opensource version of OAuth.io and then, just make a pull request and we&rsquo;ll merge it into OAuth.io as soon as we can.</p>
 
 <p>A provider contains 4 simple files:</p>
 
 <ul>
-<li><strong>your_provider.json</strong> The OAuth provider&rsquo;s JSON file (e.g. facebook.json)</li>
+<li><strong>conf.json</strong> The OAuth provider&rsquo;s JSON file (e.g. facebook.json)</li>
 <li><strong>settings.json</strong> - Some settings for users who want to add the OAuth provider in OAuth.io (e.g. the link and screenshot where developers can create an application with your provider)</li>
 <li><strong>logo.png</strong> - The logo of the OAuth provider</li>
 <li><strong>me.js</strong> (optional) - A file used to retrieve the user information in a unified way.</li>
 </ul>
 <h2 id='pull-request-bug-fixes--providers--typos'>Pull request (bug fixes / providers / typos)</h2>
-<p>You&rsquo;re welcome to fork our repositories on GitHub to make pull requests. We&rsquo;ll review each of them, and integrate them in a future release, if they are relevant.</p>
+<p>You&rsquo;re welcome to fork our repositories on GitHub to make pull requests. We&rsquo;ll review each of them, and integrate all the relevant changes in a future release.</p>
 
-<p>In every repository, we have included notes in the README file to show you how to test your feature.</p>
-<h3 id='oauthd'>OAuthd</h3>
+<p>In every repository, we have included notes in the README.md file to show you how to test your feature.</p>
+<h3 id='oauthd'>oauthd</h3>
 <p>Fork <a href="https://github.com/oauth-io/oauthd">the repository</a> to implement your feature / bug fixes.</p>
 
-<p>Then you can run the local server using <code class="prettyprint">grunt server</code> to try it. From there, you can start the test suite using <code class="prettyprint">grunt test</code>.</p>
+<p>You can use <code class="prettyprint">npm link</code> to use the <code class="prettyprint">oauthd</code> command anywhere in your console, and create test instances.</p>
+
+<p>OAuth.io is an oauthd instance, so if you find and fix bugs in oauthd, the changes will also be on OAuth.io. </p>
 <h3 id='sdks'>SDKs</h3>
 <p>You can fork all the SDKs from GitHub in your favorite language. Every SDK (except iOS for the moment) has a test suite than can be launched in a standard way to try your feature / bug fixes.</p>
 <h3 id='documentation'>Documentation</h3>
