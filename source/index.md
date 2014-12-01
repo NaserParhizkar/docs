@@ -34,13 +34,13 @@ search: true
 (_____)(_) (_)`\___/'`\__)(_) (_)()(_)`\___/
 </code></pre></div>
 
-OAuth.io helps you to emboard your users with a suite of services easy to use.
+OAuth.io helps you to onboard your users with a suite of services easy to use.
 
-- **Token API**: Authorize your user on one of our [120+ OAuth provider](https://oauth.io/providers).
+- **Token API**: Authorize your client apps on one of our [120+ OAuth provider](https://oauth.io/providers).
 
 - **Request API**: Make authorized API calls to those OAuth providers in a simple way.
 
-- **User Data API**: Get the unified user's information of your users.
+- **User Data API**: Get the authenticated user's unified information.
 
 - **User Management API**: Signup/signin your user without any backend using multiple social identity.
 
