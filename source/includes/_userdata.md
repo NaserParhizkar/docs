@@ -12,7 +12,7 @@ res.me().done(function(me) {
 });</code></pre>
 </div>
 
-This API allow you to retrieve your user's data in a unified way. That mean you don't have to make a bridge between APIs to retrieve user's info, all field sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.
+This API allows you to retrieve your user's data in a unified way. This means you don't have to make a bridge between APIs to retrieve user's info, all fields sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.
 
 The endpoint is accessible using REST
 
