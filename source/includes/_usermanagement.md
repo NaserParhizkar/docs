@@ -3,9 +3,9 @@
 
 ## Installation
 
-You need to enable the User Management feature in your OAuth.io dashboard in the `users` tab. For that, you need to get API Key from stormpath and copy paste them in OAuth.io.
+You need to enable the User Management feature in your OAuth.io dashboard in the `users` tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.
 
-<aside class="notice">This feature is in BETA, don't hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside>
+<aside class="notice">This feature is in BETA state, don't hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside>
 
 ## Signup your user
 
@@ -30,7 +30,7 @@ User.signup({
 
 ### With email/password
 
-You can sign up you users using their email/password, this user will be store in Stormpath.
+You can sign up you users using their email/password. Users will be store in Stormpath.
 
 `data` is an object that must contains:
 
@@ -39,7 +39,7 @@ You can sign up you users using their email/password, this user will be store in
 * firstname
 * lastname
 
-You can add other data if you wish (free structure).
+You can add other pieces of data if you wish (the structure is free).
 
 <br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
@@ -56,7 +56,7 @@ You can add other data if you wish (free structure).
 
 You can also use the Token API to sign up your users with their social identity. `provider` is the name of a provider on OAuth.io as `facebook`, `twitter`, `google` and 100+ others.
 
-The provider need to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).
+The provider needs to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).
 
 <br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup('twitter').then(function(twitter) {
@@ -69,15 +69,15 @@ The provider need to have the User API enabled to work properly (you can see it 
 
 ### Handling errors
 
-Some provider don't give their user's email in their API (it's the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.
+Some providers don't give their user's email in their API (it's the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.
 
 ## Signin your users
 
-Once your user has signed up, you can login them with their email password or with one of the social identity the user attached to his account.
+Once your user has signed up, you can log him/her in with his/her email password or with one of the social identity the user attached to his account.
 
-OAuth.io manage your user's session for you and give a simple API to let you know if the user is still logged in or not.
+OAuth.io manages your user's session for you and gives a simple API to let you know if the user is still logged in or not.
 
-During the beta, the session expires after 6h of inactivity but we are working to make this expiration configurable.
+During the beta, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signin(email, password).done(function(user) {
     console.log(user.data.firstname);
@@ -100,7 +100,7 @@ During the beta, the session expires after 6h of inactivity but we are working t
 
 ### With social logins
 
-Note: For social login, the signin and signup are exactly the same functionality. If the user doesn't exist, it will automatically signup the user before to signin him.
+Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn't exist, it will automatically sign him/her up before to signing him/her in.
 
 ## Get the connected user
 
@@ -139,7 +139,7 @@ user.save().done(function() {
     //handle `err``
 });</code></pre></div>
 
-You can update all your user data and then, once you are done, just use the `save()` method to save your changes in Stormpath. Fields has free structure so you can name them as you wish (just few fields name are protected for our use: `_provider_*`).
+You can update all your user's data. Once you are done, just use the `save()` method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: `_provider_*`).
 
 ## Reset password (or lost password)
 
@@ -187,7 +187,7 @@ console.log(user.providers)
 
 ### From cache
 
-When a user logged in, we store a local version of the providers list attached to this user so you can access it directly in the `user` object.
+When a user logs in, we store a local version of the providers list attached to his/her account so you can access it directly in the `user` object.
 
 <br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
@@ -197,7 +197,7 @@ user.getProviders().done(function(providers) {
 
 ### From the API
 
-You can also get the list from the API to be sure it's synchronized with the backend.
+You can also get this list from the API to be sure it's synchronized with the backend.
 
 ## Logout
 
@@ -206,4 +206,4 @@ user.logout().done(function() {
    //todo when logout
 });</code></pre></div>
 
-You can logout your user from your application user the `logout()` method. It will clear the session and all the cache associated with this user.
+You can log your user out from your application using the `logout()` method. It will clear the session and all the associated cache.
