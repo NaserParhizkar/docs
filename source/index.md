@@ -4,10 +4,8 @@ title: OAuth.io API Reference
 language_tabs:
   - javascript: Javascript
   - objectivec: iOS
-  - java: Android
   - php: PHP
   - javascript: Node
-  - go: Go
 
 toc_footers:
   - <a href='https://oauth.io'>Back to OAuth.io</a>
@@ -19,7 +17,6 @@ includes:
   - token
   - request
   - userdata
-  - usermanagement
   - contribute
 search: true
 ---
