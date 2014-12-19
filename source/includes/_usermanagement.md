@@ -109,12 +109,18 @@ Note: For social logins, the signin and signup steps are exactly the same featur
 
 ### From cache
 
+When the user logged in, we store in cookie his identity (information, providers linked etc.). You can access this cached version instantly using the SDK with `User.getIdentity()`.
+
+It returns the same data structure as the API version: `User.refreshIdentity()`.
+
 <br style="clear:both">
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.refreshIdentity().done(function(user) {
     //todo with `user`
 })</code></pre></div>
 
 ### From the API
+
+Retrieve the latest change done to your user.
 
 ## Know if the user is authenticated
 
@@ -124,6 +130,8 @@ Note: For social logins, the signin and signup steps are exactly the same featur
 else {
     //todo with unauthenticated user
 }</code></pre></div>
+
+This method will check if the authorization cookie has been detected in the user's browser. It returns `true` or `false`
 
 ## Update your user data
 
@@ -151,14 +159,18 @@ You can update all your user's data. Once you are done, just use the `save()` me
 User.confirmResetPassword(newPassword, key);
 </code></pre></div>
 
+The reset flow is used when a user try to login and don't find his password. It will send an email to the user with a `key` (to check his identity using his email). If the user is able to send the code on another page, he can change his password using this `key`.
 
 ## Change password
 
 > Coming soon
 
+This feature is not released yet but will be used to change the password of the user (this option is often in the setting page of an account). The user can use it if he knows his current password to confirm his identity.
+
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.changePassword(oldPassword, newPassword);
 </code></pre></div>
+
 
 ## Attach social identity to an account
 
@@ -170,6 +182,8 @@ OAuth.popup('google').then(function(google) {
    //Your user are now able to signin with Google
 });</code></pre></div>
 
+You can attach a social identity to an account easily. That mean at the next signin, he will be able to signin with another configured provider. A user can this way connect with more than one provider securely.
+
 ## Remove social identity to an account
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
@@ -178,6 +192,7 @@ user.removeProvider('google').done(function() {
    //Your user are now able to signin with Google
 });</code></pre></div>
 
+A user can detach a social identity to his account. Once a provider is detached, the user won't be able to login with it again, he need to re-attach it to login with it.
 
 ## The list of providers attached to an account
 

@@ -17,6 +17,7 @@ includes:
   - token
   - request
   - userdata
+  - usermanagement
   - contribute
 search: true
 ---
