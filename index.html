@@ -1221,6 +1221,190 @@ res.me().done(function(me) {
 </tr>
 </tbody></table>
 
+          <h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
+<p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.</p>
+
+<p><aside class="notice">This feature is in BETA state, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside></p>
+<h2 id='signup-your-user'>Signup your user</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.signup(data).done(function(user) {
+    //todo with `user`
+});
+
+User.signup({
+   email: 'john.doe@gmail.com',
+   password: 'St0ngP4ssw0rd!',
+   firstname: 'John',
+   lastname: 'Doe',
+   company: 'X Corp',
+   age: 47
+}).done(function(user) {
+   //here, your user is logged in
+   console.log(user.data.firstname);
+}).fail(function(err) {
+   //todo with `err`
+});
+</code></pre></div>
+<h3 id='with-emailpassword'>With email/password</h3>
+<p>You can sign up you users using their email/password. Users will be store in Stormpath.</p>
+
+<p><code class="prettyprint">data</code> is an object that must contains:</p>
+
+<ul>
+<li>email</li>
+<li>password</li>
+<li>firstname</li>
+<li>lastname</li>
+</ul>
+
+<p>You can add other pieces of data if you wish (the structure is free).</p>
+
+<p><br style="clear:both;">
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
+    return User.signup(res)
+}).done(function(user) {
+   //here, your user is logged in
+   console.log(user.data.firstname);
+}).fail(function(err) {
+   //todo with <code class="prettyprint">err</code>
+});
+</code></pre></div></p>
+<h3 id='with-social-logins'>With social logins</h3>
+<p>You can also use the Token API to sign up your users with their social identity. <code class="prettyprint">provider</code> is the name of a provider on OAuth.io as <code class="prettyprint">facebook</code>, <code class="prettyprint">twitter</code>, <code class="prettyprint">google</code> and 100+ others.</p>
+
+<p>The provider needs to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).</p>
+
+<p><br style="clear:both;">
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(&#39;twitter&#39;).then(function(twitter) {
+    twitter.email = &quot;john.doe@gmail.com&quot;;
+    return User.signup(twitter);
+}).done(function(user) {
+    //todo with <code class="prettyprint">user</code>
+});
+</code></pre></div></p>
+<h3 id='handling-errors'>Handling errors</h3>
+<p>Some providers don&rsquo;t give their user&rsquo;s email in their API (it&rsquo;s the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.</p>
+<h2 id='signin-your-users'>Signin your users</h2>
+<p>Once your user has signed up, you can log him/her in with his/her email password or with one of the social identity the user attached to his account.</p>
+
+<p>OAuth.io manages your user&rsquo;s session for you and gives a simple API to let you know if the user is still logged in or not.</p>
+
+<p>During the beta, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.</p>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.signin(email, password).done(function(user) {
+    console.log(user.data.firstname);
+}).fail(function(err) {
+    // email/password incorrect.
+});</code></pre></div>
+<h3 id='with-emailpassword'>With email/password</h3>
+<p><br style="clear:both"></p>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
+    return User.signin(res);
+}).done(function(user) {
+    console.log(user.data.firstname);
+}).fail(function(err) {
+    //todo with err
+});
+</code></pre></div>
+<h3 id='with-social-logins'>With social logins</h3>
+<p>Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn&rsquo;t exist, it will automatically sign him/her up before to signing him/her in.</p>
+<h2 id='get-the-connected-user'>Get the connected user</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+</code></pre></div>
+<h3 id='from-cache'>From cache</h3>
+<p>When the user logged in, we store in cookie his identity (information, providers linked etc.). You can access this cached version instantly using the SDK with <code class="prettyprint">User.getIdentity()</code>.</p>
+
+<p>It returns the same data structure as the API version: <code class="prettyprint">User.refreshIdentity()</code>.</p>
+
+<p><br style="clear:both">
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.refreshIdentity().done(function(user) {
+    //todo with <code class="prettyprint">user</code>
+})</code></pre></div></p>
+<h3 id='from-the-api'>From the API</h3>
+<p>Retrieve the latest change done to your user.</p>
+<h2 id='know-if-the-user-is-authenticated'>Know if the user is authenticated</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">if (User.isLogged()) {
+    //todo with authenticated user
+}
+else {
+    //todo with unauthenticated user
+}</code></pre></div>
+
+<p>This method will check if the authorization cookie has been detected in the user&rsquo;s browser. It returns <code class="prettyprint">true</code> or <code class="prettyprint">false</code></p>
+<h2 id='update-your-user-data'>Update your user data</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity()
+user.data.firstname = 'Thomas';
+user.data.someData = {
+    a: 42,
+    b: "some string"
+}
+user.save().done(function() {
+    //todo when saved
+}).fail(function(err) {
+    //handle `err``
+});</code></pre></div>
+
+<p>You can update all your user&rsquo;s data. Once you are done, just use the <code class="prettyprint">save()</code> method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: <code class="prettyprint">_provider_*</code>).</p>
+<h2 id='reset-password-or-lost-password'>Reset password (or lost password)</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">User.resetPassword(email).done(function() {
+    //email sent to the user containing a key
+});
+
+//then...
+User.confirmResetPassword(newPassword, key);
+</code></pre></div>
+
+<p>The reset flow is used when a user try to login and don&rsquo;t find his password. It will send an email to the user with a <code class="prettyprint">key</code> (to check his identity using his email). If the user is able to send the code on another page, he can change his password using this <code class="prettyprint">key</code>.</p>
+<h2 id='change-password'>Change password</h2>
+<blockquote>
+<p>Coming soon</p>
+</blockquote>
+
+<p>This feature is not released yet but will be used to change the password of the user (this option is often in the setting page of an account). The user can use it if he knows his current password to confirm his identity.</p>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.changePassword(oldPassword, newPassword);
+</code></pre></div>
+<h2 id='attach-social-identity-to-an-account'>Attach social identity to an account</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+OAuth.popup('google').then(function(google) {
+   return user.addProvider(google);
+}).done(function() {
+   //provider attached
+   //Your user are now able to signin with Google
+});</code></pre></div>
+
+<p>You can attach a social identity to an account easily. That mean at the next signin, he will be able to signin with another configured provider. A user can this way connect with more than one provider securely.</p>
+<h2 id='remove-social-identity-to-an-account'>Remove social identity to an account</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.removeProvider('google').done(function() {
+   //provider detached
+   //Your user are now able to signin with Google
+});</code></pre></div>
+
+<p>A user can detach a social identity to his account. Once a provider is detached, the user won&rsquo;t be able to login with it again, he need to re-attach it to login with it.</p>
+<h2 id='the-list-of-providers-attached-to-an-account'>The list of providers attached to an account</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+console.log(user.providers)
+</code></pre></div>
+<h3 id='from-cache'>From cache</h3>
+<p>When a user logs in, we store a local version of the providers list attached to his/her account so you can access it directly in the <code class="prettyprint">user</code> object.</p>
+
+<p><br style="clear:both;">
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.getProviders().done(function(providers) {
+   console.log(providers);
+});</code></pre></div></p>
+<h3 id='from-the-api'>From the API</h3>
+<p>You can also get this list from the API to be sure it&rsquo;s synchronized with the backend.</p>
+<h2 id='logout'>Logout</h2>
+<div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+user.logout().done(function() {
+   //todo when logout
+});</code></pre></div>
+
+<p>You can log your user out from your application using the <code class="prettyprint">logout()</code> method. It will clear the session and all the associated cache.</p>
+
           <h1 id='contribute'>Contribute</h1>
 <p>You can contribute by cloning our <a href="https://github.com/oauth-io/oauthd">oauthd repository</a>, or any of our SDK&rsquo;s repositories  on GitHub (please check <a href="https://github.com/oauth-io">this repository list</a>) and making a pull request.</p>
 <h2 id='issues'>Issues</h2>
