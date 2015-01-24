@@ -292,7 +292,7 @@ public function authAction() {
 </div>
 
 <div class="code-block Javascript iOS Android">
-  <pre>POST https://oauth.io/auth/facebook
+  <pre>POST https://oauth.io/auth/access_token
 Body:
   code=ePLi3...EQfdq
   key=public_key
