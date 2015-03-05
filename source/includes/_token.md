@@ -143,7 +143,7 @@ In the same way as for the client-side authorization, you need to add a provider
 
 You can also set the both mode to get a copy of the access_token client side too (and use all of the results method).
 
-## Redirection from the backend
+## Simple server-side authorization
 
 <div class="code-block Node">
   <pre><code class="highlight javascript">// Syntax
@@ -168,20 +168,41 @@ app.get('/oauth/redirect', OAuth.redirect(function(result, req, res) {
 
 <div class="code-block PHP">
   <pre style="padding-bottom: 0px"><code class="highlight php">
-// in /oauth/signin-with-google
-$oauth->redirect('google', '/oauth/redirect');
+//Syntaxe
+//in the Authorize endpoint
+$oauth->redirect(provider, urlToRedirect);
+
+//in the Redirect endpoint
+$oauth->auth(provider, array('redirect' => true));
 
 <hr style="border:0px solid black; background-color: #666; height: 1px">
-// in /oauth/redirect
-$request_object = $oauth->auth('google', array(
-  'redirect' => true
-));
-//Your user is now authorized by Google
-//You can use $request_object to make API calls on behalf of the user</code></pre>
+// Exemple with Google (using ZendFramwork, Controller /oauth)
+// Action /signin (url: /oauth/authorize)
+public function signinAction() {
+    try {
+        $this->oauth->redirect('google', '/oauth/redirect');
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+// Action /redirect (url: /oauth/redirect)
+public function redirectAction() {
+    try {
+        $request_object = $this->oauth->auth('google', array(
+            'redirect' => true
+        ));
+    } catch (\Exception $e) {
+        die($e->getMessage());
+    }
+    //Your user is authorized by Google
+    //You can use $request_object to make API calls on behalf of your user
+}
+</code></pre>
   <pre style="margin-top: 0px; padding-top: 0"><code class="highlight html">
 <hr style="border:0px solid black; background-color: #666; height: 1px">
 &lt;!-- In your html --&gt;
-&lt;a href="/oauth/signin-with-google"&gt;&lt;/a&gt;
+&lt;a href="/oauth/signin"&gt;&lt;/a&gt;
   </code></pre>
 </div>
 
@@ -197,7 +218,7 @@ You need to define 2 endpoints:
 
 - then they will be redirected to the second endpoint (`redirectEndpoint`) with the `result` of the authorization in the callback.
 
-In the HTML of your webapp, you just have to create a link to the first endpoint to start the authorization flow `<a href="/signin">Signin with </a>`
+In the HTML of your webapp, you just have to create a link to the first endpoint to start the authorization flow `<a href="/url/to/authorizeEndpoint">Signin</a>`
 
 If an error occured, the error is placed in the `result`.
 
