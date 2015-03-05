@@ -167,31 +167,21 @@ app.get('/oauth/redirect', OAuth.redirect(function(result, req, res) {
 </div>
 
 <div class="code-block PHP">
-  <pre><code class="highlight php">
-// Example with Zend - /signin action
-public function signinAction() {
-    try {
-        $stuff = $this->oauth->redirect('google', '/oauth/redirect');
-        echo $stuff;
-        return 'lolol';
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
-}
+  <pre style="padding-bottom: 0px"><code class="highlight php">
+// in /oauth/signin-with-google
+$oauth->redirect('google', '/oauth/redirect');
 
-// Example with Zend - /oauth/redirect action
-public function redirectAction() {
-    try {
-        $request_object = $this->oauth->auth('google', array(
-            'redirect' => true
-        ));    
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-        die();
-    }
-    return new ViewModel(array());
-}
-
+<hr style="border:0px solid black; background-color: #666; height: 1px">
+// in /oauth/redirect
+$request_object = $oauth->auth('google', array(
+  'redirect' => true
+));
+//Your user is now authorized by Google
+//You can use $request_object to make API calls on behalf of the user</code></pre>
+  <pre style="margin-top: 0px; padding-top: 0"><code class="highlight html">
+<hr style="border:0px solid black; background-color: #666; height: 1px">
+&lt;!-- In your html --&gt;
+&lt;a href="/oauth/signin-with-google"&gt;&lt;/a&gt;
   </code></pre>
 </div>
 
