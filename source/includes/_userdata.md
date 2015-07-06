@@ -11,6 +11,28 @@ res.me().done(function(me) {
   //todo when the OAuth flow failed
 });</code></pre>
 </div>
+<div class="code-block Android">
+  <pre><code class="highlight java">oauth.popup("facebook", new OAuthCallback() {
+    @Override
+    public void onFinished(OAuthData data) {
+        if (data.status.equals("error"))
+            activity.displayError(data.error);
+        else {
+            data.me(new OAuthJSONCallback() {
+                @Override
+                public void onFinished(JSONObject me) {
+                    display(me.getString("name"));
+                }
+
+                @Override
+                public void onError(String message) {
+
+                }
+            });
+        }
+    }
+});</code></pre>
+</div>
 
 This API allows you to retrieve your user's data in a unified way. This means you don't have to make a bridge between APIs to retrieve user's info, all fields sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.
 
@@ -20,7 +42,7 @@ The endpoint is accessible using REST
 
 ## Fields
 
-<div class="code-block Javascript Phonegap"><pre><code class="highlight json">{
+<div class="code-block Javascript Phonegap Android"><pre><code class="highlight json">{
   "id": "1234",
   "name": "John Doe",
   "firstname": "John",

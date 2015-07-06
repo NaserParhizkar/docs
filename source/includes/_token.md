@@ -45,6 +45,21 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
   </code></pre>
 </div>
 
+<div class="code-block Android">
+<pre><code class="highlight java">
+oauth.popup("facebook", new OAuthCallback() {
+    @Override
+    public void onFinished(OAuthData data) {
+        if (data.status.equals("error"))
+            activity.displayError(data.error);
+        else {
+            // Do API calls with data
+        }
+    }
+});
+</code></pre>
+</div>
+
 This mode asks the user's authorization in a simple popup.
 This gives you a request object, which allows you to perform API calls, or to retrieve the credentials (i.e. access or oauth tokens).
 

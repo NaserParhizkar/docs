@@ -6,6 +6,7 @@ language_tabs:
   - objectivec: iOS
   - php: PHP
   - javascript: Node
+  - java: Android
 
 toc_footers:
   - <a href='https://oauth.io'>Back to OAuth.io</a>

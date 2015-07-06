@@ -5,9 +5,10 @@
 
 You need to enable the User Management feature in your OAuth.io dashboard in the `users` tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.
 
-<aside class="notice">This feature is in BETA state, don't hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside>
+<aside class="notice">This feature is in BETA state, don't hesitate to give your feedback. During this period, only the Javascript SDK and Android SDK can use this API but others SDKs are in the roadmap.</aside>
 
-## Signup your user
+<div class="code-block Android"><pre><code class="highlight java">users = new OAuthUsers(oauth);
+</code></pre></div>
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signup(data).done(function(user) {
     //todo with `user`
@@ -25,6 +26,27 @@ User.signup({
    console.log(user.data.firstname);
 }).fail(function(err) {
    //todo with `err`
+});
+</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">Hashtable<String, String>infos = new Hashtable<>();
+infos.put("firstname", "John");
+infos.put("lastname", "Doe");
+infos.put("email", "john.doe@gmail.com");
+infos.put("password", "St0ngP4ssw0rd!");
+// ...
+
+users.signup(infos, new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // receive your identity
+        OAuthUser id = users.getIdentity();
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
 });
 </code></pre></div>
 
@@ -52,6 +74,26 @@ You can add other pieces of data if you wish (the structure is free).
 });
 </code></pre></div>
 
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+    if (data.status.equals("error"))
+        displayError(data.error);
+    else {
+        users.signup(data, new OAuthUserCallback() {
+            @Override
+            public void onFinished() {
+                // receive your identity
+                OAuthUser id = users.getIdentity();
+            }
+
+            @Override
+            public void onError(String message) {
+                displayError(message);
+            }
+        });
+    }
+}
+</code></pre></div>
 ### With social logins
 
 You can also use the Token API to sign up your users with their social identity. `provider` is the name of a provider on OAuth.io as `facebook`, `twitter`, `google` and 100+ others.
@@ -65,6 +107,28 @@ The provider needs to have the User API enabled to work properly (you can see it
 }).done(function(user) {
     //todo with `user`
 });
+</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+  if (data.status.equals("error"))
+      displayError(data.error);
+  else {
+    Hashtable<String, String> infos = new Hashtable<>();
+    infos.put("email", "john.doe@gmail.com");
+    // ...
+    users.signup(data, infos, new OAuthUserCallback() {
+      @Override
+      public void onFinished() {
+          // receive your identity
+          OAuthUser id = users.getIdentity();
+      }
+      @Override
+      public void onError(String message) {
+          displayError(message);
+      }
+    });
+  }
+}
 </code></pre></div>
 
 ### Handling errors
@@ -84,6 +148,19 @@ During the beta, the session expires after 6 hours of inactivity but we are work
 }).fail(function(err) {
     // email/password incorrect.
 });</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">users.signin(email, password, new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // receive your identity
+        OAuthUser id = users.getIdentity();
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div>
 
 ### With email/password
 
@@ -97,6 +174,25 @@ During the beta, the session expires after 6 hours of inactivity but we are work
     //todo with err
 });
 </code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+    if (data.status.equals("error"))
+        displayError(data.error);
+    else
+        users.signin(data, new OAuthUserCallback() {
+            @Override
+            public void onFinished() {
+                // receive your identity
+                OAuthUser id = users.getIdentity();
+            }
+
+            @Override
+            public void onError(String message) {
+                displayError(message);
+            }
+        });
+}
+</code></pre></div>
 
 ### With social logins
 
@@ -105,6 +201,8 @@ Note: For social logins, the signin and signup steps are exactly the same featur
 ## Get the connected user
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser id = users.getIdentity();
 </code></pre></div>
 
 ### From cache
@@ -117,6 +215,19 @@ It returns the same data structure as the API version: `User.refreshIdentity()`.
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.refreshIdentity().done(function(user) {
     //todo with `user`
 })</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user;
+// ...
+user.refreshIdentity(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // user data updated
+    }
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div>
 
 ### From the API
 
@@ -125,6 +236,12 @@ Retrieve the latest change done to your user.
 ## Know if the user is authenticated
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">if (User.isLogged()) {
+    //todo with authenticated user
+}
+else {
+    //todo with unauthenticated user
+}</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">if (users.isLogged()) {
     //todo with authenticated user
 }
 else {
@@ -146,6 +263,20 @@ user.save().done(function() {
 }).fail(function(err) {
     //handle `err``
 });</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user = users.getIdentity();
+user.data.put("firstname", "Thomas");
+user.data.put("someData", "some string");
+user.saveIdentity(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // user data saved
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});</code></pre></div>
 
 You can update all your user's data. Once you are done, just use the `save()` method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: `_provider_*`).
 
@@ -157,6 +288,18 @@ You can update all your user's data. Once you are done, just use the `save()` me
 
 //then...
 User.confirmResetPassword(newPassword, key);
+</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">users.resetPassword(email, new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // reset email sent
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
 </code></pre></div>
 
 The reset flow is used when a user try to login and don't find his password. It will send an email to the user with a `key` (to check his identity using his email). If the user is able to send the code on another page, he can change his password using this `key`.
@@ -179,8 +322,29 @@ OAuth.popup('google').then(function(google) {
    return user.addProvider(google);
 }).done(function() {
    //provider attached
-   //Your user are now able to signin with Google
+   //Your user is now able to signin with Google
 });</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+    if (data.status.equals("error"))
+        displayError(data.error);
+    else {
+        OAuthUser user = users.getIdentity();
+        user.addProvider(data.provider, new OAuthUserCallback() {
+            @Override
+            public void onFinished() {
+                // provider attached
+                // Your user is now able to signin with data.provider
+            }
+
+            @Override
+            public void onError(String message) {
+                displayError(message);
+            }
+        });
+    }
+}
+</code></pre></div>
 
 You can attach a social identity to an account easily. That mean at the next signin, he will be able to signin with another configured provider. A user can this way connect with more than one provider securely.
 
@@ -189,8 +353,20 @@ You can attach a social identity to an account easily. That mean at the next sig
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.removeProvider('google').done(function() {
    //provider detached
-   //Your user are now able to signin with Google
 });</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user = users.getIdentity();
+user.removeProvider("google", new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // provider detached from google
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div>
 
 A user can detach a social identity to his account. Once a provider is detached, the user won't be able to login with it again, he need to re-attach it to login with it.
 
@@ -198,6 +374,9 @@ A user can detach a social identity to his account. Once a provider is detached,
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 console.log(user.providers)
+</code></pre></div>
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuthUser user = users.getIdentity();
+// providers list is available in user.providers
 </code></pre></div>
 
 ### From cache
@@ -209,6 +388,19 @@ When a user logs in, we store a local version of the providers list attached to 
 user.getProviders().done(function(providers) {
    console.log(providers);
 });</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user;
+// ...
+user.getProviders(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // providers list is available in user.providers
+    }
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div>
 
 ### From the API
 
@@ -219,6 +411,17 @@ You can also get this list from the API to be sure it's synchronized with the ba
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.logout().done(function() {
    //todo when logout
+});</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user = users.getIdentity();
+user.logout(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // user is logout and his token is expired
+    }
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
 });</code></pre></div>
 
 You can log your user out from your application using the `logout()` method. It will clear the session and all the associated cache.

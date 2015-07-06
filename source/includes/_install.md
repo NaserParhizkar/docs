@@ -12,6 +12,22 @@ You can use CocoaPods to install OAuth.io in your iOS project
 </pre>
 </div>
 
+<div class="code-block Android">
+<pre>Download the android library:
+
+<code class="highlight bash">wget https://github.com/oauth-io/oauth-android/archive/master.zip</code>
+
+or clone it from github:
+
+<code class="highlight bash">git clone git@github.com:oauth-io/oauth-android</code>
+
+and import the oauthio folder into your project folder as a module.
+
+If you are not using Android Studio, you need to add this persmission into your `AndroidManifest.xml` file:
+
+<code class="highlight xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
+</div>
+
 <div class="code-block iOS">
     <pre><code class="highlight bash">
 # add this line to your Podfile:
@@ -108,6 +124,17 @@ $oauth->initialize('Your-public-key', 'Your-secret-key');
 </code></pre>
 </div>
 
+<div class="code-block Android">
+    <pre><code class="highlight java">
+import io.oauth.OAuth;
+</code>
+...
+<code class="highlight java">
+oauth = new OAuth(getActivity());
+// Initialize the SDK
+oauth.initialize("Your-public-key");
+</code></pre>
+</div>
 
 
 When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pari to initialize the SDK later on.
