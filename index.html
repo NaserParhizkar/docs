@@ -15,7 +15,7 @@
 
       <script>
         $(function() {
-          setupLanguages([{"javascript":"Javascript"},{"objectivec":"iOS"},{"php":"PHP"},{"javascript":"Node"}]);
+          setupLanguages([{"javascript":"Javascript"},{"objectivec":"iOS"},{"php":"PHP"},{"javascript":"Node"},{"java":"Android"}]);
         });
       </script>
   </head>
@@ -33,6 +33,7 @@
               <a href="#" data-language-name="objectivec">iOS</a>
               <a href="#" data-language-name="php">PHP</a>
               <a href="#" data-language-name="javascript">Node</a>
+              <a href="#" data-language-name="java">Android</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -78,6 +79,22 @@
     <pre>
 You can use CocoaPods to install OAuth.io in your iOS project
 </pre>
+</div>
+
+<div class="code-block Android">
+<pre>Download the android library:
+
+<code class="highlight bash">wget https://github.com/oauth-io/oauth-android/archive/master.zip</code>
+
+or clone it from github:
+
+<code class="highlight bash">git clone git@github.com:oauth-io/oauth-android</code>
+
+and import the oauthio folder into your project folder as a module.
+
+If you are not using Android Studio, you need to add this persmission into your `AndroidManifest.xml` file:
+
+<code class="highlight xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
 </div>
 
 <div class="code-block iOS">
@@ -176,6 +193,18 @@ $oauth->initialize('Your-public-key', 'Your-secret-key');
 </code></pre>
 </div>
 
+<div class="code-block Android">
+    <pre><code class="highlight java">
+import io.oauth.OAuth;
+</code>
+...
+<code class="highlight java">
+oauth = new OAuth(getActivity());
+// Initialize the SDK
+oauth.initialize("Your-public-key");
+</code></pre>
+</div>
+
 <p>When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pari to initialize the SDK later on.</p>
 
 <p><aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside></p>
@@ -220,6 +249,21 @@ OAuth.popup('twitter', {cache: true}).done(function(twitter) {
     _request_object = request;
 }
   </code></pre>
+</div>
+
+<div class="code-block Android">
+<pre><code class="highlight java">
+oauth.popup("facebook", new OAuthCallback() {
+    @Override
+    public void onFinished(OAuthData data) {
+        if (data.status.equals("error"))
+            activity.displayError(data.error);
+        else {
+            // Do API calls with data
+        }
+    }
+});
+</code></pre>
 </div>
 
 <p>This mode asks the user&rsquo;s authorization in a simple popup.
@@ -707,9 +751,9 @@ OAuth.auth('facebook', req.session, {
   <pre><code class="highlight javascript">OAuth.popup(provider).then(function(oauthResult) {
   return oauthResult.get('/me');
 }).then(function(data) {
-  //data is the result of the request to /me
+  // data is the result of the request to /me
 }).fail(function(err) {
-  //handle an error
+  // handle an error
 });</code></pre>
 </div>
 
@@ -731,7 +775,49 @@ OAuth.auth('facebook', req.session, {
   </code></pre>
 </div>
 
-<p>The Request API allows you to easily perform authorized API calls to the OAuth provider from which you got a request object or credentials with the Token API. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will automatically fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc&hellip;). All the parameters in the request will be sent to the provider thanks to a proxy.</p>
+<div class="code-block Android">
+  <pre><code class="highlight java">data.http("/me", new OAuthRequest() {
+    @Override
+    public void onSetURL(String _url) {
+        // This method is called once the final url is returned.
+    }
+
+    @Override
+    public void onSetHeader(String header, String value) {
+        // This method is called for each header to add to the request.
+    }
+
+    @Override
+    public void onReady() {
+        // This method is called once url and headers are set.
+    }
+
+    @Override
+    public void onError(String message) {
+        // This method is called if an error occured
+    }
+});
+  </code></pre>
+</div>
+
+<p>The Request API allows you to easily perform authorized API calls to the OAuth provider from which you got a request object or credentials with the Token API. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will automatically fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc&hellip;). All the parameters in the request will be sent to the provider thanks to the oauth.io proxy.</p>
+
+<div class="code-block Android">
+  <pre><code class="highlight java">data.http(new OAuthJSONRequest(OAuthJSONRequest.HTTP_GET, "/me"), new OAuthJSONCallback() {
+    @Override
+    public void onFinished(JSONObject data) {
+      // data is the result of the request to /me
+    }
+
+    @Override
+    public void onError(String message) {
+      // handle an error
+    }
+});
+  </code></pre>
+</div>
+
+<p><aside class="notice">For the Android SDK, you have two ways of using the request API: the generic way is by using the OAuthRequest interface to inject the parameters in your favorite http library. You can also use OAuthData.http to send basic json requests.</aside></p>
 <h2 id='get'>GET</h2>
 <div class="code-block Node">
   <pre><code class="highlight javascript">oauthResult.get(url).then(function(data) {
@@ -765,6 +851,8 @@ $me = $request_object->get('/me');
 }];
   </code></pre>
 </div>
+
+<div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
 <p>Allows you to perform <code class="prettyprint">GET</code> request to an API endpoint</p>
 
@@ -832,6 +920,8 @@ NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
   </code></pre>
 </div>
 
+<div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
+
 <p>Allows you to perform <code class="prettyprint">POST</code> request to an API endpoint</p>
 
 <table><thead>
@@ -897,6 +987,8 @@ NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
   </code></pre>
 </div>
 
+<div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
+
 <p>Allows you to perform <code class="prettyprint">PUT</code> request to an API endpoint</p>
 
 <table><thead>
@@ -946,6 +1038,8 @@ $request_object->del('/some/endpoint/someid');
 }];
   </code></pre>
 </div>
+
+<div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
 <p>Allows you to perform <code class="prettyprint">DELETE</code> request to an API endpoint</p>
 
@@ -1028,6 +1122,8 @@ NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
 }];
   </code></pre>
 </div>
+
+<div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
 <p>Allows you to perform <code class="prettyprint">PATCH</code> request to an API endpoint</p>
 
@@ -1120,13 +1216,36 @@ res.me().done(function(me) {
 });</code></pre>
 </div>
 
+<div class="code-block Android">
+  <pre><code class="highlight java">oauth.popup("facebook", new OAuthCallback() {
+    @Override
+    public void onFinished(OAuthData data) {
+        if (data.status.equals("error"))
+            activity.displayError(data.error);
+        else {
+            data.me(new OAuthJSONCallback() {
+                @Override
+                public void onFinished(JSONObject me) {
+                    display(me.getString("name"));
+                }
+
+                @Override
+                public void onError(String message) {
+
+                }
+            });
+        }
+    }
+});</code></pre>
+</div>
+
 <p>This API allows you to retrieve your user&rsquo;s data in a unified way. This means you don&rsquo;t have to make a bridge between APIs to retrieve user&rsquo;s info, all fields sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
 
 <p>The endpoint is accessible using REST</p>
 
 <p><code class="prettyprint">GET https://oauth.io/auth/:provider/me</code></p>
 <h2 id='fields'>Fields</h2>
-<div class="code-block Javascript Phonegap"><pre><code class="highlight json">{
+<div class="code-block Javascript Phonegap Android"><pre><code class="highlight json">{
   "id": "1234",
   "name": "John Doe",
   "firstname": "John",
@@ -1235,8 +1354,11 @@ res.me().done(function(me) {
           <h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
 <p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.</p>
 
-<p><aside class="notice">This feature is in BETA state, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK can use this API but others SDKs are in the roadmap.</aside></p>
-<h2 id='signup-your-user'>Signup your user</h2>
+<p><aside class="notice">This feature is in BETA state, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK and Android SDK can use this API but others SDKs are in the roadmap.</aside></p>
+
+<div class="code-block Android"><pre><code class="highlight java">users = new OAuthUsers(oauth);
+</code></pre></div>
+
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signup(data).done(function(user) {
     //todo with `user`
 });
@@ -1253,6 +1375,27 @@ User.signup({
    console.log(user.data.firstname);
 }).fail(function(err) {
    //todo with `err`
+});
+</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">Hashtable<String, String>infos = new Hashtable<>();
+infos.put("firstname", "John");
+infos.put("lastname", "Doe");
+infos.put("email", "john.doe@gmail.com");
+infos.put("password", "St0ngP4ssw0rd!");
+// ...
+
+users.signup(infos, new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // receive your identity
+        OAuthUser id = users.getIdentity();
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
 });
 </code></pre></div>
 <h3 id='with-emailpassword'>With email/password</h3>
@@ -1279,6 +1422,27 @@ User.signup({
    //todo with <code class="prettyprint">err</code>
 });
 </code></pre></div></p>
+
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+    if (data.status.equals("error"))
+        displayError(data.error);
+    else {
+        users.signup(data, new OAuthUserCallback() {
+            @Override
+            public void onFinished() {
+                // receive your identity
+                OAuthUser id = users.getIdentity();
+            }
+
+            @Override
+            public void onError(String message) {
+                displayError(message);
+            }
+        });
+    }
+}
+</code></pre></div>
 <h3 id='with-social-logins'>With social logins</h3>
 <p>You can also use the Token API to sign up your users with their social identity. <code class="prettyprint">provider</code> is the name of a provider on OAuth.io as <code class="prettyprint">facebook</code>, <code class="prettyprint">twitter</code>, <code class="prettyprint">google</code> and 100+ others.</p>
 
@@ -1291,6 +1455,28 @@ User.signup({
 }).done(function(user) {
     //todo with <code class="prettyprint">user</code>
 });
+</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+  if (data.status.equals(&quot;error&quot;))
+      displayError(data.error);
+  else {
+    Hashtable<String, String> infos = new Hashtable&lt;&gt;();
+    infos.put(&quot;email&quot;, &quot;john.doe@gmail.com&quot;);
+    // ...
+    users.signup(data, infos, new OAuthUserCallback() {
+      @Override
+      public void onFinished() {
+          // receive your identity
+          OAuthUser id = users.getIdentity();
+      }
+      @Override
+      public void onError(String message) {
+          displayError(message);
+      }
+    });
+  }
+}
 </code></pre></div></p>
 <h3 id='handling-errors'>Handling errors</h3>
 <p>Some providers don&rsquo;t give their user&rsquo;s email in their API (it&rsquo;s the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.</p>
@@ -1306,6 +1492,20 @@ User.signup({
 }).fail(function(err) {
     // email/password incorrect.
 });</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">users.signin(email, password, new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // receive your identity
+        OAuthUser id = users.getIdentity();
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div>
 <h3 id='with-emailpassword'>With email/password</h3>
 <p><br style="clear:both"></p>
 
@@ -1317,10 +1517,33 @@ User.signup({
     //todo with err
 });
 </code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+    if (data.status.equals("error"))
+        displayError(data.error);
+    else
+        users.signin(data, new OAuthUserCallback() {
+            @Override
+            public void onFinished() {
+                // receive your identity
+                OAuthUser id = users.getIdentity();
+            }
+
+            @Override
+            public void onError(String message) {
+                displayError(message);
+            }
+        });
+}
+</code></pre></div>
 <h3 id='with-social-logins'>With social logins</h3>
 <p>Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn&rsquo;t exist, it will automatically sign him/her up before to signing him/her in.</p>
 <h2 id='get-the-connected-user'>Get the connected user</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
+</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser id = users.getIdentity();
 </code></pre></div>
 <h3 id='from-cache'>From cache</h3>
 <p>When the user logged in, we store in cookie his identity (information, providers linked etc.). You can access this cached version instantly using the SDK with <code class="prettyprint">User.getIdentity()</code>.</p>
@@ -1330,11 +1553,31 @@ User.signup({
 <p><br style="clear:both">
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.refreshIdentity().done(function(user) {
     //todo with <code class="prettyprint">user</code>
-})</code></pre></div></p>
+})</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user;
+// ...
+user.refreshIdentity(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // user data updated
+    }
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div></p>
 <h3 id='from-the-api'>From the API</h3>
 <p>Retrieve the latest change done to your user.</p>
 <h2 id='know-if-the-user-is-authenticated'>Know if the user is authenticated</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">if (User.isLogged()) {
+    //todo with authenticated user
+}
+else {
+    //todo with unauthenticated user
+}</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">if (users.isLogged()) {
     //todo with authenticated user
 }
 else {
@@ -1355,6 +1598,21 @@ user.save().done(function() {
     //handle `err``
 });</code></pre></div>
 
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user = users.getIdentity();
+user.data.put("firstname", "Thomas");
+user.data.put("someData", "some string");
+user.saveIdentity(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // user data saved
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});</code></pre></div>
+
 <p>You can update all your user&rsquo;s data. Once you are done, just use the <code class="prettyprint">save()</code> method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: <code class="prettyprint">_provider_*</code>).</p>
 <h2 id='reset-password-or-lost-password'>Reset password (or lost password)</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.resetPassword(email).done(function() {
@@ -1363,6 +1621,19 @@ user.save().done(function() {
 
 //then...
 User.confirmResetPassword(newPassword, key);
+</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">users.resetPassword(email, new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // reset email sent
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
 </code></pre></div>
 
 <p>The reset flow is used when a user try to login and don&rsquo;t find his password. It will send an email to the user with a <code class="prettyprint">key</code> (to check his identity using his email). If the user is able to send the code on another page, he can change his password using this <code class="prettyprint">key</code>.</p>
@@ -1382,21 +1653,60 @@ OAuth.popup('google').then(function(google) {
    return user.addProvider(google);
 }).done(function() {
    //provider attached
-   //Your user are now able to signin with Google
+   //Your user is now able to signin with Google
 });</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
+public void onFinished(OAuthData data) {
+    if (data.status.equals("error"))
+        displayError(data.error);
+    else {
+        OAuthUser user = users.getIdentity();
+        user.addProvider(data.provider, new OAuthUserCallback() {
+            @Override
+            public void onFinished() {
+                // provider attached
+                // Your user is now able to signin with data.provider
+            }
+
+            @Override
+            public void onError(String message) {
+                displayError(message);
+            }
+        });
+    }
+}
+</code></pre></div>
 
 <p>You can attach a social identity to an account easily. That mean at the next signin, he will be able to signin with another configured provider. A user can this way connect with more than one provider securely.</p>
 <h2 id='remove-social-identity-to-an-account'>Remove social identity to an account</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.removeProvider('google').done(function() {
    //provider detached
-   //Your user are now able to signin with Google
 });</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user = users.getIdentity();
+user.removeProvider("google", new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // provider detached from google
+    }
+
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div>
 
 <p>A user can detach a social identity to his account. Once a provider is detached, the user won&rsquo;t be able to login with it again, he need to re-attach it to login with it.</p>
 <h2 id='the-list-of-providers-attached-to-an-account'>The list of providers attached to an account</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 console.log(user.providers)
+</code></pre></div>
+
+<div class="code-block Javascript"><pre><code class="highlight javascript">OAuthUser user = users.getIdentity();
+// providers list is available in user.providers
 </code></pre></div>
 <h3 id='from-cache'>From cache</h3>
 <p>When a user logs in, we store a local version of the providers list attached to his/her account so you can access it directly in the <code class="prettyprint">user</code> object.</p>
@@ -1405,13 +1715,38 @@ console.log(user.providers)
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.getProviders().done(function(providers) {
    console.log(providers);
-});</code></pre></div></p>
+});</code></pre></div>
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user;
+// ...
+user.getProviders(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // providers list is available in user.providers
+    }
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
+});
+</code></pre></div></p>
 <h3 id='from-the-api'>From the API</h3>
 <p>You can also get this list from the API to be sure it&rsquo;s synchronized with the backend.</p>
 <h2 id='logout'>Logout</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.logout().done(function() {
    //todo when logout
+});</code></pre></div>
+
+<div class="code-block Android"><pre><code class="highlight java">OAuthUser user = users.getIdentity();
+user.logout(new OAuthUserCallback() {
+    @Override
+    public void onFinished() {
+        // user is logout and his token is expired
+    }
+    @Override
+    public void onError(String message) {
+        displayError(message);
+    }
 });</code></pre></div>
 
 <p>You can log your user out from your application using the <code class="prettyprint">logout()</code> method. It will clear the session and all the associated cache.</p>
@@ -1466,6 +1801,7 @@ user.logout().done(function() {
                 <a href="#" data-language-id="iOS" data-language-name="objectivec">iOS</a>
                 <a href="#" data-language-id="PHP" data-language-name="php">PHP</a>
                 <a href="#" data-language-id="Node" data-language-name="javascript">Node</a>
+                <a href="#" data-language-id="Android" data-language-name="java">Android</a>
           </div>
       </div>
     </div>
