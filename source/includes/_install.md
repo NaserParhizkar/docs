@@ -137,6 +137,6 @@ oauth.initialize("Your-public-key");
 </div>
 
 
-When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pari to initialize the SDK later on.
+When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pair to initialize the SDK later on.
 
 <aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside>

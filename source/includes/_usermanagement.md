@@ -52,7 +52,7 @@ users.signup(infos, new OAuthUserCallback() {
 
 ### With email/password
 
-You can sign up you users using their email/password. Users will be store in Stormpath.
+You can sign up you users using their email/password. Users will be stored in Stormpath.
 
 `data` is an object that must contains:
 
@@ -133,11 +133,11 @@ public void onFinished(OAuthData data) {
 
 ### Handling errors
 
-Some providers don't give their user's email in their API (it's the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.
+Some providers don't give their user's email in their API (it's the case of Twitter for instance). So, you have to ask your user for their email manually and setup the email.
 
 ## Signin your users
 
-Once your user has signed up, you can log him/her in with his/her email password or with one of the social identity the user attached to his account.
+Once your user has signed up, you can log them in with their email password or with one of the social identity the user attached to their account.
 
 OAuth.io manages your user's session for you and gives a simple API to let you know if the user is still logged in or not.
 
@@ -196,7 +196,7 @@ public void onFinished(OAuthData data) {
 
 ### With social logins
 
-Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn't exist, it will automatically sign him/her up before to signing him/her in.
+Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn't exist, it will automatically sign them up before signing them in.
 
 ## Get the connected user
 
@@ -207,7 +207,7 @@ Note: For social logins, the signin and signup steps are exactly the same featur
 
 ### From cache
 
-When the user logged in, we store in cookie his identity (information, providers linked etc.). You can access this cached version instantly using the SDK with `User.getIdentity()`.
+When a user logs in, we store their identity (information, providers linked etc.) in a cookie. You can access this cached version instantly using the SDK with `User.getIdentity()`.
 
 It returns the same data structure as the API version: `User.refreshIdentity()`.
 
@@ -302,13 +302,13 @@ User.confirmResetPassword(newPassword, key);
 });
 </code></pre></div>
 
-The reset flow is used when a user try to login and don't find his password. It will send an email to the user with a `key` (to check his identity using his email). If the user is able to send the code on another page, he can change his password using this `key`.
+The reset flow is used when a user tries to login and can't remember their password. It will send an email to the user with a `key` (to check their identity using their email). If the user is able to input the code on another page, they can change their password using this `key`.
 
 ## Change password
 
 > Coming soon
 
-This feature is not released yet but will be used to change the password of the user (this option is often in the setting page of an account). The user can use it if he knows his current password to confirm his identity.
+This feature is not released yet but will be used to change the password of the user (this option is often in the setting page of an account). The user can use it if they knows their current password to confirm their identity.
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.changePassword(oldPassword, newPassword);
@@ -346,7 +346,7 @@ public void onFinished(OAuthData data) {
 }
 </code></pre></div>
 
-You can attach a social identity to an account easily. That mean at the next signin, he will be able to signin with another configured provider. A user can this way connect with more than one provider securely.
+You can attach a social identity to an account easily. That means at the next signin, they will be able to signin with another configured provider. This way a user can securely connect with more than one provider.
 
 ## Remove social identity to an account
 
@@ -368,7 +368,7 @@ user.removeProvider("google", new OAuthUserCallback() {
 });
 </code></pre></div>
 
-A user can detach a social identity to his account. Once a provider is detached, the user won't be able to login with it again, he need to re-attach it to login with it.
+A user can detach a social identity from their account. Once a provider is detached, the user won't be able to login with it again, they needs to re-attach it again to be able to login with it.
 
 ## The list of providers attached to an account
 
@@ -381,7 +381,7 @@ console.log(user.providers)
 
 ### From cache
 
-When a user logs in, we store a local version of the providers list attached to his/her account so you can access it directly in the `user` object.
+When a user logs in, we store a local version of the providers list attached to their account so you can access it directly in the `user` object.
 
 <br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
@@ -416,7 +416,7 @@ user.logout().done(function() {
 user.logout(new OAuthUserCallback() {
     @Override
     public void onFinished() {
-        // user is logout and his token is expired
+        // user is logout and their token is expired
     }
     @Override
     public void onError(String message) {
@@ -424,4 +424,4 @@ user.logout(new OAuthUserCallback() {
     }
 });</code></pre></div>
 
-You can log your user out from your application using the `logout()` method. It will clear the session and all the associated cache.
+You can log your user out from your application using the `logout()` method. It will clear the session and the associated cache.
