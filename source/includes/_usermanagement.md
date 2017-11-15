@@ -3,9 +3,9 @@
 
 ## Installation
 
-You need to enable the User Management feature in your OAuth.io dashboard in the `users` tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.
+You need to click 'Enable the User Management' button in your OAuth.io dashboard in the `Users Overview` tab.
 
-<aside class="notice">This feature is in BETA state, don't hesitate to give your feedback. During this period, only the Javascript SDK and Android SDK can use this API but others SDKs are in the roadmap.</aside>
+<aside class="notice">This is version 1.0 of our User Management, so don't hesitate to give your feedback or feature requests. During this period, only the Javascript SDK and Android SDK can use this API but others SDKs are in the roadmap.</aside>
 
 <div class="code-block Android"><pre><code class="highlight java">users = new OAuthUsers(oauth);
 </code></pre></div>
@@ -52,7 +52,7 @@ users.signup(infos, new OAuthUserCallback() {
 
 ### With email/password
 
-You can sign up you users using their email/password. Users will be stored in Stormpath.
+You can sign up your users using their email/password.
 
 `data` is an object that must contains:
 
@@ -141,7 +141,7 @@ Once your user has signed up, you can log them in with their email password or w
 
 OAuth.io manages your user's session for you and gives a simple API to let you know if the user is still logged in or not.
 
-During the beta, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.
+In this version, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signin(email, password).done(function(user) {
     console.log(user.data.firstname);
@@ -278,7 +278,7 @@ user.saveIdentity(new OAuthUserCallback() {
     }
 });</code></pre></div>
 
-You can update all your user's data. Once you are done, just use the `save()` method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: `_provider_*`).
+You can update all your user's data. Once you are done, just use the `save()` method to save your changes. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: `_provider_*`).
 
 ## Reset password (or lost password)
 
