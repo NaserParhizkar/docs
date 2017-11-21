@@ -1,30 +1,34 @@
 /*
 Copyright 2008-2013 Concur Technologies, Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this file except in compliance with the License. You may obtain
 a copy of the License at
-
   http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 */
-(function (global) {
+;(function () {
+  'use strict';
+  
   var languages = [];
   var languagesHash = {}
 
-  global.setupLanguages = setupLanguages;
-  global.activateLanguage = activateLanguage;
-
+  window.setupLanguages = setupLanguages;
+  window.activateLanguage = activateLanguage;
+  window.getLanguageFromQueryString = getLanguageFromQueryString;
+  
   function activateLanguage(language) {
     if (!language) return;
     if (language === "") return;
 
-    console.log(languages, language);
+    console.group('Activate Language')
+    console.log('languages', languages);
+    console.log('language', language);
+    console.groupEnd();
+
     $(".lang-selector a").removeClass('active');
     $(".lang-selector a[data-language-id='" + language + "']").addClass('active');
     for (var i=0; i < languages.length; i++) {
@@ -36,6 +40,80 @@ under the License.
     $(window.location.hash).get(0).scrollIntoView(true);
   }
 
+  // parseURL and stringifyURL are from https://github.com/sindresorhus/query-string
+  // MIT licensed
+  // https://github.com/sindresorhus/query-string/blob/7bee64c16f2da1a326579e96977b9227bf6da9e6/license
+  function parseURL(str) {
+    if (typeof str !== 'string') {
+      return {};
+    }
+
+    str = str.trim().replace(/^(\?|#|&)/, '');
+
+    if (!str) {
+      return {};
+    }
+
+    return str.split('&').reduce(function (ret, param) {
+      var parts = param.replace(/\+/g, ' ').split('=');
+      var key = parts[0];
+      var val = parts[1];
+
+      key = decodeURIComponent(key);
+      // missing `=` should be `null`:
+      // http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+      val = val === undefined ? null : decodeURIComponent(val);
+
+      if (!ret.hasOwnProperty(key)) {
+        ret[key] = val;
+      } else if (Array.isArray(ret[key])) {
+        ret[key].push(val);
+      } else {
+        ret[key] = [ret[key], val];
+      }
+
+      return ret;
+    }, {});
+  };
+
+  function stringifyURL(obj) {
+    return obj ? Object.keys(obj).sort().map(function (key) {
+      var val = obj[key];
+
+      if (Array.isArray(val)) {
+        return val.sort().map(function (val2) {
+          return encodeURIComponent(key) + '=' + encodeURIComponent(val2);
+        }).join('&');
+      }
+
+      return encodeURIComponent(key) + '=' + encodeURIComponent(val);
+    }).join('&') : '';
+  };
+
+  // gets the language set in the query string
+  function getLanguageFromQueryString() {
+    if (location.search.length >= 1) {
+      var language = parseURL(location.search).language;
+      if (language) {
+        return language;
+      } else if (jQuery.inArray(location.search.substr(1), languages) != -1) {
+        return location.search.substr(1);
+      }
+    }
+
+    return false;
+  }
+
+  // returns a new query string with the new language in it
+  function generateNewQueryString(language) {
+    var url = parseURL(location.search);
+    if (url.language) {
+      url.language = language;
+      return stringifyURL(url);
+    }
+    return language;
+  }
+
   // if a button is clicked, add the state to the history
   function pushURL(language) {
     if (!history) { return; }
@@ -43,11 +121,12 @@ under the License.
     if (hash) {
       hash = hash.replace(/^#+/, '');
     }
-    history.pushState({}, '', '?' + language + '#' + hash);
+    history.pushState({}, '', '?' + generateNewQueryString(language) + '#' + hash);
 
     // save language as next default
     localStorage.setItem("language", language);
   }
+
 
   function setupLanguages(l) {
     console.log(l);
@@ -73,7 +152,7 @@ under the License.
       activateLanguage(defaultLanguage);
     } else {
       // no language selected, so use the default
-      console.log("no localstorage, using default");
+      console.log("no language in localstorage, using default language");
       activateLanguage(languages[0]);
     }
   }
