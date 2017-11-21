@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
   <head>
@@ -6,13 +7,203 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>OAuth.io API Reference</title>
 
-    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/railscasts.min.css">
-      <script src="javascripts/all.js" type="text/javascript"></script>
 
+      <script src="javascripts/all.js"></script>
       <script>
         $(function() {
           setupLanguages([{"javascript":"Javascript"},{"objectivec":"iOS"},{"php":"PHP"},{"javascript":"Node"},{"java":"Android"}]);
@@ -20,14 +211,14 @@
       </script>
   </head>
 
-  <body class="index">
+  <body class="index" data-languages="[&quot;javascript&quot;,&quot;objectivec&quot;,&quot;php&quot;,&quot;javascript&quot;,&quot;java&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="images/navbar.png" />
+        <img src="images/navbar.png" alt="Navbar" />
       </span>
     </a>
-    <div class="tocify-wrapper">
+    <div class="toc-wrapper">
         <div class="lang-selector">
               <a href="#" data-language-name="javascript">Javascript</a>
               <a href="#" data-language-name="objectivec">iOS</a>
@@ -39,7 +230,150 @@
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
-      <div id="toc">
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#installation" class="toc-h1 toc-link" data-title="Installation">Installation</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#download-the-sdk" class="toc-h2 toc-link" data-title="Download the SDK">Download the SDK</a>
+                  </li>
+                  <li>
+                    <a href="#install-the-sdk" class="toc-h2 toc-link" data-title="Install the SDK">Install the SDK</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#token-api-client-side" class="toc-h1 toc-link" data-title="Token API - Client side">Token API - Client side</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#configuration" class="toc-h2 toc-link" data-title="Configuration">Configuration</a>
+                  </li>
+                  <li>
+                    <a href="#authorize-with-a-popup" class="toc-h2 toc-link" data-title="Authorize with a popup">Authorize with a popup</a>
+                  </li>
+                  <li>
+                    <a href="#authorize-with-redirection" class="toc-h2 toc-link" data-title="Authorize with redirection">Authorize with redirection</a>
+                  </li>
+                  <li>
+                    <a href="#caching-the-request-object" class="toc-h2 toc-link" data-title="Caching the request object">Caching the request object</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#token-api-server-side" class="toc-h1 toc-link" data-title="Token API - Server side">Token API - Server side</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#configuration-2" class="toc-h2 toc-link" data-title="Configuration">Configuration</a>
+                  </li>
+                  <li>
+                    <a href="#simple-server-side-authorization" class="toc-h2 toc-link" data-title="Simple server-side authorization">Simple server-side authorization</a>
+                  </li>
+                  <li>
+                    <a href="#authorizing-the-user-with-both-front-end-and-back-end-sdks" class="toc-h2 toc-link" data-title="Authorizing the user with both front-end and back-end SDKs">Authorizing the user with both front-end and back-end SDKs</a>
+                  </li>
+                  <li>
+                    <a href="#request-object-from-session" class="toc-h2 toc-link" data-title="Request object from session">Request object from session</a>
+                  </li>
+                  <li>
+                    <a href="#building-a-request-object-from-saved-credentials" class="toc-h2 toc-link" data-title="Building a request object from saved credentials">Building a request object from saved credentials</a>
+                  </li>
+                  <li>
+                    <a href="#refreshing-the-tokens" class="toc-h2 toc-link" data-title="Refreshing the tokens">Refreshing the tokens</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#request-objects" class="toc-h1 toc-link" data-title="Request objects">Request objects</a>
+          </li>
+          <li>
+            <a href="#request-api" class="toc-h1 toc-link" data-title="Request API">Request API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get" class="toc-h2 toc-link" data-title="GET">GET</a>
+                  </li>
+                  <li>
+                    <a href="#post" class="toc-h2 toc-link" data-title="POST">POST</a>
+                  </li>
+                  <li>
+                    <a href="#put" class="toc-h2 toc-link" data-title="PUT">PUT</a>
+                  </li>
+                  <li>
+                    <a href="#delete" class="toc-h2 toc-link" data-title="DELETE">DELETE</a>
+                  </li>
+                  <li>
+                    <a href="#patch" class="toc-h2 toc-link" data-title="PATCH">PATCH</a>
+                  </li>
+                  <li>
+                    <a href="#using-rest" class="toc-h2 toc-link" data-title="USING REST">USING REST</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#user-data-api" class="toc-h1 toc-link" data-title="User Data API">User Data API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#usage" class="toc-h2 toc-link" data-title="Usage">Usage</a>
+                  </li>
+                  <li>
+                    <a href="#fields" class="toc-h2 toc-link" data-title="Fields">Fields</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#user-management-api" class="toc-h1 toc-link" data-title="User Management API">User Management API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#installation" class="toc-h2 toc-link" data-title="Installation">Installation</a>
+                  </li>
+                  <li>
+                    <a href="#signin-your-users" class="toc-h2 toc-link" data-title="Signin your users">Signin your users</a>
+                  </li>
+                  <li>
+                    <a href="#get-the-connected-user" class="toc-h2 toc-link" data-title="Get the connected user">Get the connected user</a>
+                  </li>
+                  <li>
+                    <a href="#know-if-the-user-is-authenticated" class="toc-h2 toc-link" data-title="Know if the user is authenticated">Know if the user is authenticated</a>
+                  </li>
+                  <li>
+                    <a href="#update-your-user-data" class="toc-h2 toc-link" data-title="Update your user data">Update your user data</a>
+                  </li>
+                  <li>
+                    <a href="#reset-password-or-lost-password" class="toc-h2 toc-link" data-title="Reset password (or lost password)">Reset password (or lost password)</a>
+                  </li>
+                  <li>
+                    <a href="#change-password" class="toc-h2 toc-link" data-title="Change password">Change password</a>
+                  </li>
+                  <li>
+                    <a href="#attach-social-identity-to-an-account" class="toc-h2 toc-link" data-title="Attach social identity to an account">Attach social identity to an account</a>
+                  </li>
+                  <li>
+                    <a href="#remove-social-identity-to-an-account" class="toc-h2 toc-link" data-title="Remove social identity to an account">Remove social identity to an account</a>
+                  </li>
+                  <li>
+                    <a href="#the-list-of-providers-attached-to-an-account" class="toc-h2 toc-link" data-title="The list of providers attached to an account">The list of providers attached to an account</a>
+                  </li>
+                  <li>
+                    <a href="#logout" class="toc-h2 toc-link" data-title="Logout">Logout</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#contribute" class="toc-h1 toc-link" data-title="Contribute">Contribute</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#issues" class="toc-h2 toc-link" data-title="Issues">Issues</a>
+                  </li>
+                  <li>
+                    <a href="#adding-providers-to-oauth-io" class="toc-h2 toc-link" data-title="Adding Providers to OAuth.io">Adding Providers to OAuth.io</a>
+                  </li>
+                  <li>
+                    <a href="#pull-request-bug-fixes-providers-typos" class="toc-h2 toc-link" data-title="Pull request (bug fixes / providers / typos)">Pull request (bug fixes / providers / typos)</a>
+                  </li>
+              </ul>
+          </li>
       </div>
         <ul class="toc-footer">
             <li><a href='https://oauth.io'>Back to OAuth.io</a></li>
@@ -64,13 +398,12 @@
 <ul>
 <li><p><strong>Token API</strong>: Authorize your client apps on one of our <a href="https://oauth.io/providers">120+ OAuth provider</a>.</p></li>
 <li><p><strong>Request API</strong>: Make authorized API calls to those OAuth providers in a simple way.</p></li>
-<li><p><strong>User Data API</strong>: Get the authenticated user&rsquo;s unified information.</p></li>
+<li><p><strong>User Data API</strong>: Get the authenticated user&#39;s unified information.</p></li>
 <li><p><strong>User Management API</strong>: Signup/signin your user without any backend using multiple social identity.</p></li>
 </ul>
 
-<p><aside class="success">To use these APIs, you need to have an account on <a href="https://oauth.io">OAuth.io</a>.</aside></p>
-
-          <h1 id='installation'>Installation</h1><h2 id='download-the-sdk'>Download the SDK</h2>
+<aside class="success">To use these APIs, you need to have an account on [OAuth.io](https://oauth.io).</aside>
+<h1 id='installation'>Installation</h1><h2 id='download-the-sdk'>Download the SDK</h2>
 <div class="code-block Node">
     <pre><code class="highlight bash">npm install oauthio</code></pre>
 </div>
@@ -205,20 +538,19 @@ oauth.initialize("Your-public-key");
 </code></pre>
 </div>
 
-<p>When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pari to initialize the SDK later on.</p>
+<p>When you create an OAuth.io application in your dashboard, a pair of public key, private key is generated. You will need this pair to initialize the SDK later on.</p>
 
-<p><aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside></p>
-
-          <h1 id='token-api---client-side'>Token API - Client side</h1>
-<p>The Token API lets you authorize your app on behalf of your users on one of our 120+ API providers. The best known example is to add a Facebook connect to your website to ease the user&rsquo;s onboarding.</p>
+<aside class="notice">Client-side SDKs (Javascript, Phonegap/Cordova, Android, iOS) only need the public key for the initialization</aside>
+<h1 id='token-api-client-side'>Token API - Client side</h1>
+<p>The Token API lets you authorize your app on behalf of your users on one of our 120+ API providers. The best known example is to add a Facebook connect to your website to ease the user&#39;s onboarding.</p>
 
 <p>You can perform this authorization either client-side or server-side, depending your needs.</p>
 
 <div class="code-block Node"><pre>The Client side section is not available for this SDK</pre></div>
 
-<p><aside class="notice">The client side authorization can be made only by one of these client-side SDKs: Javascript, Phonegap, iOS, Android</aside></p>
+<aside class="notice">The client side authorization can be made only by one of these client-side SDKs: Javascript, Phonegap, iOS, Android</aside>
 <h2 id='configuration'>Configuration</h2>
-<p>To authorize your app using OAuth.io, you just need to add a provider to your OAuth.io app, copy/paste your provider&rsquo;s API Keys (usually client_id and client_secret), and specify a permission scope. Then, you can directly try a connection to the provider, by clicking on the <code class="prettyprint">Try auth</code> button.</p>
+<p>To authorize your app using OAuth.io, you just need to add a provider to your OAuth.io app, copy/paste your provider&#39;s API Keys (usually client_id and client_secret), and specify a permission scope. Then, you can directly try a connection to the provider, by clicking on the <code>Try auth</code> button.</p>
 <h2 id='authorize-with-a-popup'>Authorize with a popup</h2>
 <div class="code-block Javascript Phonegap"><pre><code class="highlight javascript">//Example with Facebook
 OAuth.popup('facebook').done(function(facebook) {
@@ -266,7 +598,7 @@ oauth.popup("facebook", new OAuthCallback() {
 </code></pre>
 </div>
 
-<p>This mode asks the user&rsquo;s authorization in a simple popup.
+<p>This mode asks the user&#39;s authorization in a simple popup.
 This gives you a request object, which allows you to perform API calls, or to retrieve the credentials (i.e. access or oauth tokens).</p>
 
 <p>You can send multiple options to customize it.</p>
@@ -281,7 +613,7 @@ This gives you a request object, which allows you to perform API calls, or to re
 </thead><tbody>
 <tr>
 <td>cache</td>
-<td>If set to true, when the popup is called, the SDK will directly return the cached credentials (if available) through a &ldquo;request object&rdquo; instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup on his browser, his credentials are kept in the local storage.</td>
+<td>If set to true, when the popup is called, the SDK will directly return the cached credentials (if available) through a &quot;request object&quot; instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup on his browser, his credentials are kept in the local storage.</td>
 <td>boolean</td>
 <td>false</td>
 </tr>
@@ -304,7 +636,7 @@ OAuth.callback('google').done(function(google) {
 })</code></pre>
 </div>
 
-<p>Redirects to the provider&rsquo;s login page, where the user can accept your app&rsquo;s permissions. Once he/she accepts them, he/she is redirected to the callback URL.</p>
+<p>Redirects to the provider&#39;s login page, where the user can accept your app&#39;s permissions. Once he/she accepts them, he/she is redirected to the callback URL.</p>
 
 <p><br style="clear:both"></p>
 <h2 id='caching-the-request-object'>Caching the request object</h2>
@@ -326,7 +658,7 @@ NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
 [options setObject:@"true" forKey:@"clear-popup-cache"]; // prevents the webview from keeping cookies
 [_oauthioModal showWithProvider:@"twitter" options:options];</code></pre>
 </div>
-<h3 id='save-your-user39s-authorization-in-the-cache'>Save your user&rsquo;s authorization in the cache</h3>
+<h3 id='save-your-user-39-s-authorization-in-the-cache'>Save your user&#39;s authorization in the cache</h3>
 <p>If the cache option is enabled, when the popup is called, it will directly create a request object from the cached credentials (if available) instead of showing a popup everytime the user logs in. That is to say, once the user has seen the popup once, his credentials are kept in the browser local storage for Javascript/Phonegap SDK and in the mobile with iOS and Android.</p>
 
 <div class="code-block Javascript Phonegap">
@@ -360,10 +692,10 @@ OAuth.clearCache();</code></pre>
 </div>
 
 <p>You can of course partially or totally remove the cache generated by OAuth.io. Note that it can be used when you want to logout your users to be sure it will open the popup the next time they try to login.</p>
-<h1 id='token-api---server-side'>Token API - Server side</h1>
-<p>The server side authorization is mostly used to get a refresh token and perform actions on behalf of your user when they are not online and connected on your website / app (for instance, crawl your user&rsquo;s feed and update it everyday even if the user is not connected).</p>
-<h2 id='configuration'>Configuration</h2>
-<p>In the same way as for the client-side authorization, you need to add a provider to your OAuth.io app and copy paste your provider&rsquo;s API keys. But this time, you have to select a backend in your oauth.io app. This way, only server side authorization will be allowed.</p>
+<h1 id='token-api-server-side'>Token API - Server side</h1>
+<p>The server side authorization is mostly used to get a refresh token and perform actions on behalf of your user when they are not online and connected on your website / app (for instance, crawl your user&#39;s feed and update it everyday even if the user is not connected).</p>
+<h2 id='configuration-2'>Configuration</h2>
+<p>In the same way as for the client-side authorization, you need to add a provider to your OAuth.io app and copy paste your provider&#39;s API keys. But this time, you have to select a backend in your oauth.io app. This way, only server side authorization will be allowed.</p>
 
 <p>You can also set the both mode to get a copy of the access_token client side too (and use all of the results method).</p>
 <h2 id='simple-server-side-authorization'>Simple server-side authorization</h2>
@@ -437,17 +769,17 @@ public function redirectAction() {
 <p>You need to define 2 endpoints:</p>
 
 <ul>
-<li><p>the first endpoint (<code class="prettyprint">authorizeEndpoint</code>) is where you will redirect your users to authorize them to one of our 120+ OAuth <code class="prettyprint">provider</code></p></li>
-<li><p>then they will be redirected to the second endpoint (<code class="prettyprint">redirectEndpoint</code>) with the <code class="prettyprint">result</code> of the authorization in the callback.</p></li>
+<li><p>the first endpoint (<code>authorizeEndpoint</code>) is where you will redirect your users to authorize them to one of our 120+ OAuth <code>provider</code></p></li>
+<li><p>then they will be redirected to the second endpoint (<code>redirectEndpoint</code>) with the <code>result</code> of the authorization in the callback.</p></li>
 </ul>
 
-<p>In the HTML of your webapp, you just have to create a link to the first endpoint to start the authorization flow <code class="prettyprint">&lt;a href=&quot;/url/to/authorizeEndpoint&quot;&gt;Signin&lt;/a&gt;</code></p>
+<p>In the HTML of your webapp, you just have to create a link to the first endpoint to start the authorization flow <code>&lt;a href=&quot;/url/to/authorizeEndpoint&quot;&gt;Signin&lt;/a&gt;</code></p>
 
-<p>If an error occured, the error is placed in the <code class="prettyprint">result</code>.</p>
+<p>If an error occured, the error is placed in the <code>result</code>.</p>
 
 <p><br style="clear:both;"></p>
 <h2 id='authorizing-the-user-with-both-front-end-and-back-end-sdks'>Authorizing the user with both front-end and back-end SDKs</h2>
-<p><aside class="info">This authorization can be done by any backend (Ruby, Python, C# etc&hellip;) using REST.</aside></p>
+<aside class="info">This authorization can be done by any backend (Ruby, Python, C# etc...) using REST.</aside>
 
 <p>This method is a bit longer than the redirect one but can be used by any backend. This can be done in 3 steps:</p>
 
@@ -535,7 +867,7 @@ Body:
 </div>
 
 <ul>
-<li>Finally, from your backend, send the code to OAuth.io to get the access_token and refresh_token. OAuth.io will also send back the state token that you have to manually check. It must be the same state token as the one stored in session in the 1st step &ndash; <strong>This is automatically done using a server-side SDK</strong>.</li>
+<li>Finally, from your backend, send the code to OAuth.io to get the access_token and refresh_token. OAuth.io will also send back the state token that you have to manually check. It must be the same state token as the one stored in session in the 1st step -- <strong>This is automatically done using a server-side SDK</strong>.</li>
 </ul>
 <h2 id='request-object-from-session'>Request object from session</h2>
 <div class="code-block Javascript iOS Android">
@@ -563,7 +895,7 @@ $oauth->setSession($_SESSION['some_array']);
 </code></pre>
 </div>
 
-<p>Once a user has been authorized by a provider, he is stored in session by the SDK. This means you can recreate the request object from the session. If the request object has an <code class="prettyprint">expires_in</code> field and the access token has expired, the SDK will automatically refresh the <code class="prettyprint">access_token</code>.</p>
+<p>Once a user has been authorized by a provider, he is stored in session by the SDK. This means you can recreate the request object from the session. If the request object has an <code>expires_in</code> field and the access token has expired, the SDK will automatically refresh the <code>access_token</code>.</p>
 <h2 id='building-a-request-object-from-saved-credentials'>Building a request object from saved credentials</h2>
 <div class="code-block PHP">
   <pre><code class="highlight php">
@@ -634,7 +966,7 @@ OAuth.auth('facebook', req.session, {
 
 <p>In all our server-side SDK, a method is available to manually refresh the access token. It gives back a new request object containing a fresh access token.</p>
 
-<p>For the Google provider, it&rsquo;s a bit more complex. To get a refresh token, please follow this Stackoverflow link: <a href="http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io">http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io</a></p>
+<p>For the Google provider, it&#39;s a bit more complex. To get a refresh token, please follow this Stackoverflow link: <a href="http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io">http://stackoverflow.com/questions/23759138/getting-refresh-tokens-from-google-with-oauth-io</a></p>
 <h1 id='request-objects'>Request objects</h1>
 <div class="code-block"><pre><code class="highlight json">with Facebook (OAuth 2)
 {
@@ -674,37 +1006,37 @@ OAuth.auth('facebook', req.session, {
 </thead><tbody>
 <tr>
 <td>access_token</td>
-<td><strong>OAuth 2</strong> &ndash; The authorization key to access the OAuth2 API</td>
+<td><strong>OAuth 2</strong> -- The authorization key to access the OAuth2 API</td>
 <td>string</td>
-<td>CAAHv&hellip;aAWy</td>
+<td>CAAHv...aAWy</td>
 </tr>
 <tr>
 <td>oauth_token</td>
-<td><strong>OAuth 1</strong> &ndash; The authorization key to access the OAuth1 API</td>
+<td><strong>OAuth 1</strong> -- The authorization key to access the OAuth1 API</td>
 <td>string</td>
-<td>XVQpX&hellip;WR0K</td>
+<td>XVQpX...WR0K</td>
 </tr>
 <tr>
 <td>oauth_token_secret</td>
-<td><strong>OAuth 1</strong> &ndash; The second authorization key to access OAuth1 API</td>
+<td><strong>OAuth 1</strong> -- The second authorization key to access OAuth1 API</td>
 <td>string</td>
-<td>PHQD2&hellip;V7xw</td>
+<td>PHQD2...V7xw</td>
 </tr>
 <tr>
 <td>expires_in</td>
-<td><em>Optional depending the provider</em> &ndash; The expiration of the <code class="prettyprint">access_token</code></td>
+<td><em>Optional depending the provider</em> -- The expiration of the <code>access_token</code></td>
 <td>integer</td>
 <td>5184000</td>
 </tr>
 <tr>
 <td>code</td>
-<td><strong>Client side only</strong> &ndash; The code to be exchanged against the access token <strong>server side authorization</strong></td>
+<td><strong>Client side only</strong> -- The code to be exchanged against the access token <strong>server side authorization</strong></td>
 <td>string</td>
-<td>XsrpW&hellip;leE3</td>
+<td>XsrpW...leE3</td>
 </tr>
 <tr>
 <td>refresh_token</td>
-<td><strong>Server side only</strong> &ndash; The refresh token is used to refresh the access_token to extend the expiration.</td>
+<td><strong>Server side only</strong> -- The refresh token is used to refresh the access_token to extend the expiration.</td>
 <td>string</td>
 <td>Tgfgso</td>
 </tr>
@@ -716,21 +1048,20 @@ OAuth.auth('facebook', req.session, {
 </tr>
 </tbody></table>
 
-<p>The access token can be sent to your backend to make API calls but, you can&rsquo;t be sure that the access token is a real one (as the user could fake a request with a wrong access token) so you need to make a test API call and see if it returns 200 (OK) or 401 (UNAUTHORIZED).</p>
+<p>The access token can be sent to your backend to make API calls but, you can&#39;t be sure that the access token is a real one (as the user could fake a request with a wrong access token) so you need to make a test API call and see if it returns 200 (OK) or 401 (UNAUTHORIZED).</p>
 
-<p>As you can see, using the client side authorization, you won&rsquo;t have a <code class="prettyprint">refresh_token</code>. For this, please take a look at the <code class="prettyprint">Server side authorization</code> section.</p>
+<p>As you can see, using the client side authorization, you won&#39;t have a <code>refresh_token</code>. For this, please take a look at the <code>Server side authorization</code> section.</p>
 
-<p><aside class="notice">OAuth.io SDKs will extend the result with some usefull methods to access others OAuth.io APIs:</p>
+<aside class="notice">OAuth.io SDKs will extend the result with some usefull methods to access others OAuth.io APIs:
 
-<ul>
-<li><p><code class="prettyprint">get()</code> <code class="prettyprint">post()</code> <code class="prettyprint">put()</code> <code class="prettyprint">del()</code> <code class="prettyprint">patch()</code> - Request API</p></li>
-<li><p><code class="prettyprint">me()</code> - User Data API</p></li>
-<li><p>more soon</p></li>
-</ul>
+* `get()` `post()` `put()` `del()` `patch()` - Request API
 
-<p></aside></p>
+* `me()` - User Data API
 
-          <h1 id='request-api'>Request API</h1>
+* more soon
+
+</aside>
+<h1 id='request-api'>Request API</h1>
 <div class="code-block Node">
   <pre><code class="highlight javascript">OAuth.auth(provider, req.session).then(function(oauthResult) {
   return oauthResult.get('/me')
@@ -800,7 +1131,7 @@ OAuth.auth('facebook', req.session, {
   </code></pre>
 </div>
 
-<p>The Request API allows you to easily perform authorized API calls to the OAuth provider from which you got a request object or credentials with the Token API. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will automatically fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc&hellip;). All the parameters in the request will be sent to the provider thanks to the oauth.io proxy.</p>
+<p>The Request API allows you to easily perform authorized API calls to the OAuth provider from which you got a request object or credentials with the Token API. You can perform classic HTTP calls using GET, POST, PUT, DELETE, PATCH. OAuth.io will automatically fill all authorization parameters for you (OAuth1 signature, nonce, timestamp, access_token, oauth_token etc...). All the parameters in the request will be sent to the provider thanks to the oauth.io proxy.</p>
 
 <div class="code-block Android">
   <pre><code class="highlight java">data.http(new OAuthJSONRequest(OAuthJSONRequest.HTTP_GET, "/me"), new OAuthJSONCallback() {
@@ -817,7 +1148,7 @@ OAuth.auth('facebook', req.session, {
   </code></pre>
 </div>
 
-<p><aside class="notice">For the Android SDK, you have two ways of using the request API: the generic way is by using the OAuthRequest interface to inject the parameters in your favorite http library. You can also use OAuthData.http to send basic json requests.</aside></p>
+<aside class="notice">For the Android SDK, you have two ways of using the request API: the generic way is by using the OAuthRequest interface to inject the parameters in your favorite http library. You can also use OAuthData.http to send basic json requests.</aside>
 <h2 id='get'>GET</h2>
 <div class="code-block Node">
   <pre><code class="highlight javascript">oauthResult.get(url).then(function(data) {
@@ -854,7 +1185,7 @@ $me = $request_object->get('/me');
 
 <div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
-<p>Allows you to perform <code class="prettyprint">GET</code> request to an API endpoint</p>
+<p>Allows you to perform <code>GET</code> request to an API endpoint</p>
 
 <table><thead>
 <tr>
@@ -922,7 +1253,7 @@ NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
 
 <div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
-<p>Allows you to perform <code class="prettyprint">POST</code> request to an API endpoint</p>
+<p>Allows you to perform <code>POST</code> request to an API endpoint</p>
 
 <table><thead>
 <tr>
@@ -989,7 +1320,7 @@ NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
 
 <div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
-<p>Allows you to perform <code class="prettyprint">PUT</code> request to an API endpoint</p>
+<p>Allows you to perform <code>PUT</code> request to an API endpoint</p>
 
 <table><thead>
 <tr>
@@ -1041,7 +1372,7 @@ $request_object->del('/some/endpoint/someid');
 
 <div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
-<p>Allows you to perform <code class="prettyprint">DELETE</code> request to an API endpoint</p>
+<p>Allows you to perform <code>DELETE</code> request to an API endpoint</p>
 
 <table><thead>
 <tr>
@@ -1125,7 +1456,7 @@ NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
 
 <div class="code-block Android"><pre><code class="highlight java">// See http method</code></pre></div>
 
-<p>Allows you to perform <code class="prettyprint">PATCH</code> request to an API endpoint</p>
+<p>Allows you to perform <code>PATCH</code> request to an API endpoint</p>
 
 <table><thead>
 <tr>
@@ -1158,7 +1489,7 @@ oauthio: k=OAUTHIO_PUBLIC_KEY&oauthv=1&oauth_token=TWITTER_PUBLIC_TOKEN&oauth_to
 Referer: https://whitelisted_domain_in_oauthio/</pre>
 </div>
 
-<p><code class="prettyprint">GET|POST|PUT|DELETE|PATCH https://oauth.io/request/:provider/:url</code></p>
+<p><code>GET|POST|PUT|DELETE|PATCH https://oauth.io/request/:provider/:url</code></p>
 
 <table><thead>
 <tr>
@@ -1168,15 +1499,15 @@ Referer: https://whitelisted_domain_in_oauthio/</pre>
 </thead><tbody>
 <tr>
 <td>provider</td>
-<td>The provider&rsquo;s name (e.g. &ldquo;facebook&rdquo;)</td>
+<td>The provider&#39;s name (e.g. &quot;facebook&quot;)</td>
 </tr>
 <tr>
 <td>url</td>
-<td>The api request&rsquo;s url, can be relative to the main api domain (e.g <code class="prettyprint">api.facebook.com</code>) or absolute. This url must be urlencoded.</td>
+<td>The api request&#39;s url, can be relative to the main api domain (e.g <code>api.facebook.com</code>) or absolute. This url must be urlencoded.</td>
 </tr>
 </tbody></table>
 
-<p>You must include the <code class="prettyprint">oauthio</code> HTTP header inside your request, which is a application/x-www-form-urlencoded hash containing:</p>
+<p>You must include the <code>oauthio</code> HTTP header inside your request, which is a application/x-www-form-urlencoded hash containing:</p>
 
 <table><thead>
 <tr>
@@ -1186,7 +1517,7 @@ Referer: https://whitelisted_domain_in_oauthio/</pre>
 </thead><tbody>
 <tr>
 <td>k</td>
-<td>The public OAuth.io key of your app. If the http header Origin or Referer is set, this will be checked against your app&rsquo;s whitelist. If none are present, you must accept the &ldquo;localhost&rdquo; domain in your OAuthio&rsquo;s app.</td>
+<td>The public OAuth.io key of your app. If the http header Origin or Referer is set, this will be checked against your app&#39;s whitelist. If none are present, you must accept the &quot;localhost&quot; domain in your OAuthio&#39;s app.</td>
 </tr>
 <tr>
 <td>oauth_token</td>
@@ -1202,11 +1533,10 @@ Referer: https://whitelisted_domain_in_oauthio/</pre>
 </tr>
 <tr>
 <td>oauthv <em>(optional)</em></td>
-<td>when a provider supports both OAuth1 and OAuth2, this can be set to &ldquo;1&rdquo; or &ldquo;2&rdquo; to desambiguate the version of OAuth to use.</td>
+<td>when a provider supports both OAuth1 and OAuth2, this can be set to &quot;1&quot; or &quot;2&quot; to desambiguate the version of OAuth to use.</td>
 </tr>
 </tbody></table>
-
-          <h1 id='user-data-api'>User Data API</h1><h2 id='usage'>Usage</h2>
+<h1 id='user-data-api'>User Data API</h1><h2 id='usage'>Usage</h2>
 <div class="code-block Javascript Phonegap">
   <pre><code class="highlight javascript">res = OAuth.create('facebook');
 res.me().done(function(me) {
@@ -1239,11 +1569,11 @@ res.me().done(function(me) {
 });</code></pre>
 </div>
 
-<p>This API allows you to retrieve your user&rsquo;s data in a unified way. This means you don&rsquo;t have to make a bridge between APIs to retrieve user&rsquo;s info, all fields sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
+<p>This API allows you to retrieve your user&#39;s data in a unified way. This means you don&#39;t have to make a bridge between APIs to retrieve user&#39;s info, all fields sent are unified and described here. Filters can be added to retrieve a subset of these unified fields.</p>
 
 <p>The endpoint is accessible using REST</p>
 
-<p><code class="prettyprint">GET https://oauth.io/auth/:provider/me</code></p>
+<p><code>GET https://oauth.io/auth/:provider/me</code></p>
 <h2 id='fields'>Fields</h2>
 <div class="code-block Javascript Phonegap Android"><pre><code class="highlight json">{
   "id": "1234",
@@ -1273,88 +1603,87 @@ res.me().done(function(me) {
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>The user id &ndash; This id is unique for a provider</td>
+<td>The user id -- This id is unique for a provider</td>
 <td>string</td>
-<td>&ldquo;1234&rdquo;</td>
+<td>&quot;1234&quot;</td>
 </tr>
 <tr>
 <td>name</td>
-<td>The user&rsquo;s name</td>
+<td>The user&#39;s name</td>
 <td>string</td>
 <td>John Doe</td>
 </tr>
 <tr>
 <td>firstname</td>
-<td>The user&rsquo;s firstname</td>
+<td>The user&#39;s firstname</td>
 <td>string</td>
 <td>John</td>
 </tr>
 <tr>
 <td>lastname</td>
-<td>The user&rsquo;s lastname</td>
+<td>The user&#39;s lastname</td>
 <td>string</td>
 <td>Doe</td>
 </tr>
 <tr>
 <td>alias</td>
-<td>The user&rsquo;s alias (or login)</td>
+<td>The user&#39;s alias (or login)</td>
 <td>string</td>
 <td>john87</td>
 </tr>
 <tr>
 <td>email</td>
-<td>The user&rsquo;s email address</td>
+<td>The user&#39;s email address</td>
 <td>string</td>
 <td>john@doe.com</td>
 </tr>
 <tr>
 <td>birthdate</td>
-<td>The user&rsquo;s birthday</td>
+<td>The user&#39;s birthday</td>
 <td>Object</td>
 <td>{day: 27, month: 11, year: 1987}</td>
 </tr>
 <tr>
 <td>gender</td>
-<td>The user&rsquo;s gender. 0: male; 1: female</td>
+<td>The user&#39;s gender. 0: male; 1: female</td>
 <td>integer</td>
 <td>0</td>
 </tr>
 <tr>
 <td>location</td>
-<td>The user&rsquo;s last location</td>
+<td>The user&#39;s last location</td>
 <td>string</td>
 <td>San Francisco</td>
 </tr>
 <tr>
 <td>local</td>
-<td>The user&rsquo;s local</td>
+<td>The user&#39;s local</td>
 <td>string</td>
 <td>FR</td>
 </tr>
 <tr>
 <td>company</td>
-<td>The user&rsquo;s company</td>
+<td>The user&#39;s company</td>
 <td>string</td>
 <td>Webshell</td>
 </tr>
 <tr>
 <td>occupation</td>
-<td>The user&rsquo;s job occupation</td>
+<td>The user&#39;s job occupation</td>
 <td>string</td>
 <td>developer</td>
 </tr>
 <tr>
 <td>raw</td>
-<td>The unmodified provider&rsquo;s response with non unified field</td>
+<td>The unmodified provider&#39;s response with non unified field</td>
 <td>Object</td>
 <td></td>
 </tr>
 </tbody></table>
+<h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
+<p>You need to click &#39;Enable the User Management&#39; button in your OAuth.io dashboard in the <code>Users Overview</code> tab.</p>
 
-          <h1 id='user-management-api'>User Management API</h1><h2 id='installation'>Installation</h2>
-<p>You need to enable the User Management feature in your OAuth.io dashboard in the <code class="prettyprint">users</code> tab. For that, you need to get API Keys from stormpath and copy paste them in OAuth.io.</p>
-
-<p><aside class="notice">This feature is in BETA state, don&rsquo;t hesitate to give your feedback. During this period, only the Javascript SDK and Android SDK can use this API but others SDKs are in the roadmap.</aside></p>
+<aside class="notice">This is version 1.0 of our User Management, so don't hesitate to give your feedback or feature requests. During this period, only the Javascript SDK and Android SDK can use this API but others SDKs are in the roadmap.</aside>
 
 <div class="code-block Android"><pre><code class="highlight java">users = new OAuthUsers(oauth);
 </code></pre></div>
@@ -1398,10 +1727,10 @@ users.signup(infos, new OAuthUserCallback() {
     }
 });
 </code></pre></div>
-<h3 id='with-emailpassword'>With email/password</h3>
-<p>You can sign up you users using their email/password. Users will be store in Stormpath.</p>
+<h3 id='with-email-password'>With email/password</h3>
+<p>You can sign up your users using their email/password.</p>
 
-<p><code class="prettyprint">data</code> is an object that must contains:</p>
+<p><code>data</code> is an object that must contains:</p>
 
 <ul>
 <li>email</li>
@@ -1419,7 +1748,7 @@ users.signup(infos, new OAuthUserCallback() {
    //here, your user is logged in
    console.log(user.data.firstname);
 }).fail(function(err) {
-   //todo with <code class="prettyprint">err</code>
+   //todo with <code>err</code>
 });
 </code></pre></div></p>
 
@@ -1444,7 +1773,7 @@ public void onFinished(OAuthData data) {
 }
 </code></pre></div>
 <h3 id='with-social-logins'>With social logins</h3>
-<p>You can also use the Token API to sign up your users with their social identity. <code class="prettyprint">provider</code> is the name of a provider on OAuth.io as <code class="prettyprint">facebook</code>, <code class="prettyprint">twitter</code>, <code class="prettyprint">google</code> and 100+ others.</p>
+<p>You can also use the Token API to sign up your users with their social identity. <code>provider</code> is the name of a provider on OAuth.io as <code>facebook</code>, <code>twitter</code>, <code>google</code> and 100+ others.</p>
 
 <p>The provider needs to have the User API enabled to work properly (you can see it when you add a new provider in your OAuth.io Dashbaord).</p>
 
@@ -1453,7 +1782,7 @@ public void onFinished(OAuthData data) {
     twitter.email = &quot;john.doe@gmail.com&quot;;
     return User.signup(twitter);
 }).done(function(user) {
-    //todo with <code class="prettyprint">user</code>
+    //todo with <code>user</code>
 });
 </code></pre></div>
 <div class="code-block Android"><pre><code class="highlight java">// Callback from oauth.popup
@@ -1479,13 +1808,13 @@ public void onFinished(OAuthData data) {
 }
 </code></pre></div></p>
 <h3 id='handling-errors'>Handling errors</h3>
-<p>Some providers don&rsquo;t give their user&rsquo;s email in their API (it&rsquo;s the case of Twitter for instance). So, you have to ask your user his email manually and setup the email.</p>
+<p>Some providers don&#39;t give their user&#39;s email in their API (it&#39;s the case of Twitter for instance). So, you have to ask your user for their email manually and setup the email.</p>
 <h2 id='signin-your-users'>Signin your users</h2>
-<p>Once your user has signed up, you can log him/her in with his/her email password or with one of the social identity the user attached to his account.</p>
+<p>Once your user has signed up, you can log them in with their email password or with one of the social identity the user attached to their account.</p>
 
-<p>OAuth.io manages your user&rsquo;s session for you and gives a simple API to let you know if the user is still logged in or not.</p>
+<p>OAuth.io manages your user&#39;s session for you and gives a simple API to let you know if the user is still logged in or not.</p>
 
-<p>During the beta, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.</p>
+<p>In this version, the session expires after 6 hours of inactivity but we are working on making this expiration configurable.</p>
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.signin(email, password).done(function(user) {
     console.log(user.data.firstname);
@@ -1506,7 +1835,7 @@ public void onFinished(OAuthData data) {
     }
 });
 </code></pre></div>
-<h3 id='with-emailpassword'>With email/password</h3>
+<h3 id='with-email-password-2'>With email/password</h3>
 <p><br style="clear:both"></p>
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">OAuth.popup(provider).then(function(res) {
@@ -1537,8 +1866,8 @@ public void onFinished(OAuthData data) {
         });
 }
 </code></pre></div>
-<h3 id='with-social-logins'>With social logins</h3>
-<p>Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn&rsquo;t exist, it will automatically sign him/her up before to signing him/her in.</p>
+<h3 id='with-social-logins-2'>With social logins</h3>
+<p>Note: For social logins, the signin and signup steps are exactly the same feature. If the user doesn&#39;t exist, it will automatically sign them up before signing them in.</p>
 <h2 id='get-the-connected-user'>Get the connected user</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 </code></pre></div>
@@ -1546,13 +1875,13 @@ public void onFinished(OAuthData data) {
 <div class="code-block Android"><pre><code class="highlight java">OAuthUser id = users.getIdentity();
 </code></pre></div>
 <h3 id='from-cache'>From cache</h3>
-<p>When the user logged in, we store in cookie his identity (information, providers linked etc.). You can access this cached version instantly using the SDK with <code class="prettyprint">User.getIdentity()</code>.</p>
+<p>When a user logs in, we store their identity (information, providers linked etc.) in a cookie. You can access this cached version instantly using the SDK with <code>User.getIdentity()</code>.</p>
 
-<p>It returns the same data structure as the API version: <code class="prettyprint">User.refreshIdentity()</code>.</p>
+<p>It returns the same data structure as the API version: <code>User.refreshIdentity()</code>.</p>
 
 <p><br style="clear:both">
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.refreshIdentity().done(function(user) {
-    //todo with <code class="prettyprint">user</code>
+    //todo with <code>user</code>
 })</code></pre></div>
 <div class="code-block Android"><pre><code class="highlight java">OAuthUser user;
 // ...
@@ -1584,7 +1913,7 @@ else {
     //todo with unauthenticated user
 }</code></pre></div>
 
-<p>This method will check if the authorization cookie has been detected in the user&rsquo;s browser. It returns <code class="prettyprint">true</code> or <code class="prettyprint">false</code></p>
+<p>This method will check if the authorization cookie has been detected in the user&#39;s browser. It returns <code>true</code> or <code>false</code></p>
 <h2 id='update-your-user-data'>Update your user data</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity()
 user.data.firstname = 'Thomas';
@@ -1613,7 +1942,7 @@ user.saveIdentity(new OAuthUserCallback() {
     }
 });</code></pre></div>
 
-<p>You can update all your user&rsquo;s data. Once you are done, just use the <code class="prettyprint">save()</code> method to save your changes in Stormpath. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: <code class="prettyprint">_provider_*</code>).</p>
+<p>You can update all your user&#39;s data. Once you are done, just use the <code>save()</code> method to save your changes. Fields are freely structurable so you can name them as you wish (just a few fields name are protected for our use: <code>_provider_*</code>).</p>
 <h2 id='reset-password-or-lost-password'>Reset password (or lost password)</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">User.resetPassword(email).done(function() {
     //email sent to the user containing a key
@@ -1636,13 +1965,13 @@ User.confirmResetPassword(newPassword, key);
 });
 </code></pre></div>
 
-<p>The reset flow is used when a user try to login and don&rsquo;t find his password. It will send an email to the user with a <code class="prettyprint">key</code> (to check his identity using his email). If the user is able to send the code on another page, he can change his password using this <code class="prettyprint">key</code>.</p>
+<p>The reset flow is used when a user tries to login and can&#39;t remember their password. It will send an email to the user with a <code>key</code> (to check their identity using their email). If the user is able to input the code on another page, they can change their password using this <code>key</code>.</p>
 <h2 id='change-password'>Change password</h2>
 <blockquote>
 <p>Coming soon</p>
 </blockquote>
 
-<p>This feature is not released yet but will be used to change the password of the user (this option is often in the setting page of an account). The user can use it if he knows his current password to confirm his identity.</p>
+<p>This feature is not released yet but will be used to change the password of the user (this option is often in the setting page of an account). The user can use it if they knows their current password to confirm their identity.</p>
 
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.changePassword(oldPassword, newPassword);
@@ -1678,7 +2007,7 @@ public void onFinished(OAuthData data) {
 }
 </code></pre></div>
 
-<p>You can attach a social identity to an account easily. That mean at the next signin, he will be able to signin with another configured provider. A user can this way connect with more than one provider securely.</p>
+<p>You can attach a social identity to an account easily. That means at the next signin, they will be able to signin with another configured provider. This way a user can securely connect with more than one provider.</p>
 <h2 id='remove-social-identity-to-an-account'>Remove social identity to an account</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.removeProvider('google').done(function() {
@@ -1699,7 +2028,7 @@ user.removeProvider("google", new OAuthUserCallback() {
 });
 </code></pre></div>
 
-<p>A user can detach a social identity to his account. Once a provider is detached, the user won&rsquo;t be able to login with it again, he need to re-attach it to login with it.</p>
+<p>A user can detach a social identity from their account. Once a provider is detached, the user won&#39;t be able to login with it again, they needs to re-attach it again to be able to login with it.</p>
 <h2 id='the-list-of-providers-attached-to-an-account'>The list of providers attached to an account</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 console.log(user.providers)
@@ -1708,8 +2037,8 @@ console.log(user.providers)
 <div class="code-block Javascript"><pre><code class="highlight javascript">OAuthUser user = users.getIdentity();
 // providers list is available in user.providers
 </code></pre></div>
-<h3 id='from-cache'>From cache</h3>
-<p>When a user logs in, we store a local version of the providers list attached to his/her account so you can access it directly in the <code class="prettyprint">user</code> object.</p>
+<h3 id='from-cache-2'>From cache</h3>
+<p>When a user logs in, we store a local version of the providers list attached to their account so you can access it directly in the <code>user</code> object.</p>
 
 <p><br style="clear:both;">
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
@@ -1729,8 +2058,8 @@ user.getProviders(new OAuthUserCallback() {
     }
 });
 </code></pre></div></p>
-<h3 id='from-the-api'>From the API</h3>
-<p>You can also get this list from the API to be sure it&rsquo;s synchronized with the backend.</p>
+<h3 id='from-the-api-2'>From the API</h3>
+<p>You can also get this list from the API to be sure it&#39;s synchronized with the backend.</p>
 <h2 id='logout'>Logout</h2>
 <div class="code-block Javascript"><pre><code class="highlight javascript">var user = User.getIdentity();
 user.logout().done(function() {
@@ -1741,7 +2070,7 @@ user.logout().done(function() {
 user.logout(new OAuthUserCallback() {
     @Override
     public void onFinished() {
-        // user is logout and his token is expired
+        // user is logout and their token is expired
     }
     @Override
     public void onError(String message) {
@@ -1749,10 +2078,9 @@ user.logout(new OAuthUserCallback() {
     }
 });</code></pre></div>
 
-<p>You can log your user out from your application using the <code class="prettyprint">logout()</code> method. It will clear the session and all the associated cache.</p>
-
-          <h1 id='contribute'>Contribute</h1>
-<p>You can contribute by cloning our <a href="https://github.com/oauth-io/oauthd">oauthd repository</a>, or any of our SDK&rsquo;s repositories  on GitHub (please check <a href="https://github.com/oauth-io">this repository list</a>) and making a pull request.</p>
+<p>You can log your user out from your application using the <code>logout()</code> method. It will clear the session and the associated cache.</p>
+<h1 id='contribute'>Contribute</h1>
+<p>You can contribute by cloning our <a href="https://github.com/oauth-io/oauthd">oauthd repository</a>, or any of our SDK&#39;s repositories  on GitHub (please check <a href="https://github.com/oauth-io">this repository list</a>) and making a pull request.</p>
 <h2 id='issues'>Issues</h2>
 <p>If you have any issue using OAuth.io, you can:</p>
 
@@ -1769,30 +2097,30 @@ user.logout(new OAuthUserCallback() {
 
 <p>The format is <a href="https://github.com/oauth-io/oauthd/wiki/Specs:-Provider's-configuration">explained here</a> and you can find all the existing OAuth providers on our <a href="https://github.com/oauth-io/oauthd/tree/master/providers">GitHub repository</a>.</p>
 
-<p>Once you&rsquo;ve implemented your provider, you can test it using <a href="https://github.com/oauth-io/oauthd">oauthd</a>, the opensource version of OAuth.io and then, just make a pull request and we&rsquo;ll merge it into OAuth.io as soon as we can.</p>
+<p>Once you&#39;ve implemented your provider, you can test it using <a href="https://github.com/oauth-io/oauthd">oauthd</a>, the opensource version of OAuth.io and then, just make a pull request and we&#39;ll merge it into OAuth.io as soon as we can.</p>
 
 <p>A provider contains 4 simple files:</p>
 
 <ul>
-<li><strong>conf.json</strong> The OAuth provider&rsquo;s JSON file (e.g. facebook.json)</li>
+<li><strong>conf.json</strong> The OAuth provider&#39;s JSON file (e.g. facebook.json)</li>
 <li><strong>settings.json</strong> - Some settings for users who want to add the OAuth provider in OAuth.io (e.g. the link and screenshot where developers can create an application with your provider)</li>
 <li><strong>logo.png</strong> - The logo of the OAuth provider</li>
 <li><strong>me.js</strong> (optional) - A file used to retrieve the user information in a unified way.</li>
 </ul>
-<h2 id='pull-request-bug-fixes--providers--typos'>Pull request (bug fixes / providers / typos)</h2>
-<p>You&rsquo;re welcome to fork our repositories on GitHub to make pull requests. We&rsquo;ll review each of them, and integrate all the relevant changes in a future release.</p>
+<h2 id='pull-request-bug-fixes-providers-typos'>Pull request (bug fixes / providers / typos)</h2>
+<p>You&#39;re welcome to fork our repositories on GitHub to make pull requests. We&#39;ll review each of them, and integrate all the relevant changes in a future release.</p>
 
 <p>In every repository, we have included notes in the README.md file to show you how to test your feature.</p>
 <h3 id='oauthd'>oauthd</h3>
 <p>Fork <a href="https://github.com/oauth-io/oauthd">the repository</a> to implement your feature / bug fixes.</p>
 
-<p>You can use <code class="prettyprint">npm link</code> to use the <code class="prettyprint">oauthd</code> command anywhere in your console, and create test instances.</p>
+<p>You can use <code>npm link</code> to use the <code>oauthd</code> command anywhere in your console, and create test instances.</p>
 
 <p>OAuth.io is an oauthd instance, so if you find and fix bugs in oauthd, the changes will also be on OAuth.io. </p>
 <h3 id='sdks'>SDKs</h3>
 <p>You can fork all the SDKs from GitHub in your favorite language. Every SDK (except iOS for the moment) has a test suite than can be launched in a standard way to try your feature / bug fixes.</p>
 <h3 id='documentation'>Documentation</h3>
-<p>You can fork all the <a href="https://github.com/oauth-io/docs">documentation from GitHub</a>. The content is in the <code class="prettyprint">source</code> folder. The main file is <code class="prettyprint">index.md</code></p>
+<p>You can fork all the <a href="https://github.com/oauth-io/docs">documentation from GitHub</a>. The content is in the <code>source</code> folder. The main file is <code>index.md</code></p>
 
       </div>
       <div class="dark-box">
