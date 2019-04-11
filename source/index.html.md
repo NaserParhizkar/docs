@@ -43,4 +43,4 @@ OAuth.io helps you to onboard your users with a suite of services easy to use.
 
 - **User Management API**: Signup/signin your user without any backend using multiple social identity.
 
-<aside class="success">To use these APIs, you need to have an account on [OAuth.io](https://oauth.io).</aside>
+<aside class="success">To use these APIs, you need to have an account on <a href="https://oauth.io">OAuth.io</a>.</aside>
